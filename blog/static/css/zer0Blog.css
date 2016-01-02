@@ -16,6 +16,24 @@ footer {
     width: 100%;
 }
 
+a {
+    color: #4C4C4C;
+}
+
+.padding10 {
+    padding: 10px;
+}
+
+.margin2 {
+    margin: 2px;
+}
+
+.btn-blog {
+    color: #FFF;
+    background-color: #D9534F;
+    border-color: #D43F3A;
+}
+
 /*导航栏*/
 .navbar-blog{
     font-size: 14px;
@@ -32,4 +50,109 @@ footer {
 #container-blog {
     padding: 10px;
     padding-bottom: 30px;
+}
+
+#myCarousel{
+    margin-bottom: 20px;
+}
+
+/*文章列表内容*/
+.home-post {
+    position: relative;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    display: block;
+}
+
+.home-post .post-title {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.underline {
+    border-bottom: 1px solid #eee;
+}
+
+.home-post .post-title>h1 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-top: 3px;
+    font-size: 20px;
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.home-post .post-info {
+    margin-top: 15px;
+}
+
+.home-post .post-info > span {
+    margin-right: 5px;
+}
+
+.home-post .post-info .post-tags {
+    float: right;
+}
+
+.home-post .post-content {
+    padding: 0px 0px;
+    font-size: 14px;
+}
+
+.home-post .post-content .row .col-sm-4 {
+    padding-right: 5px;
+    padding-left: 5px;
+}
+
+.home-post .post-content .thumbnail {
+    border: 1px solid #ED9C29;
+    padding: 0px;
+}
+
+/*搜索框*/
+.search {
+    padding: 8px;
+    margin-bottom: 30px;
+    border-radius: 4px;
+    color: #FFF;
+    background-color: #222;
+    border-color: #EEE;
+    box-shadow: 0px 0px 5px #C2C2C2;
+}
+
+.search input {
+    width: 80% !important;
+    margin-right: 5px;
+}
+
+/*热门文章widget*/
+.panel-blog {
+    box-shadow: 0px 0px 5px #C2C2C2;
+    border-color: #EEE;
+}
+
+.panel-blog .panel-heading {
+    color: #EEE;
+    background-color: #222;
+    border-color: #EEE;
+}
+
+.panel-blog span.btn {
+    padding: 0px;
+    margin-right: 5px;
+}
+
+.hotest-post-title {
+    display: inline-block;
+    overflow: hidden;
+    width: 80%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.panel-blog .badge {
+    background-color: #D94600;
 }
