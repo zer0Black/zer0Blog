@@ -5,7 +5,31 @@ body {
     background:url('../image/bg.jpg') repeat scroll 0% 0% transparent;
 }
 
+footer {
+    padding: 40px 0;
+    color: #fff;
+    text-align: center;
+    background-color: #222;
+    position: absolute;
+    bottom: 0;
+    height: 30px;
+    width: 100%;
+}
+
 /*导航栏*/
 .navbar-blog{
     font-size: 14px;
+}
+
+#blog {
+    padding-top: 50px;
+}
+
+#main-blog {
+    padding: 30px 0px;
+}
+
+#container-blog {
+    padding: 10px;
+    padding-bottom: 30px;
 }
