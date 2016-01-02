@@ -1,0 +1,11 @@
+body {
+    font-family: "Microsoft YaHei","WenQuanYi Micro Hei","tohoma,sans-serif";
+    color: #6B6B6B;
+    font-size: 12px;
+    background:url('../image/bg.jpg') repeat scroll 0% 0% transparent;
+}
+
+/*导航栏*/
+.navbar-blog{
+    font-size: 14px;
+}
