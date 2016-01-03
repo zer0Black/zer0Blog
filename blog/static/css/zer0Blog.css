@@ -5,6 +5,13 @@ body {
     background:url('../image/bg.jpg') repeat scroll 0% 0% transparent;
 }
 
+/*让footer置于底部*/
+body,html {
+    margin: 0;
+    padding: 0;
+    height:100%;
+}
+
 footer {
     padding: 40px 0;
     color: #fff;
@@ -16,8 +23,24 @@ footer {
     width: 100%;
 }
 
+#main-blog{
+    position: relative;
+    min-height:100%;
+    _height:100%; /* for ie6 因为ie6不支持min-height */
+}
+
+#container-blog {
+    padding: 10px;
+    padding-bottom: 30px;  /* 不至被footer盖住 */
+}
+
 a {
     color: #4C4C4C;
+}
+
+p {
+    word-break:break-all;
+    word-wrap:break-word;
 }
 
 .padding10 {
@@ -26,6 +49,10 @@ a {
 
 .margin2 {
     margin: 2px;
+}
+
+.marginTop10{
+    margin-top: 10px;
 }
 
 .btn-blog {
@@ -57,6 +84,34 @@ a {
 }
 
 /*文章列表内容*/
+.pre-cat {
+    float: left;
+    margin-right: 10px;
+    position: relative;
+}
+
+.pre-catinner {
+    background-color: #D94600;
+    padding: 4px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #EEE;
+}
+
+.pre-catarrow {
+    position: absolute;
+    height: 0px;
+    width: 0px;
+    font-size: 0px;
+    line-height: 0;
+    border-width: 4px;
+    border-style: solid;
+    border-image: none;
+    right: -8px;
+    top: 10px;
+    border-color: transparent transparent transparent #D94600;
+}
+
 .home-post {
     position: relative;
     margin-bottom: 30px;

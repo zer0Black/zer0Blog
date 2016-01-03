@@ -14,25 +14,19 @@
         {% for carousel_page in carousel_page_list %}
             {% if forloop.first%}
             <div class="item active">
-                <a href="/article/{{carousel_page.article.en_title}}.html">
+                <a href="/article/{{carousel_page.post.id}.html">
                     <img src="{{carousel_page.img}}" alt="{{carousel_page.title}}">
                     <div class="carousel-caption">
                         <h4>{{carousel_page.title}}</h4>
-                        {% autoescape off%}
-                        {{carousel_page.summary}}
-                        {% endautoescape %}
                     </div>
                 </a>
             </div>
             {% else %}
             <div class="item">
-                <a href="/article/{{carousel_page.article.en_title}}.html">
+                <a href="/article/{{carousel_page.post.id}}.html">
                     <img src="{{carousel_page.img}}" alt="{{carousel_page.title}}">
                     <div class="carousel-caption">
                         <h4>{{carousel_page.title}}</h4>
-                        {% autoescape off%}
-                        {{carousel_page.summary}}
-                        {% endautoescape %}
                     </div>
                 </a>
             </div>

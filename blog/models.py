@@ -3,6 +3,12 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+STATUS = {
+        0: u'草稿',
+        1: u'发布',
+        2: u'删除',
+}
+
 
 class User(models.Model):
     username = models.CharField(max_length=100)
@@ -14,15 +20,23 @@ class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
 
 
+class Catalogue(models.Model):
+    name = models.CharField(max_length=20, primary_key=True)
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     publish_time = models.DateTimeField(auto_now_add=True)  # 第一次保存时自动添加时间
     modify_time = models.DateTimeField(auto_now=True)  # 每次保存自动更新时间
     author = models.ForeignKey(User)
     content = models.TextField()
+    catalogue = models.ForeignKey(Catalogue)
     tag = models.ManyToManyField(Tag, blank=True, default="")  # 外键tag可为空，外键被删除时该值设定为默认值“”
     view_count = models.IntegerField(editable=True, default=0)
-    status = models.SmallIntegerField(default=0)  # 0为草稿，1为发布，2为删除
+    status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
+
+    class Meta:
+        ordering = ['-publish_time']
 
 
 class Comment(models.Model):
@@ -33,4 +47,13 @@ class Comment(models.Model):
     content = models.CharField(max_length=500)
     isDelete = models.BooleanField(default=False)
 
+
+class Carousel(models.Model):
+    title = models.CharField(max_length=100)
+    img = models.CharField(max_length=300)
+    post = models.ForeignKey(Post)
+    create_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-create_time']
 
