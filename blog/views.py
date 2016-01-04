@@ -35,4 +35,12 @@ class IndexView(BaseMixin, ListView):
 
 
 class PostView(BaseMixin, DetailView):
-    template_name = 'blog/'
+    template_name = 'blog/post.html'
+    context_object_name = 'post'
+    queryset = Post.objects.filter(status=1)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostView, self).get_context_data(**kwargs)
+        pkey = self.kwargs.get("pk");
+        context['comment_list'] = self.queryset.get(pk=pkey).comment_set.all()
+        return context

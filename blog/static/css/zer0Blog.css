@@ -265,3 +265,8 @@ p {
     border-top: 1px dotted #ddd;
     padding: 10px;
 }
+
+.wrap{
+    word-break:break-all;
+    word-wrap:break-word;
+}

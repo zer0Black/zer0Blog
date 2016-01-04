@@ -15,6 +15,9 @@ class User(models.Model):
     password = models.CharField(max_length=32)
     name = models.CharField(max_length=12)
 
+    def __str__(self):
+        return self.name
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)

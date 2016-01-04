@@ -1,6 +1,6 @@
 {% extends "./blog/base.html" %}
 {% block title %}
-博客
+    {{ post.title }}
 {% endblock %}
 
 {% block main %}
@@ -10,10 +10,10 @@
         <!-- 左栏内容 -->
         <div class="well" id="post">
             <div>
-                <h3>Linux第三等</h3>
+                <h3>{{ post.title }}</h3>
             </div>
             <div>
-                 {% for tag in article.get_tags%}
+                 {% for tag in post.get_tags%}
                     <a href="/tags/{{tag}}/">
                         <span class="label label-blog-{{forloop.counter}} btn">{{tag}}</span>
                     </a>
@@ -37,8 +37,8 @@
                 </span>
             </div>
             <hr>
-            <div>
-                fdgsdfgdssddfsgdsfgdsfsdfgsdfgjsdklgjsdklgjdsklglds;g;dklsfg;ldsfj
+            <div class="wrap">
+               {{ post.content }}
             </div>
         </div>
 
@@ -51,27 +51,15 @@
                 </form>
             </div>
             <ul>
+                {% for comment in comment_list%}
                 <li>
                     <div class="blog-comment-content">
-                        <a><h4>ganxie_blog</h4></a>
-                        <p>评论:</p>
-                        <p>2015-12-24 23:15:04</p>
+                        <a><h4>{{ comment.author }}</h4></a>
+                        <p>{{ comment.content }}</p>
+                        <p>{{ comment.publish_Time }}</p>
                     </div>
                 </li>
-                <li>
-                    <div class="blog-comment-content">
-                        <a><h4>ganxie_blog</h4></a>
-                        <p>评论:</p>
-                        <p>2015-12-24 23:15:04</p>
-                    </div>
-                </li>
-                <li>
-                    <div class="blog-comment-content">
-                        <a><h4>ganxie_blog</h4></a>
-                        <p>评论:</p>
-                        <p>2015-12-24 23:15:04</p>
-                    </div>
-                </li>
+                {% endfor %}
             </ul>
         </div>
     </div>
