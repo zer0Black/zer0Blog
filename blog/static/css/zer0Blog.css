@@ -34,6 +34,31 @@ footer {
     padding-bottom: 30px;  /* 不至被footer盖住 */
 }
 
+/*label样式*/
+.label-blog-1 {
+    background-color: #428bca;
+}
+
+.label-blog-2 {
+    background-color: #5cb85c;
+}
+
+.label-blog-3 {
+    background-color: #f0ad4e;
+}
+
+.label-blog-4 {
+    background-color: #5bc0de;
+}
+
+.label-blog-5 {
+    background-color: #d9534f;
+}
+
+.label-blog-6 {
+    background-color: #999;
+}
+
 a {
     color: #4C4C4C;
 }
@@ -140,15 +165,16 @@ p {
     text-overflow: ellipsis;
 }
 
-.home-post .post-info {
+.post-info {
+    color : #6B6B6B;
     margin-top: 15px;
 }
 
-.home-post .post-info > span {
+.post-info > span {
     margin-right: 5px;
 }
 
-.home-post .post-info .post-tags {
+.post-info .post-tags {
     float: right;
 }
 
@@ -210,4 +236,32 @@ p {
 
 .panel-blog .badge {
     background-color: #D94600;
+}
+
+#post{
+    font-size: 14px;
+    color: #000;
+}
+
+.blog-comment-edit {
+    margin-bottom: 20px;
+}
+
+.blog-comment-edit textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.blog-comment-content {
+    word-break: break-all;
+}
+
+.blog-comment ul {
+    padding-left: 0px;
+}
+
+.blog-comment ul li {
+    list-style-type: none;
+    border-top: 1px dotted #ddd;
+    padding: 10px;
 }

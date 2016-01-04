@@ -4,4 +4,5 @@ from blog.views import IndexView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view()),
+    url(r'^post$', "blog.views.post")
 ]

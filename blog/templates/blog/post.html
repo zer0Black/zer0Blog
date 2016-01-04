@@ -1,0 +1,86 @@
+{% extends "./blog/base.html" %}
+{% block title %}
+博客
+{% endblock %}
+
+{% block main %}
+
+<div class="row">
+    <div id="container-blog" class="col-md-8 col-lg-9">
+        <!-- 左栏内容 -->
+        <div class="well" id="post">
+            <div>
+                <h3>Linux第三等</h3>
+            </div>
+            <div>
+                 {% for tag in article.get_tags%}
+                    <a href="/tags/{{tag}}/">
+                        <span class="label label-blog-{{forloop.counter}} btn">{{tag}}</span>
+                    </a>
+                 {% endfor %}
+                <a href="/tags/1/">
+                    <span class="label label-blog-1 btn">多看</span>
+                </a>
+            </div>
+            <div class="post-info">
+                <span>
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    {{post.publish_time|date:"Y-m-d" }}
+                </span>
+                <span>
+                    <span class="glyphicon glyphicon-comment"></span>
+                    {{post.comment_set.all | length}}
+                </span>
+                <span>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    {{post.view_count}}
+                </span>
+            </div>
+            <hr>
+            <div>
+                fdgsdfgdssddfsgdsfgdsfsdfgsdfgjsdklgjsdklgjdsklglds;g;dklsfg;ldsfj
+            </div>
+        </div>
+
+        <div class="well blog-comment">
+            <div class="blog-comment-edit clearfix">
+                <form id="vmaig-comment-form" method="post" role="form">
+                    <input type="hidden" name="csrfmiddlewaretoken" value="jn50OSEEJsE58TrUlaqS2Vm9inJtcuQJ">
+                    <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="请输入评论 限200字!"></textarea>
+                    <button type="submit" class="btn btn-blog pull-right">提交</button>
+                </form>
+            </div>
+            <ul>
+                <li>
+                    <div class="blog-comment-content">
+                        <a><h4>ganxie_blog</h4></a>
+                        <p>评论:</p>
+                        <p>2015-12-24 23:15:04</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="blog-comment-content">
+                        <a><h4>ganxie_blog</h4></a>
+                        <p>评论:</p>
+                        <p>2015-12-24 23:15:04</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="blog-comment-content">
+                        <a><h4>ganxie_blog</h4></a>
+                        <p>评论:</p>
+                        <p>2015-12-24 23:15:04</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="marginTop10 col-md-4 col-lg-3 hidden-xs">
+        {% include "./blog/include/year_write_posts.html" %}
+        {% include "./blog/include/hot_posts.html" %}
+        {% include "./blog/include/friendly_link.html" %}
+    </div>
+</div>
+
+{% endblock %}

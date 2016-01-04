@@ -8,22 +8,13 @@
                 <span class="glyphicon glyphicon-chevron-up btn panel-collapse pull-right"  data-toggle="collapse" data-target="#year-write-posts"></span>
             </h3>
         </div>
-        <ul id="year-write-posts"" class="list-group collapse in">
-        <!--
-            {% for article in hot_article_list %}
+        <ul id="year-write-posts" class="list-group collapse in">
+            {% for man in man_list%}
                 <li class="list-group-item">
-                <span class="hotest-post-title"><a href="/article/{{article.en_title}}.html">{{article.title}}</a> </span>
-                <span class="badge">{{article.view_times}}</span>
+                <span class="hotest-post-title">{{man.name}}</span>
+                <span class="badge">{{man.post__count}}</span>
                 </li>
             {% endfor %}
-        -->
-            <li class="list-group-item">
-                <span class="hotest-post-title"><a href="/article/hello.html">李asw</a> </span>
-                <span class="badge">9</span>
-            </li>
-            <li class="list-group-item">
-                <span class="hotest-post-title"><a href="/article/hello.html">周bs</a> </span>
-                <span class="badge">11</span>
             </li>
         </ul>
     </div>

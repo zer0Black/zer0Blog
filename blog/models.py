@@ -19,9 +19,15 @@ class User(models.Model):
 class Tag(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Catalogue(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
+
+    def __str__(self):
+        return self.name
 
 
 class Post(models.Model):
@@ -35,6 +41,9 @@ class Post(models.Model):
     view_count = models.IntegerField(editable=True, default=0)
     status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         ordering = ['-publish_time']
 
@@ -47,12 +56,18 @@ class Comment(models.Model):
     content = models.CharField(max_length=500)
     isDelete = models.BooleanField(default=False)
 
+    def __str__(self):
+        return self.content
+
 
 class Carousel(models.Model):
     title = models.CharField(max_length=100)
     img = models.CharField(max_length=300)
     post = models.ForeignKey(Post)
     create_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         ordering = ['-create_time']
