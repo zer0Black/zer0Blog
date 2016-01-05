@@ -1,10 +1,12 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render_to_response
 from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+
 from django.views.generic import View, DetailView, ListView
 from django.db.models import Count
-from django.conf import settings
-from django.contrib.auth import get_user_model
+
+from blog.pagination import paginator_tool
 
 from .models import Post, Carousel, Comment
 
@@ -29,11 +31,15 @@ class BaseMixin(object):
 class IndexView(BaseMixin, ListView):
     template_name = 'blog/index.html'
     context_object_name = 'post_list'
-    queryset = Post.objects.filter(status=1)[0:10]  # 只取出状态为“已发布”的文章
+    queryset = Post.objects.filter(status=1)  # 只取出状态为“已发布”的文章
 
     def get_context_data(self, **kwargs):
+        page = self.kwargs.get('page') or self.request.GET.get('page') or 1
+        objects, page_range = paginator_tool(pages=page, queryset=self.queryset)
         context = super(IndexView, self).get_context_data(**kwargs)
         context['carousel_page_list'] = Carousel.objects.all()
+        context['page_range'] = page_range
+        context['objects'] = objects
         return context
 
 

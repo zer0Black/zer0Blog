@@ -80,6 +80,10 @@ p {
     margin-top: 10px;
 }
 
+.colorGray{
+    color: #94908e !important;
+}
+
 .btn-blog {
     color: #FFF;
     background-color: #D9534F;

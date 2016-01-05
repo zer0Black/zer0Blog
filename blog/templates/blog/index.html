@@ -15,8 +15,8 @@
             {% endif %}
 
             <!-- 首页文章列表 -->
-            {% if post_list %}
-                {% for post in post_list %}
+            {% if objects.object_list %}
+                {% for post in objects.object_list %}
                     {% include "./blog/include/post_list.html" %}
                 {% endfor %}
             {% endif %}

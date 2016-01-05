@@ -24,6 +24,7 @@ SECRET_KEY = '(6ssnl-d!(-2=#(8=**#kf_2z6h!yz$@lvpmq@&)a2*t4%sgtu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -56,8 +57,7 @@ ROOT_URLCONF = 'zer0Blog.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
-        ,
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
