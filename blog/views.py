@@ -1,9 +1,12 @@
 # -*- coding:utf-8 -*-
 from django.shortcuts import render_to_response
-from django.views.generic import DetailView, ListView
+from django.http import HttpResponse
+from django.views.generic import View, DetailView, ListView
 from django.db.models import Count
+from django.conf import settings
+from django.contrib.auth import get_user_model
 
-from .models import Post, Carousel, User
+from .models import Post, Carousel, Comment
 
 
 def post(requst):
@@ -16,7 +19,7 @@ class BaseMixin(object):
         context = super(BaseMixin, self).get_context_data(**kwargs)
         try:
             context['hot_article_list'] = Post.objects.order_by("view_count")[0:10]
-            context['man_list'] = User.objects.annotate(Count("post"))
+            context['man_list'] = get_user_model().objects.annotate(Count("post"))
         except Exception as e:
             pass
 
@@ -41,6 +44,48 @@ class PostView(BaseMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
-        pkey = self.kwargs.get("pk");
+        pkey = self.kwargs.get("pk")
         context['comment_list'] = self.queryset.get(pk=pkey).comment_set.all()
         return context
+
+
+class CommentView(View):
+    def post(self, request, *args, **kwargs):
+        # 获取当前用户
+        user = self.request.user
+        # 获取评论
+        comment = self.request.POST.get("comment", "")
+        # 判断当前用户是否是活动的用户
+        if not user.is_authenticated():
+            return HttpResponse(u"请登陆！", status=403)
+        if not comment:
+            return HttpResponse(u"请输入评论", status=403)
+        if len(comment) > 200:
+            return HttpResponse(u"评论过长，请重新输入", status=403)
+
+        # 获取用户IP地址
+        if request.META.has_key("HTTP_X_FORWARDED_FOR"):
+            ip = request.META['HTTP_X_FORWARDED_FOR']
+        else:
+            ip = request.META['REMOTE_ADDR']
+
+        pkey = self.kwargs.get("pk", "")
+        post_foreignkey = Post.objects.get(pk=pkey)
+
+        comment = Comment.objects.create(
+            post=post_foreignkey,
+            author=user,
+            content=comment,
+            ip_address=ip,
+        )
+
+        # 返回当前评论
+        html = "<li>\
+                    <div class=\"blog-comment-content\">\
+                        <a><h1>"+comment.author.name+"</h1></a>"\
+                        + u"<p>" + comment.content + "</p>"+\
+                        "<p>" + comment.publish_Time.strftime("%Y-%m-%d %H:%I:%S")+"</p>\
+                    </div>\
+                </li>"
+
+        return HttpResponse(html)

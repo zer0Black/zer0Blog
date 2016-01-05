@@ -1,7 +1,35 @@
 {% extends "./blog/base.html" %}
-{% block title %}
-    {{ post.title }}
-{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block js%}
+    <script type="text/javascript">
+    $(function(){
+
+        $('#blog-comment-form').submit(function(){
+            $.ajax({
+                type:"post",
+                url:"/comment/{{ post.id }}",
+                data:{
+                    "comment":$("#comment").val()
+                },
+                beforeSend:function(xhr){
+                    xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+                },
+                success:function(data, textStatus){
+                    $("#comment").val("");
+                    $(".blog-comment ul").prepend(data);
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                    alert(XMLHttpRequest.responseText);
+                }
+
+            });
+            return false;
+        });
+
+    })
+    </script>
+{% endblock%}
 
 {% block main %}
 
@@ -44,9 +72,9 @@
 
         <div class="well blog-comment">
             <div class="blog-comment-edit clearfix">
-                <form id="vmaig-comment-form" method="post" role="form">
-                    <input type="hidden" name="csrfmiddlewaretoken" value="jn50OSEEJsE58TrUlaqS2Vm9inJtcuQJ">
-                    <textarea id="comment" name="comment" class="form-control" rows="4" placeholder="请输入评论 限200字!"></textarea>
+                <form id="blog-comment-form" method="post" role="form">
+                    {% csrf_token %}
+                    <textarea maxlength="200" id="comment" name="comment" class="form-control" rows="4" placeholder="请输入评论 限200字!"></textarea>
                     <button type="submit" class="btn btn-blog pull-right">提交</button>
                 </form>
             </div>
@@ -54,7 +82,7 @@
                 {% for comment in comment_list%}
                 <li>
                     <div class="blog-comment-content">
-                        <a><h4>{{ comment.author }}</h4></a>
+                        <a><h4>{{ comment.author.username }}</h4></a>
                         <p>{{ comment.content }}</p>
                         <p>{{ comment.publish_Time }}</p>
                     </div>

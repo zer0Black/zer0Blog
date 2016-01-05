@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 from __future__ import unicode_literals
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
 from django.db import models
 
@@ -10,9 +12,7 @@ STATUS = {
 }
 
 
-class User(models.Model):
-    username = models.CharField(max_length=100)
-    password = models.CharField(max_length=32)
+class User(AbstractUser):
     name = models.CharField(max_length=12)
 
     def __str__(self):
@@ -37,7 +37,7 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     publish_time = models.DateTimeField(auto_now_add=True)  # 第一次保存时自动添加时间
     modify_time = models.DateTimeField(auto_now=True)  # 每次保存自动更新时间
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField()
     catalogue = models.ForeignKey(Catalogue)
     tag = models.ManyToManyField(Tag, blank=True, default="")  # 外键tag可为空，外键被删除时该值设定为默认值“”
@@ -53,10 +53,10 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(Post)
-    author = models.ForeignKey(User)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL)
     publish_Time = models.DateTimeField(auto_now_add=True)
     ip_address = models.GenericIPAddressField()
-    content = models.CharField(max_length=500)
+    content = models.CharField(max_length=200)
     isDelete = models.BooleanField(default=False)
 
     def __str__(self):

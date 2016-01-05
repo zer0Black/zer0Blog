@@ -119,6 +119,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# user model
+AUTH_USER_MODEL = "blog.User"
 
 # static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
