@@ -22,7 +22,9 @@
             {% endif %}
 
             <!-- 分页 -->
-            {% include "./blog/include/pagination.html" %}
+            {% if objects %}
+                {% include "./blog/include/pagination.html" %}
+            {% endif %}
 
         </div>
     </div>

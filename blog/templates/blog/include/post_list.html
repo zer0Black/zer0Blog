@@ -25,6 +25,10 @@
                 <span class="glyphicon glyphicon-eye-open"></span>
                 {{post.view_count}}
             </span>
+            <span>
+                <span class="glyphicon glyphicon-user"></span>
+                {{post.author}}
+            </span>
             <div class="post-tags">
                 {% for tag in post.tag.all%}
                 <a href="/tag/{{tag}}/" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
