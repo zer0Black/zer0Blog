@@ -33,7 +33,9 @@
 	<!-- BEGIN LOGIN -->
 	<div class="content">
 		<!-- BEGIN LOGIN FORM -->
-		<form class="form-vertical login-form" action="index.html">
+		<form class="form-vertical login-form" action="{{ app_path }}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}" />
 			<h3 class="form-title">公司共享平台登录</h3>
 			<div class="alert alert-error hide">
 				<button class="close" data-dismiss="alert"></button>
