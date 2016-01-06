@@ -75,3 +75,17 @@ class Carousel(models.Model):
     class Meta:
         ordering = ['-create_time']
 
+
+# 知识库模型
+class Repository(models.Model):
+    title = models.CharField(max_length=100)
+    publish_time = models.DateTimeField(auto_now_add=True)  # 第一次保存时自动添加时间
+    author = models.CharField(max_length=20)
+    content = models.TextField()
+    view_count = models.IntegerField(editable=True, default=0)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ['-publish_time']

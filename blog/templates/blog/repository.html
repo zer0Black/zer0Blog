@@ -1,0 +1,32 @@
+{% extends "./blog/base.html" %}
+
+{% block title %}
+知识库
+{% endblock %}
+
+{%block main%}
+<div class="row">
+    <div id="container-blog" class="col-md-8 col-lg-9">
+        <!-- 左栏内容 -->
+        <div>
+            <!-- 知识库文章列表 -->
+            {% if objects.object_list %}
+                {% for post in objects.object_list %}
+                    {% include "./blog/include/repository_list.html" %}
+                {% endfor %}
+            {% endif %}
+
+            <!-- 分页 -->
+            {% if objects %}
+                {% include "./blog/include/pagination.html" %}
+            {% endif %}
+
+        </div>
+    </div>
+    <div class="marginTop10 col-md-4 col-lg-3 hidden-xs">
+        {% include "./blog/include/year_write_posts.html" %}
+        {% include "./blog/include/hot_posts.html" %}
+        {% include "./blog/include/friendly_link.html" %}
+    </div>
+</div>
+{% endblock %}

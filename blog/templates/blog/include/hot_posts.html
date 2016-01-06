@@ -12,7 +12,7 @@
             {% for article in hot_article_list %}
                 <li class="list-group-item">
                 <span class="hotest-post-title"><a href="/post/{{article.id}}">{{article.title}}</a> </span>
-                <span class="badge">{{article.view_times}}</span>
+                <span class="badge">{{article.view_count}}</span>
                 </li>
             {% endfor %}
         </ul>

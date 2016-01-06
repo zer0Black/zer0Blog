@@ -5,10 +5,11 @@ from django.contrib.auth import get_user_model
 
 from django.views.generic import View, DetailView, ListView
 from django.db.models import Count
+from zer0Blog.settings import PERNUM
 
 from blog.pagination import paginator_tool
 
-from .models import Post, Carousel, Comment
+from .models import Post, Carousel, Comment, Repository
 
 
 def post(requst):
@@ -20,7 +21,7 @@ class BaseMixin(object):
     def get_context_data(self, **kwargs):
         context = super(BaseMixin, self).get_context_data(**kwargs)
         try:
-            context['hot_article_list'] = Post.objects.order_by("view_count")[0:10]
+            context['hot_article_list'] = Post.objects.order_by("-view_count")[0:10]
             context['man_list'] = get_user_model().objects.annotate(Count("post"))
         except Exception as e:
             pass
@@ -35,7 +36,7 @@ class IndexView(BaseMixin, ListView):
 
     def get_context_data(self, **kwargs):
         page = self.kwargs.get('page') or self.request.GET.get('page') or 1
-        objects, page_range = paginator_tool(pages=page, queryset=self.queryset)
+        objects, page_range = paginator_tool(pages=page, queryset=self.queryset, display_amount=PERNUM)
         context = super(IndexView, self).get_context_data(**kwargs)
         context['carousel_page_list'] = Carousel.objects.all()
         context['page_range'] = page_range
@@ -48,10 +49,18 @@ class PostView(BaseMixin, DetailView):
     context_object_name = 'post'
     queryset = Post.objects.filter(status=1)
 
+    # 用于记录文章的阅读量，每次请求添加一次阅读量
+    def get(self, request, *args, **kwargs):
+        pkey = self.kwargs.get("pk")
+        posts = self.queryset.get(pk=pkey)
+        posts.view_count += 1
+        posts.save()
+        return super(PostView, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
         pkey = self.kwargs.get("pk")
-        context['comment_list'] = self.queryset.get(pk=pkey).comment_set.all()
+        context['comment_list'] = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
         return context
 
 
@@ -88,10 +97,24 @@ class CommentView(View):
         # 返回当前评论
         html = "<li>\
                     <div class=\"blog-comment-content\">\
-                        <a><h1>"+comment.author.name+"</h1></a>"\
+                        <a><h4>"+comment.author.username+"</h4></a>"\
                         + u"<p>" + comment.content + "</p>"+\
-                        "<p>" + comment.publish_Time.strftime("%Y-%m-%d %H:%I:%S")+"</p>\
+                        "<p>" + comment.publish_Time.strftime("%Y年%m月%d日 %R")+"</p>\
                     </div>\
                 </li>"
 
         return HttpResponse(html)
+
+
+class RepositoryView(BaseMixin, ListView):
+    template_name = 'blog/repository.html'
+    context_object_name = 'repository_list'
+    queryset = Repository.objects.all()
+
+    def get_context_data(self, **kwargs):
+        page = self.kwargs.get('page') or self.request.GET.get('page') or 1
+        objects, page_range = paginator_tool(pages=page, queryset=self.queryset, display_amount=PERNUM)
+        context = super(RepositoryView, self).get_context_data(**kwargs)
+        context['page_range'] = page_range
+        context['objects'] = objects
+        return context

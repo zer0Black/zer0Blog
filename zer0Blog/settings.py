@@ -24,7 +24,6 @@ SECRET_KEY = '(6ssnl-d!(-2=#(8=**#kf_2z6h!yz$@lvpmq@&)a2*t4%sgtu'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -121,6 +120,8 @@ USE_TZ = True
 
 # user model
 AUTH_USER_MODEL = "blog.User"
+# pagination EveryPage Num
+PERNUM = 10
 
 # static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/

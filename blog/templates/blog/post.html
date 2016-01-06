@@ -84,7 +84,7 @@
                     <div class="blog-comment-content">
                         <a><h4>{{ comment.author.username }}</h4></a>
                         <p>{{ comment.content }}</p>
-                        <p>{{ comment.publish_Time }}</p>
+                        <p>{{ comment.publish_Time | date:"Y年m月d日 H:i"}}</p>
                     </div>
                 </li>
                 {% endfor %}
