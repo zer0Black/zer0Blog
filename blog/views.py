@@ -13,7 +13,7 @@ from .models import Post, Carousel, Comment, Repository
 
 
 def post(requst):
-    return render_to_response('blog/post.html',)
+    return render_to_response('blog/post_detail.html',)
 
 
 class BaseMixin(object):
@@ -45,7 +45,7 @@ class IndexView(BaseMixin, ListView):
 
 
 class PostView(BaseMixin, DetailView):
-    template_name = 'blog/post.html'
+    template_name = 'blog/post_detail.html'
     context_object_name = 'post'
     queryset = Post.objects.filter(status=1)
 
@@ -118,3 +118,4 @@ class RepositoryView(BaseMixin, ListView):
         context['page_range'] = page_range
         context['objects'] = objects
         return context
+

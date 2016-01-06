@@ -28,8 +28,10 @@ def paginator_tool(pages, queryset, display_amount=10, pernum=2):
             page_range = range(1, page+pernum+1)
         else:
             page_range = range(1, paginator.num_pages+1)
-    elif (page > 1 and page < paginator.num_pages) or (page == paginator.num_pages and paginator.num_pages == 2):
+    elif page > 1 and page < paginator.num_pages:
         page_range = range(page-1, page+pernum-1+1)
+    elif page == paginator.num_pages and paginator.num_pages == 2:
+        page_range = range(page-1, page+pernum-2+1)
     elif page == paginator.num_pages and paginator.num_pages > 2:
         page_range = range(page-2, page+pernum-2+1)
 
