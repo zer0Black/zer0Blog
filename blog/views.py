@@ -119,3 +119,16 @@ class RepositoryView(BaseMixin, ListView):
         context['objects'] = objects
         return context
 
+
+class RepositoryDetailView(BaseMixin, DetailView):
+    template_name = 'blog/repository_detail.html'
+    context_object_name = 'repository'
+    queryset = Repository.objects.all()
+
+    # 用于记录文章的阅读量，每次请求添加一次阅读量
+    def get(self, request, *args, **kwargs):
+        pkey = self.kwargs.get("pk")
+        repositorys = self.queryset.get(pk=pkey)
+        repositorys.view_count += 1
+        repositorys.save()
+        return super(RepositoryDetailView, self).get(request, *args, **kwargs)

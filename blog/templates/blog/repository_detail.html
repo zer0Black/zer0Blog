@@ -1,0 +1,47 @@
+{% extends "./blog/base.html" %}
+{% block title %}{{ repository.title }}{% endblock %}
+
+{% block main %}
+
+<div class="row">
+    <div id="container-blog" class="col-md-8 col-lg-9">
+        <!-- 左栏内容 -->
+        <div class="well" id="post">
+            <div>
+                <h3>{{ repository.title }}</h3>
+            </div>
+            <div>
+                 {% for tag in repository.get_tags%}
+                    <a href="/tags/{{tag}}/">
+                        <span class="label label-blog-{{forloop.counter}} btn">{{tag}}</span>
+                    </a>
+                 {% endfor %}
+                <a href="/tags/1/">
+                    <span class="label label-blog-1 btn">多看</span>
+                </a>
+            </div>
+            <div class="post-info">
+                <span>
+                    <span class="glyphicon glyphicon-calendar"></span>
+                    {{repository.publish_time|date:"Y-m-d" }}
+                </span>
+                <span>
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                    {{repository.view_count}}
+                </span>
+            </div>
+            <hr>
+            <div class="wrap">
+               {{ repository.content }}
+            </div>
+        </div>
+    </div>
+
+    <div class="marginTop10 col-md-4 col-lg-3 hidden-xs">
+        {% include "./blog/include/year_write_posts.html" %}
+        {% include "./blog/include/hot_posts.html" %}
+        {% include "./blog/include/friendly_link.html" %}
+    </div>
+</div>
+
+{% endblock %}

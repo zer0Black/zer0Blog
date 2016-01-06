@@ -82,7 +82,7 @@ class Repository(models.Model):
     publish_time = models.DateTimeField(auto_now_add=True)  # 第一次保存时自动添加时间
     author = models.CharField(max_length=20)
     content = models.TextField()
-    tag = models.ForeignKey(Tag)
+    tag = models.ManyToManyField(Tag, blank=True, default="")  # 外键tag可为空，外键被删除时该值设定为默认值“”
     view_count = models.IntegerField(editable=False, default=0)
 
     def __str__(self):
