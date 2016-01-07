@@ -12,8 +12,8 @@ from blog.pagination import paginator_tool
 from .models import Post, Carousel, Comment, Repository
 
 
-def post(requst):
-    return render_to_response('blog/post_detail.html',)
+def index(requst):
+    return render_to_response('admin/base.html',)
 
 
 class BaseMixin(object):

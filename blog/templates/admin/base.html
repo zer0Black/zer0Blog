@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+	<title>Metronic | Admin Dashboard Template</title>
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->
+	<link href="/static/metronic/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/style-metro.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/style.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="/static/metronic/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL MANDATORY STYLES -->
+
+	<!-- BEGIN PAGE LEVEL STYLES -->
+	<link href="/static/metronic/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/daterangepicker.css" rel="stylesheet" type="text/css" />
+	<link href="/static/metronic/css/fullcalendar.css" rel="stylesheet" type="text/css"/>
+	<link href="/static/metronic/css/jqvmap.css" rel="stylesheet" type="text/css" media="screen"/>
+	<link href="/static/metronic/css/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css" media="screen"/>
+
+    <link href="/static/css/zer0Admin.css" rel="stylesheet" type="text/css"/>
+	<!-- END PAGE LEVEL STYLES -->
+
+    {% block css%} {% endblock%}
+
+	<!-- BEGIN CORE PLUGINS -->
+	<script src="/static/metronic/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+    
+	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+	<script src="/static/metronic/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
+	<script src="/static/metronic/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.slimscroll.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.blockui.min.js" type="text/javascript"></script>  
+	<script src="/static/metronic/js/jquery.cookie.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.uniform.min.js" type="text/javascript" ></script>
+	<!-- END CORE PLUGINS -->
+
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<script src="/static/metronic/js/jquery.vmap.js" type="text/javascript"></script>   
+	<script src="/static/metronic/js/jquery.vmap.russia.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.vmap.world.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.vmap.europe.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.vmap.germany.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.vmap.usa.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.vmap.sampledata.js" type="text/javascript"></script>  
+	<script src="/static/metronic/js/jquery.flot.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.flot.resize.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.pulsate.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/date.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/daterangepicker.js" type="text/javascript"></script>     
+	<script src="/static/metronic/js/jquery.gritter.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/fullcalendar.min.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.easy-pie-chart.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/jquery.sparkline.min.js" type="text/javascript"></script>  
+	<!-- END PAGE LEVEL PLUGINS -->
+
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="/static/metronic/js/app.js" type="text/javascript"></script>
+	<script src="/static/metronic/js/index.js" type="text/javascript"></script>        
+	<!-- END PAGE LEVEL SCRIPTS -->  
+	<script>
+		jQuery(document).ready(function() {    
+		   App.init(); // initlayout and core plugins
+		   Index.init();
+		   Index.initJQVMAP(); // init index page's custom scripts
+		   Index.initCalendar(); // init index page's custom scripts
+		   Index.initCharts(); // init index page's custom scripts
+		   Index.initChat();
+		   Index.initMiniCharts();
+		   Index.initDashboardDaterange();
+		   Index.initIntro();
+		});
+
+	</script>
+
+    {% block js%}{% endblock%}
+
+	<link rel="shortcut icon" href="/static/metronic/image/favicon.ico" />
+</head>
+<body class="page-header-fixed">
+
+	<!-- BEGIN HEADER -->
+
+	<div class="header navbar navbar-inverse navbar-fixed-top">
+
+		<!-- BEGIN TOP NAVIGATION BAR -->
+
+		<div class="navbar-inner">
+
+			<div class="container-fluid">
+
+				<!-- BEGIN LOGO -->
+
+				<a class="brand" href="index.html">
+
+				<img src="/static/metronic/image/logo.png" alt="logo"/>
+
+				</a>
+
+				<!-- END LOGO -->
+				
+				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+
+				<a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+
+				<img src="/static/metronic/image/menu-toggler.png" alt="" />
+
+				</a>
+
+				<!-- END RESPONSIVE MENU TOGGLER -->
+
+				<!-- BEGIN TOP NAVIGATION MENU -->
+
+				<ul class="nav pull-right">
+
+					<!-- BEGIN USER LOGIN DROPDOWN -->
+
+					<li class="dropdown user">
+
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+						<img alt="" src="/static/metronic/image/avatar1_small.jpg" />
+
+						<span class="username">Bob Nilson</span>
+
+						<i class="icon-angle-down"></i>
+
+						</a>
+
+						<ul class="dropdown-menu">
+
+							<li><a href="extra_profile.html"><i class="icon-user"></i> My Profile</a></li>
+
+							<li><a href="page_calendar.html"><i class="icon-calendar"></i> My Calendar</a></li>
+
+							<li><a href="inbox.html"><i class="icon-envelope"></i> My Inbox(3)</a></li>
+
+							<li><a href="#"><i class="icon-tasks"></i> My Tasks</a></li>
+
+							<li class="divider"></li>
+
+							<li><a href="extra_lock.html"><i class="icon-lock"></i> Lock Screen</a></li>
+
+							<li><a href="login.html"><i class="icon-key"></i> Log Out</a></li>
+
+						</ul>
+
+					</li>
+
+					<!-- END USER LOGIN DROPDOWN -->
+
+				</ul>
+
+				<!-- END TOP NAVIGATION MENU -->
+
+			</div>
+
+		</div>
+
+		<!-- END TOP NAVIGATION BAR -->
+
+	</div>
+
+	<!-- END HEADER -->
+    <!-- BEGIN CONTAINER -->
+
+
+	<div class="page-container">
+
+        		<!-- BEGIN SIDEBAR -->
+
+		<div class="page-sidebar nav-collapse collapse">
+
+			<!-- BEGIN SIDEBAR MENU -->
+
+			<ul class="page-sidebar-menu">
+
+				<li>
+
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+					<div class="sidebar-toggler hidden-phone"></div>
+
+					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+				</li>
+
+
+				<li class="start active admin_start">
+
+					<a href="index.html">
+
+					<i class="icon-home"></i>
+
+					<span class="title">首页</span>
+
+					<span class="selected"></span>
+
+					</a>
+
+				</li>
+
+				<li class="">
+
+					<a href="javascript:;">
+
+					<i class="icon-briefcase"></i>
+
+					<span class="title">博客</span>
+
+
+					</a>
+
+				</li>
+
+				<li class="last ">
+
+					<a href="charts.html">
+
+					<i class="icon-cogs"></i>
+
+					<span class="title">设置</span>
+
+					</a>
+
+				</li>
+
+			</ul>
+
+			<!-- END SIDEBAR MENU -->
+
+		</div>
+
+		<!-- END SIDEBAR -->
+
+    </div>
+
+    <!-- END CONTAINER -->
+
+    <!-- BEGIN PAGE -->
+    <div class="page-content">
+
+
+    </div>
+    <!-- END PAGE -->
+
+    <!-- BEGIN FOOTER -->
+
+	<div class="footer">
+
+		<div class="footer-inner">
+
+			2016 &copy; Metronic by keenthemes.
+
+		</div>
+
+		<div class="footer-tools">
+
+			<span class="go-top">
+
+			<i class="icon-angle-up"></i>
+
+			</span>
+
+		</div>
+
+	</div>
+
+	<!-- END FOOTER -->
+
+</div>
+</body>
+
+</html>
