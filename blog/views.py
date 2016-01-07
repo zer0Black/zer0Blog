@@ -13,7 +13,7 @@ from .models import Post, Carousel, Comment, Repository
 
 
 def index(requst):
-    return render_to_response('admin/base.html',)
+    return render_to_response('admin/blog_admin.html',)
 
 
 class BaseMixin(object):

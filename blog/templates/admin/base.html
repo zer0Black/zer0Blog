@@ -1,203 +1,208 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    <meta charset="utf-8" />
-	<title>分享平台管理中心</title>
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta charset="utf-8"/>
+    <title>分享平台管理中心</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-	<!-- BEGIN GLOBAL MANDATORY STYLES -->
-	<link href="/static/metronic/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/style-metro.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/style.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/style-responsive.css" rel="stylesheet" type="text/css"/>
-	<link href="/static/metronic/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
-	<!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="/static/metronic/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/style-metro.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/style.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="/static/metronic/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
 
     <link href="/static/css/zer0Admin.css" rel="stylesheet" type="text/css"/>
-	<!-- END PAGE LEVEL STYLES -->
+    <!-- END PAGE LEVEL STYLES -->
 
-    {% block css%} {% endblock%}
+    {% block css %} {% endblock %}
 
-	<!-- BEGIN CORE PLUGINS -->
-	<script src="/static/metronic/js/jquery-1.10.1.min.js" type="text/javascript"></script>
-	<script src="/static/metronic/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
-    
-	<!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
-	<script src="/static/metronic/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>      
-	<script src="/static/metronic/js/bootstrap.min.js" type="text/javascript"></script>
-	<!-- END CORE PLUGINS -->
+    <!-- BEGIN CORE PLUGINS -->
+    <script src="/static/metronic/js/jquery-1.10.1.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+
+    <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+    <script src="/static/metronic/js/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery.uniform.min.js" type="text/javascript" ></script>
+    <!-- END CORE PLUGINS -->
 
 
-	<!-- BEGIN PAGE LEVEL SCRIPTS -->
-	<script src="/static/metronic/js/app.js" type="text/javascript"></script>
-	<script src="/static/metronic/js/index.js" type="text/javascript"></script>        
-	<!-- END PAGE LEVEL SCRIPTS -->  
-	<script>
-		jQuery(document).ready(function() {    
-		   App.init(); // initlayout and core plugins
-		   Index.init();
-		});
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="/static/metronic/js/app.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/index.js" type="text/javascript"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+    <script>
+        jQuery(document).ready(function () {
+            App.init(); // initlayout and core plugins
+            Index.init();
+        });
 
-	</script>
+    </script>
 
-    {% block js%}{% endblock%}
+    {% block js %}{% endblock %}
 
-	<link rel="shortcut icon" href="/static/metronic/image/favicon.ico" />
+    <link rel="shortcut icon" href="/static/metronic/image/favicon.ico"/>
 </head>
 <body class="page-header-fixed">
 
-	<!-- BEGIN HEADER -->
+<!-- BEGIN HEADER -->
 
-	<div class="header navbar navbar-inverse navbar-fixed-top">
+<div class="header navbar navbar-inverse navbar-fixed-top">
 
-		<!-- BEGIN TOP NAVIGATION BAR -->
+    <!-- BEGIN TOP NAVIGATION BAR -->
 
-		<div class="navbar-inner">
+    <div class="navbar-inner">
 
-			<div class="container-fluid">
+        <div class="container-fluid">
 
-				<!-- BEGIN LOGO -->
+            <!-- BEGIN LOGO -->
 
-				<a class="brand" href="/">
+            <a class="brand" href="/">
 
-				<img src="/static/metronic/image/logo.png" alt="logo"/>
+                <img src="/static/metronic/image/logo.png" alt="logo"/>
 
-				</a>
+            </a>
 
-				<!-- END LOGO -->
-				
-				<!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <!-- END LOGO -->
 
-				<a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
 
-				<img src="/static/metronic/image/menu-toggler.png" alt="" />
+            <a href="javascript:;" class="btn-navbar collapsed" data-toggle="collapse" data-target=".nav-collapse">
 
-				</a>
+                <img src="/static/metronic/image/menu-toggler.png" alt=""/>
 
-				<!-- END RESPONSIVE MENU TOGGLER -->
+            </a>
 
-				<!-- BEGIN TOP NAVIGATION MENU -->
+            <!-- END RESPONSIVE MENU TOGGLER -->
 
-				<ul class="nav pull-right">
+            <!-- BEGIN TOP NAVIGATION MENU -->
 
-					<!-- BEGIN USER LOGIN DROPDOWN -->
+            <ul class="nav pull-right">
 
-					<li class="dropdown user">
+                <!-- BEGIN USER LOGIN DROPDOWN -->
 
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <li class="dropdown user">
 
-						<img alt="" src="/static/metronic/image/avatar1_small.jpg" />
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
-						<span class="username">Bob Nilson</span>
+                        <img alt="" src="/static/metronic/image/avatar1_small.jpg"/>
 
-						<i class="icon-angle-down"></i>
+                        <span class="username">Bob Nilson</span>
 
-						</a>
+                        <i class="icon-angle-down"></i>
 
-						<ul class="dropdown-menu">
+                    </a>
 
-							<li><a href="extra_profile.html"><i class="icon-user"></i> My Profile</a></li>
+                    <ul class="dropdown-menu">
 
-							<li><a href="logout.html"><i class="icon-key"></i> Log Out</a></li>
+                        <li><a href="extra_profile.html"><i class="icon-user"></i>个人中心</a></li>
 
-						</ul>
+                        <li><a href="logout.html"><i class="icon-key"></i>退出</a></li>
 
-					</li>
+                    </ul>
 
-					<!-- END USER LOGIN DROPDOWN -->
+                </li>
 
-				</ul>
+                <!-- END USER LOGIN DROPDOWN -->
 
-				<!-- END TOP NAVIGATION MENU -->
+            </ul>
 
-			</div>
+            <!-- END TOP NAVIGATION MENU -->
 
-		</div>
-
-		<!-- END TOP NAVIGATION BAR -->
-
-	</div>
-
-	<!-- END HEADER -->
-    <!-- BEGIN CONTAINER -->
-
-
-	<div class="page-container">
-
-        		<!-- BEGIN SIDEBAR -->
-
-		<div class="page-sidebar nav-collapse collapse">
-
-			<!-- BEGIN SIDEBAR MENU -->
-
-			<ul class="page-sidebar-menu">
-
-				<li>
-
-					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-
-					<div class="sidebar-toggler hidden-phone"></div>
-
-					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
-
-				</li>
-
-				<li class="">
-
-					<a href="javascript:;">
-
-					<i class="icon-briefcase"></i>
-
-					<span class="title">博客</span>
-
-					</a>
-
-				</li>
-
-				<li class="last ">
-
-					<a href="charts.html">
-
-					<i class="icon-cogs"></i>
-
-					<span class="title">设置</span>
-
-					</a>
-
-				</li>
-
-			</ul>
-
-			<!-- END SIDEBAR MENU -->
-
-		</div>
-
-		<!-- END SIDEBAR -->
+        </div>
 
     </div>
 
-    <!-- END CONTAINER -->
+    <!-- END TOP NAVIGATION BAR -->
 
-    <!-- BEGIN PAGE -->
-    <div class="page-content">
+</div>
 
+<!-- END HEADER -->
+<!-- BEGIN CONTAINER -->
+
+
+<div class="page-container">
+
+    <!-- BEGIN SIDEBAR -->
+
+    <div class="page-sidebar nav-collapse collapse">
+
+        <!-- BEGIN SIDEBAR MENU -->
+
+        <ul class="page-sidebar-menu">
+
+            <li>
+
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+                <div class="sidebar-toggler hidden-phone"></div>
+
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+
+            </li>
+
+            <li class="start active admin_start">
+
+                <a href="javascript:;">
+
+                    <i class="icon-briefcase"></i>
+
+                    <span class="title">博客管理</span>
+
+                    <span class="selected"></span>
+
+                </a>
+
+            </li>
+
+            <li class="last ">
+
+                <a href="">
+
+                    <i class="icon-cogs"></i>
+
+                    <span class="title">设置</span>
+
+                </a>
+
+            </li>
+
+        </ul>
+
+        <!-- END SIDEBAR MENU -->
 
     </div>
-    <!-- END PAGE -->
 
-    <!-- BEGIN FOOTER -->
+    <!-- END SIDEBAR -->
 
-	<div class="footer">
+</div>
 
-		<div class="footer-inner">
+<!-- END CONTAINER -->
 
-			2016 &copy; Metronic by keenthemes.
+<!-- BEGIN PAGE -->
+<div class="page-content">
 
-		</div>
+    {% block main %}{% endblock %}
 
-		<div class="footer-tools">
+</div>
+<!-- END PAGE -->
+
+<!-- BEGIN FOOTER -->
+
+<div class="footer">
+
+    <div class="footer-inner">
+
+        2016 &copy; Metronic by keenthemes.
+
+    </div>
+
+    <div class="footer-tools">
 
 			<span class="go-top">
 
@@ -205,13 +210,14 @@
 
 			</span>
 
-		</div>
-
-	</div>
-
-	<!-- END FOOTER -->
+    </div>
 
 </div>
+
+<!-- END FOOTER -->
+
+</div>
+
 </body>
 
 </html>
