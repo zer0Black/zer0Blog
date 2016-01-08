@@ -37,14 +37,6 @@
 
                     <li>
 
-                        <i class="icon-tag"></i>
-
-                        <a href="#">编辑分类</a>
-
-                    </li>
-
-                    <li>
-
                         <i class="icon-screenshot"></i>
 
                         <a data-toggle="modal" data-target="#selectEditor">选择编辑器</a>
@@ -91,8 +83,6 @@
 
                             <tr>
 
-                                <th>序号</th>
-
                                 <th>标题</th>
 
                                 <th class="span1">状态</th>
@@ -109,60 +99,32 @@
                             </thead>
 
                             <tbody>
+                            {% if objects.object_list %}
+                                {% for post in objects.object_list %}
+                                    <tr>
 
-                            <tr>
+                                        <td><a href="../post/{{ post.id }}">{{ post.title }}</a>&nbsp;（{{post.publish_time|date:"Y-m-d H:i" }}）</td>
 
-                                <td>1</td>
+                                        {% ifequal post.status 0 %}
+                                        <td>草稿</td>
+                                        {% else %}
+                                            {% ifequal post.status 1 %}
+                                            <td>发布</td>
+                                            {% endifequal %}
+                                        {% endifequal %}
 
-                                <td>【开源】MQTT推送服务器——zer0MqttServer（Java编写） (2015-12-09 15:35)</td>
+                                        <td class="hidden-480">{{post.comment_set.all | length}}</td>
 
-                                <td>发布</td>
+                                        <td>{{post.view_count}}</td>
 
-                                <td class="hidden-480">2341</td>
+                                        <td><a href="">编辑</a></td>
 
-                                <td><span>325</span></td>
+                                        <td><a href="/admin/delete/{{ post.id }}">删除</a></td>
 
-                                <td>编辑</td>
+                                    </tr>
 
-                                <td>删除</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>2</td>
-
-                                <td>11个并不广为人知，但值得了解的Python库 (2015-01-30 15:43)</td>
-
-                                <td>发布</td>
-
-                                <td class="hidden-480">123</td>
-
-                                <td><span>242</span></td>
-
-                                <td>编辑</td>
-
-                                <td>删除</td>
-
-                            </tr>
-
-                            <tr>
-
-                                <td>3</td>
-
-                                <td>（翻译）开始iOS 7中自动布局教程(二) (2014-09-19 22:47)</td>
-
-                                <td>发布</td>
-
-                                <td class="hidden-480">12334</td>
-
-                                <td><span>242</span></td>
-
-                                <td>编辑</td>
-
-                                <td>删除</td>
-
-                            </tr>
+                                {% endfor %}
+                            {% endif %}
 
                             </tbody>
 
