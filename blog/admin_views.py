@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-from django.views.generic import View, DetailView, ListView
+from django.views.generic import View, DetailView, ListView, CreateView
 from django.http import HttpResponse, HttpResponseRedirect
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post
+from .models import Post, Catalogue
 
 
 class PostView(ListView):
@@ -38,3 +38,9 @@ class DeletePost(View):
         post.status = 2
         post.save()
         return HttpResponseRedirect('/admin/')
+
+
+class NewPost(CreateView):
+    template_name = 'admin/post_new.html'
+    model = Post
+    fields = ['title']
