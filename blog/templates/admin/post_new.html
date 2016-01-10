@@ -20,10 +20,15 @@
             ],
             toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code codesample',
             content_css: [
-                '//www.tinymce.com/css/codepen.min.css',
-                '//cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.css',
+                '/static/tinymce/js/tinymce/codepen.min.css',
+                '/static/tinymce/js/tinymce/prism.css',
             ],
             language: 'zh_CN',
+            {% if post.content %}
+                init_instance_callback: function (editor) {
+                    editor.setContent('{{ post.content }}');
+                },
+            {% endif %}
         });
     </script>
 {% endblock %}
@@ -48,6 +53,13 @@
                 </h3>
 
                 <ul class="breadcrumb">
+
+                    <li>
+                        <i class="icon-circle-arrow-left"></i>
+
+                        <a href="/admin/">返回首页</a>
+
+                    </li>
 
                     <li>
                         <i class="icon-bookmark"></i>
@@ -104,7 +116,8 @@
 
                                 <div class="controls margin_left0">
 
-                                    <input type="text" class="span12 m-wrap" placeholder="请输入标题..."/>
+                                    <input type="text" class="span12 m-wrap" placeholder="请输入标题..."
+                                           value="{{ post.title }}"/>
 
                                 </div>
 
@@ -114,7 +127,7 @@
 
                                 <div class="controls margin_left0">
 
-                                    <textarea class="span12 m-wrap" rows="3"></textarea>
+                                    <textarea id="tinymceID" class="span12 m-wrap" rows="3"></textarea>
 
                                 </div>
 
@@ -128,15 +141,29 @@
 
                                     <select class="span6 chosen" data-placeholder="请选择博客所在目录..." tabindex="1">
 
-                                        <option value=""></option>
+                                        {% if catalogue_list %}
 
-                                        <option value="Category 1">Category 1</option>
+                                            <option value=""></option>
 
-                                        <option value="Category 2">Category 2</option>
+                                            {% for catalogue in catalogue_list %}
 
-                                        <option value="Category 3">Category 5</option>
+                                                {% if post.catalogue %}
+                                                    {% ifequal catalogue.name post.catalogue.name %}
 
-                                        <option value="Category 4">Category 4</option>
+                                                        <option selected value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+
+                                                    {% else %}
+
+                                                        <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+
+                                                    {% endifequal %}
+                                                {% else %}
+                                                    <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+                                                {% endif %}
+
+                                            {% endfor %}
+
+                                        {% endif %}
 
                                     </select>
 
@@ -153,11 +180,28 @@
                                     <select data-placeholder="请选择标签，可多选..." class="chosen span6"
                                             multiple="multiple" tabindex="6">
 
-                                        <option value="">vim</option>
+                                        {% if tag_list %}
 
-                                        <option value="">Linux</option>
+                                            {% for tag in tag_list %}
 
-                                        <option value="">Android</option>
+                                                {% if post.catalogue %}
+                                                    {% ifequal tag.name post.tag.name %}
+
+                                                        <option selected value="{{ tag.name }}">{{ tag.name }}</option>
+
+                                                    {% else %}
+
+                                                        <option value="{{ tag.name }}">{{ tag.name }}</option>
+
+                                                    {% endifequal %}
+                                                {% else %}
+                                                     <option value="{{ tag.name }}">{{ tag.name }}</option>
+                                                {% endif %}
+
+
+                                            {% endfor %}
+
+                                        {% endif %}
 
                                     </select>
 

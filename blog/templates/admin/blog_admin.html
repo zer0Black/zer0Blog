@@ -106,7 +106,7 @@
                                         <td><a href="../post/{{ post.id }}">{{ post.title }}</a>&nbsp;（{{post.publish_time|date:"Y-m-d H:i" }}）</td>
 
                                         {% ifequal post.status 0 %}
-                                        <td>草稿</td>
+                                            <td>草稿</td>
                                         {% else %}
                                             {% ifequal post.status 1 %}
                                             <td>发布</td>
@@ -117,7 +117,7 @@
 
                                         <td>{{post.view_count}}</td>
 
-                                        <td><a href="">编辑</a></td>
+                                        <td><a href="/admin/update/{{ post.id }}">编辑</a></td>
 
                                         <td><a href="/admin/delete/{{ post.id }}">删除</a></td>
 

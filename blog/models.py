@@ -57,7 +57,7 @@ class Post(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-publish_time']
+        ordering = ['-modify_time']
 
 
 class Comment(models.Model):

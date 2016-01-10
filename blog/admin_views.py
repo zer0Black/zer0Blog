@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
-from django.views.generic import View, DetailView, ListView, CreateView
+from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue
+from .models import Post, Catalogue, Tag
 
 
 class PostView(ListView):
@@ -44,3 +44,21 @@ class NewPost(CreateView):
     template_name = 'admin/post_new.html'
     model = Post
     fields = ['title']
+
+    def get_context_data(self, **kwargs):
+        context = super(NewPost, self).get_context_data(**kwargs)
+        context['catalogue_list'] = Catalogue.objects.all()
+        context['tag_list'] = Tag.objects.all()
+        return context
+
+
+class UpdatePost(UpdateView):
+    template_name = 'admin/post_new.html'
+    model = Post
+    fields = ['title']
+
+    def get_context_data(self, **kwargs):
+        context = super(UpdatePost, self).get_context_data(**kwargs)
+        context['catalogue_list'] = Catalogue.objects.all()
+        context['tag_list'] = Tag.objects.all()
+        return context
