@@ -1,4 +1,5 @@
 {% extends './admin/base.html' %}
+{% load set_var %}
 
 {% block css %}
 
@@ -184,20 +185,22 @@
 
                                             {% for tag in tag_list %}
 
-                                                {% if post.catalogue %}
-                                                    {% ifequal tag.name post.tag.name %}
+                                                {% if post.tag.all %}
+                                                    {#已存在的tag循环#}
+                                                    {% for existTag in post.tag.all %}
+                                                        {% ifequal tag.name existTag.name %}
+                                                            {% set flag = 1 %}
+                                                        {% endifequal %}
+                                                    {% endfor %}
 
+                                                    {% ifequal flag 1 %}
                                                         <option selected value="{{ tag.name }}">{{ tag.name }}</option>
-
                                                     {% else %}
-
                                                         <option value="{{ tag.name }}">{{ tag.name }}</option>
-
                                                     {% endifequal %}
                                                 {% else %}
                                                      <option value="{{ tag.name }}">{{ tag.name }}</option>
                                                 {% endif %}
-
 
                                             {% endfor %}
 
