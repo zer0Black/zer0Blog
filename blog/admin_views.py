@@ -80,3 +80,7 @@ class UpdatePost(UpdateView):
 
         return html
 
+
+class AddPost(View):
+    def post(self, request, *args, **kwargs):
+        return HttpResponseRedirect('/admin/')

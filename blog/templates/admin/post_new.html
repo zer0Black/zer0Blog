@@ -1,5 +1,4 @@
 {% extends './admin/base.html' %}
-{% load set_var %}
 
 {% block css %}
 
@@ -10,6 +9,8 @@
 {% block js %}
     <script src="/static/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="/static/metronic/js/chosen.jquery.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/js/post.js" type="text/javascript"></script>
     <script>
         tinymce.init({
             selector: 'textarea',
@@ -111,14 +112,14 @@
 
                     <div class="portlet-body form">
 
-                        <form action="#" class="form-horizontal">
-
+                        <form action="/admin/add" method="post" id="post_form" class="form-horizontal">
+                            {% csrf_token %}
                             <div class="control-group">
 
                                 <div class="controls margin_left0">
 
-                                    <input type="text" class="span12 m-wrap" placeholder="请输入标题..."
-                                           value="{{ post.title }}"/>
+                                    <input name="title" type="text" class="span12 m-wrap" placeholder="请输入标题..."
+                                           value="{{ post.title }}" maxlength="100"/>
 
                                 </div>
 
@@ -128,7 +129,7 @@
 
                                 <div class="controls margin_left0">
 
-                                    <textarea id="tinymceID" class="span12 m-wrap" rows="3"></textarea>
+                                    <textarea name="content" id="tinymceID" class="span12 m-wrap" rows="3"></textarea>
 
                                 </div>
 
@@ -140,7 +141,7 @@
 
                                 <div class="controls margin_left0">
 
-                                    <select class="span6 chosen" data-placeholder="请选择博客所在目录..." tabindex="1">
+                                    <select name="catalogue" class="span6 chosen" data-placeholder="请选择博客所在目录..." tabindex="1">
 
                                         {% if catalogue_list %}
 
@@ -178,7 +179,7 @@
 
                                 <div class="controls margin_left0">
 
-                                    <select data-placeholder="请选择标签，可多选..." class="chosen span6"
+                                    <select name="tag" data-placeholder="请选择标签，可多选..." class="chosen span6"
                                             multiple="multiple" tabindex="6">
 
                                         {% if tag_list %}
@@ -195,21 +196,21 @@
 
                                         {% endif %}
 
-
-
                                     </select>
 
                                 </div>
 
                             </div>
 
+                            <input name="action" type="hidden" id="post_action_flag" value="">
+
                             <div class="form-actions padding_left10">
 
-                                <button type="submit" class="btn blue">发布</button>
+                                <button type="button" id="add_post" class="btn blue">发布</button>
 
-                                <button type="button" class="btn blue">存为草稿</button>
+                                <button type="button" id="draft_post" class="btn blue">存为草稿</button>
 
-                                <button type="button" class="btn">取消</button>
+                                <button type="button" id="cancel" class="btn red">取消</button>
 
                             </div>
 
