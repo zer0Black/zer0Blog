@@ -1,13 +1,50 @@
 $(function(){
 
+    //发布
     $("#add_post").click(function(){
-        //修改隐藏域，设定参数为发布
-        $("#post_action_flag").val("add");
+        //修改隐藏域，设定参数为发布，0为草稿，1为发布
+        $("#post_action_flag").val("1");
+        tinymce.triggerSave();
         $("#post_form").submit();
     });
 
+    //存为草稿
+    $("#draft_post").click(function(){
+        //修改隐藏域，设定参数为发布，0为草稿，1为发布
+        $("#post_action_flag").val("0");
+        tinymce.triggerSave();
+        $("#post_form").submit();
+    });
+
+    //发布草稿
+    $("#add_draft").click(function(){
+        $("#post_action_flag").val("1");
+        tinymce.triggerSave();
+        $("#post_form").submit();
+    });
+
+    //保存草稿
+    $("#update_draft").click(function(){
+        $("#post_action_flag").val("0");
+        tinymce.triggerSave();
+        $("#post_form").submit();
+    });
+
+    //保存修改
+    $("#update_post").click(function(){
+        tinymce.triggerSave();
+        $("#post_form").submit();
+    });
+
+    $("#cancel").click(function(){
+        if(confirm("确认取消吗？")){
+            window.location.href = '/admin/'
+        }else{
+            return false;
+        }
+    });
+
     $("#post_form").validate({
-        debug: true,
         ignore: "",
         rules:{
            title:{
@@ -15,14 +52,13 @@ $(function(){
                maxlength: 100
            },
            content:{
-               required: true
+               required: true,
            },
            catalogue:{
                required: true,
-               minlength: 1,
            },
            tag:{
-               required: false
+               required: false,
            }
         },
         messages:{
@@ -35,7 +71,6 @@ $(function(){
            },
            catalogue:{
                required: "请给博客选择一个目录",
-               minglength: "请给您的博文选择一个目录"
            }
        }
     });

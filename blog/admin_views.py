@@ -52,13 +52,13 @@ class NewPost(CreateView):
         return context
 
 
-class UpdatePost(UpdateView):
+class GetUpdatePost(UpdateView):
     template_name = 'admin/post_new.html'
     model = Post
     fields = ['title']
 
     def get_context_data(self, **kwargs):
-        context = super(UpdatePost, self).get_context_data(**kwargs)
+        context = super(GetUpdatePost, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
         context['tag_html'] = self.handle_tag()
         return context
@@ -82,5 +82,97 @@ class UpdatePost(UpdateView):
 
 
 class AddPost(View):
+    def post(self, request):
+        # 获取当前用户
+        user = request.user
+        # 获取评论
+        title = request.POST.get("title", "")
+        content = request.POST.get("content", "")
+        catalogue = request.POST.get("catalogue", "")
+        tags = request.POST.getlist("tag", "")
+        action = request.POST.get("action", "0")
+
+        catalogue_foreignkey = Catalogue.objects.get(name=catalogue)
+
+        post_obj = Post.objects.create(
+            title=title,
+            author=user,
+            content=content,
+            catalogue=catalogue_foreignkey,
+            status=action,
+        )
+
+        # 插入多对多关系的标签
+        for tag in tags:
+            tag_foreignkey = Tag.objects.get(name=tag)
+            post_obj.tag.add(tag_foreignkey)
+
+        return HttpResponseRedirect('/admin/')
+
+
+class UpdateDraft(View):
     def post(self, request, *args, **kwargs):
+        # 获取当前用户
+        user = request.user
+        # 获取要修改的博客
+        pkey = self.kwargs.get('pk')
+        post = Post.objects.filter(author_id=user.id).get(pk=pkey)
+        # 获取评论
+        title = request.POST.get("title", "")
+        content = request.POST.get("content", "")
+        catalogue = request.POST.get("catalogue", "")
+        tags = request.POST.getlist("tag", "")
+        action = request.POST.get("action", "0")
+
+        catalogue_foreignkey = Catalogue.objects.get(name=catalogue)
+
+        post.title = title
+        post.content = content
+        post.catalogue = catalogue_foreignkey
+        post.status = action
+
+        # 删除之前的标签，插入新的
+        for tag in post.tag.all():
+            post.tag.remove(tag)
+
+        for tag in tags:
+            tag_foreignkey = Tag.objects.get(name=tag)
+            post.tag.add(tag_foreignkey)
+
+        post.save()
+
+        return HttpResponseRedirect('/admin/')
+
+
+class UpdatePost(View):
+    def post(self, request, *args, **kwargs):
+        # 获取当前用户
+        user = request.user
+        # 获取要修改的博客
+        pkey = self.kwargs.get('pk')
+        post = Post.objects.filter(author_id=user.id).get(pk=pkey)
+        # 获取评论
+        title = request.POST.get("title", "")
+        content = request.POST.get("content", "")
+        catalogue = request.POST.get("catalogue", "")
+        tags = request.POST.getlist("tag", "")
+        action = 1
+
+        catalogue_foreignkey = Catalogue.objects.get(name=catalogue)
+
+        post.title = title
+        post.content = content
+        post.catalogue = catalogue_foreignkey
+        post.status = action
+
+        # 删除之前的标签，插入新的
+        for tag in post.tag.all():
+            post.tag.remove(tag)
+
+        for tag in tags:
+            tag_foreignkey = Tag.objects.get(name=tag)
+            post.tag.add(tag_foreignkey)
+
+        post.save()
+
         return HttpResponseRedirect('/admin/')

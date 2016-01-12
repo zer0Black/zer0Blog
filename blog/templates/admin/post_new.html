@@ -28,10 +28,25 @@
             language: 'zh_CN',
             {% if post.content %}
                 init_instance_callback: function (editor) {
-                    editor.setContent('{{ post.content }}');
+                    editor.setContent('{% spaceless %}{% autoescape off %}{{ post.content }}{% endautoescape %}{% endspaceless %}');
                 },
             {% endif %}
         });
+
+        $(function () {
+            {% if not post %}
+                $("#post_form").attr("action","/admin/add");
+            {% else %}
+                {% ifequal post.status 0 %}
+                    $("#post_form").attr("action","/admin/update/draft/{{ post.id }}");
+                {% else %}
+                    {% ifequal post.status 1 %}
+                        $("#post_form").attr("action","/admin/update/post/{{ post.id }}");
+                    {% endifequal %}
+                {% endifequal %}
+            {% endif %}
+        });
+
     </script>
 {% endblock %}
 
@@ -141,7 +156,8 @@
 
                                 <div class="controls margin_left0">
 
-                                    <select name="catalogue" class="span6 chosen" data-placeholder="请选择博客所在目录..." tabindex="1">
+                                    <select name="catalogue" class="span6 chosen" data-placeholder="请选择博客所在目录..."
+                                            tabindex="1">
 
                                         {% if catalogue_list %}
 
@@ -152,7 +168,8 @@
                                                 {% if post.catalogue %}
                                                     {% ifequal catalogue.name post.catalogue.name %}
 
-                                                        <option selected value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+                                                        <option selected
+                                                                value="{{ catalogue.name }}">{{ catalogue.name }}</option>
 
                                                     {% else %}
 
@@ -191,7 +208,7 @@
                                         {% else %}
 
                                             {% autoescape off %}
-                                            {{ tag_html }}
+                                                {{ tag_html }}
                                             {% endautoescape %}
 
                                         {% endif %}
@@ -206,11 +223,22 @@
 
                             <div class="form-actions padding_left10">
 
-                                <button type="button" id="add_post" class="btn blue">发布</button>
-
-                                <button type="button" id="draft_post" class="btn blue">存为草稿</button>
-
-                                <button type="button" id="cancel" class="btn red">取消</button>
+                                {% if not post %}
+                                    <button type="button" id="add_post" class="btn blue">发布</button>
+                                    <button type="button" id="draft_post" class="btn blue">存为草稿</button>
+                                    <button type="button" id="cancel" class="btn red">取消</button>
+                                {% else %}
+                                    {% ifequal post.status 0 %}
+                                        <button type="button" id="add_draft" class="btn blue">发布草稿</button>
+                                        <button type="button" id="update_draft" class="btn blue">保存草稿</button>
+                                        <button type="button" id="cancel" class="btn red">取消</button>
+                                    {% else %}
+                                        {% ifequal post.status 1 %}
+                                            <button type="button" id="update_post" class="btn blue">保存修改</button>
+                                            <button type="button" id="cancel" class="btn red">取消</button>
+                                        {% endifequal %}
+                                    {% endifequal %}
+                                {% endif %}
 
                             </div>
 
