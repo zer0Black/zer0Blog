@@ -60,5 +60,23 @@ class UpdatePost(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdatePost, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
-        context['tag_list'] = Tag.objects.all()
+        context['tag_html'] = self.handle_tag()
         return context
+
+    def handle_tag(self):
+        post = self.model.objects.get(pk=self.kwargs.get("pk"))
+        html = ""
+        for tag in Tag.objects.all():
+            if post.tag.all():
+                flag = 0
+                for exist_tag in post.tag.all():
+                    if tag.name == exist_tag.name:
+                        flag = 1
+
+                if flag == 1:
+                    html += "<option selected value='" + tag.name + "'>" + tag.name + "</option>"
+                elif flag == 0:
+                    html += "<option value='" + tag.name + "'>" + tag.name + "</option>"
+
+        return html
+

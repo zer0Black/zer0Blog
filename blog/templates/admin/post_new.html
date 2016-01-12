@@ -184,27 +184,18 @@
                                         {% if tag_list %}
 
                                             {% for tag in tag_list %}
-
-                                                {% if post.tag.all %}
-                                                    {#已存在的tag循环#}
-                                                    {% for existTag in post.tag.all %}
-                                                        {% ifequal tag.name existTag.name %}
-                                                            {% set flag = 1 %}
-                                                        {% endifequal %}
-                                                    {% endfor %}
-
-                                                    {% ifequal flag 1 %}
-                                                        <option selected value="{{ tag.name }}">{{ tag.name }}</option>
-                                                    {% else %}
-                                                        <option value="{{ tag.name }}">{{ tag.name }}</option>
-                                                    {% endifequal %}
-                                                {% else %}
-                                                     <option value="{{ tag.name }}">{{ tag.name }}</option>
-                                                {% endif %}
-
+                                                <option value="{{ tag.name }}">{{ tag.name }}</option>
                                             {% endfor %}
 
+                                        {% else %}
+
+                                            {% autoescape off %}
+                                            {{ tag_html }}
+                                            {% endautoescape %}
+
                                         {% endif %}
+
+
 
                                     </select>
 
