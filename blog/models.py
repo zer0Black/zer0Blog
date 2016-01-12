@@ -52,6 +52,7 @@ class Post(models.Model):
     tag = models.ManyToManyField(Tag, blank=True, default="")  # 外键tag可为空，外键被删除时该值设定为默认值“”
     view_count = models.IntegerField(editable=False, default=0)
     status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
+    editor_choice = models.ForeignKey(Editor)
 
     def __str__(self):
         return self.title

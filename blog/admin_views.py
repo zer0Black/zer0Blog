@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue, Tag
+from .models import Post, Catalogue, Tag, Editor
 
 
 class PostView(ListView):
@@ -22,6 +22,7 @@ class PostView(ListView):
         objects, page_range = paginator_tool(pages=page, queryset=self.object_list, display_amount=PERNUM)
         context['page_range'] = page_range
         context['objects'] = objects
+        context['editor_list'] = Editor.objects.all()
         return context
 
 
@@ -176,3 +177,16 @@ class UpdatePost(View):
         post.save()
 
         return HttpResponseRedirect('/admin/')
+
+
+class UpdateEditor(View):
+    def post(self, request, *args, **kwargs):
+        # 获取当前用户
+        user = request.user
+
+        if not user.is_authenticated():
+            return HttpResponse(u"请登陆！", status=403)
+        # 获取编辑器
+        editor = Editor.objects.get(name=request.POST.get("editor", ""))
+        user.editor_choice = editor
+        user.save()

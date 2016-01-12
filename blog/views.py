@@ -12,10 +12,6 @@ from blog.pagination import paginator_tool
 from .models import Post, Carousel, Comment, Repository
 
 
-def index(requst):
-    return render_to_response('admin/blog_admin.html',)
-
-
 class BaseMixin(object):
 
     def get_context_data(self, **kwargs):

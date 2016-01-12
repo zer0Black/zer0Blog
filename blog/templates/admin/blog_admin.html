@@ -1,5 +1,10 @@
 {% extends './admin/base.html' %}
 
+{% block js %}
+    <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/js/blog-admin.js" type="text/javascript"></script>
+{% endblock %}
+
 {% block css %}
     <link href="/static/metronic/css/DT_bootstrap.css" rel="stylesheet" type="text/css"/>
     <link href="/static/metronic/css/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
@@ -151,30 +156,26 @@
                     <h3>选择编辑器</h3>
                 </div>
                 <div class="modal-body">
-                    <form action="#" class="form-horizontal">
+                    <form id="editor_form" class="form-horizontal" method="post">
+                        {% csrf_token %}
                         <div class="control-group">
                             <label class="control-label">编辑器</label>
                             <div class="controls">
+                                {% for editor in editor_list %}
                                 <label class="radio">
                                     <div class="radio">
-                                        <span><input type="radio" name="editor" value="option1"></span>
+                                        <span><input type="radio" name="editor" value="{{ editor.name }}"></span>
                                     </div>
-                                    Option 1
+                                    {{ editor.name }}
                                 </label>
-
-                                <label class="radio">
-                                    <div class="radio">
-                                        <span class="checked"><input type="radio" name="editor" value="option2" checked=""></span>
-                                    </div>
-                                    Option 2
-                                </label>
+                                {% endfor %}
                             </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn">关闭</button>
-                    <button type="button" class="btn red">保存</button>
+                    <button type="button" id="save_editor" class="btn blue">保存</button>
                 </div>
             </div>
         </div>
