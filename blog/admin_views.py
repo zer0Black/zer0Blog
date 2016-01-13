@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
+import json
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
@@ -187,6 +188,9 @@ class UpdateEditor(View):
         if not user.is_authenticated():
             return HttpResponse(u"请登陆！", status=403)
         # 获取编辑器
-        editor = Editor.objects.get(name=request.POST.get("editor", ""))
-        user.editor_choice = editor
+        editor = request.POST.get("editor", "")
+        editor_foreignkey = Editor.objects.get(name=editor)
+        user.editor_choice = editor_foreignkey
         user.save()
+
+        return HttpResponseRedirect('/admin/')

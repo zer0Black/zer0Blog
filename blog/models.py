@@ -22,7 +22,7 @@ class Editor(models.Model):
 
 class User(AbstractUser):
     name = models.CharField(max_length=12)
-    editor_choice = models.ForeignKey(Editor, blank=True, default="")
+    editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
 
     def __str__(self):
         return self.name

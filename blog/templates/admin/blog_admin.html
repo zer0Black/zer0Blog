@@ -2,6 +2,7 @@
 
 {% block js %}
     <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery.cookie.min.js" type="text/javascript"></script>
     <script src="/static/js/blog-admin.js" type="text/javascript"></script>
 {% endblock %}
 
@@ -44,7 +45,7 @@
 
                         <i class="icon-screenshot"></i>
 
-                        <a data-toggle="modal" data-target="#selectEditor">选择编辑器</a>
+                        <a data-toggle="modal" data-target="#selectEditor">选择编辑器(当前:{{ user.editor_choice.name }})</a>
 
                     </li>
 
@@ -108,19 +109,21 @@
                                 {% for post in objects.object_list %}
                                     <tr>
 
-                                        <td><a href="../post/{{ post.id }}">{{ post.title }}</a>&nbsp;（{{post.publish_time|date:"Y-m-d H:i" }}）</td>
+                                        <td>
+                                            <a href="../post/{{ post.id }}">{{ post.title }}</a>&nbsp;（{{ post.publish_time|date:"Y-m-d H:i" }}）
+                                        </td>
 
                                         {% ifequal post.status 0 %}
                                             <td>草稿</td>
                                         {% else %}
                                             {% ifequal post.status 1 %}
-                                            <td>发布</td>
+                                                <td>发布</td>
                                             {% endifequal %}
                                         {% endifequal %}
 
-                                        <td class="hidden-480">{{post.comment_set.all | length}}</td>
+                                        <td class="hidden-480">{{ post.comment_set.all | length }}</td>
 
-                                        <td>{{post.view_count}}</td>
+                                        <td>{{ post.view_count }}</td>
 
                                         <td><a href="/admin/update/{{ post.id }}">编辑</a></td>
 
@@ -156,27 +159,29 @@
                     <h3>选择编辑器</h3>
                 </div>
                 <div class="modal-body">
-                    <form id="editor_form" class="form-horizontal" method="post">
+                    <form id="editor_form" action="/admin/update/editor" class="form-horizontal" method="post">
                         {% csrf_token %}
                         <div class="control-group">
                             <label class="control-label">编辑器</label>
+
                             <div class="controls">
                                 {% for editor in editor_list %}
-                                <label class="radio">
-                                    <div class="radio">
-                                        <span><input type="radio" name="editor" value="{{ editor.name }}"></span>
-                                    </div>
-                                    {{ editor.name }}
-                                </label>
+                                    <label class="radio">
+                                        <div class="radio">
+                                            <span><input type="radio" name="editor" value="{{ editor.name }}"></span>
+                                        </div>
+                                        {{ editor.name }}
+                                    </label>
                                 {% endfor %}
                             </div>
                         </div>
-                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn">关闭</button>
-                    <button type="button" id="save_editor" class="btn blue">保存</button>
+                    <button type="submit" id="save_editor" class="btn blue">保存</button>
                 </div>
+                </form>
+
             </div>
         </div>
     </div>

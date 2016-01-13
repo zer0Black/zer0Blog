@@ -1,6 +1,7 @@
 from django.conf.urls import url,include
 
-from blog.admin_views import PostView, DeletePost, NewPost, GetUpdatePost, AddPost, UpdateDraft, UpdatePost
+from blog.admin_views import PostView, DeletePost, NewPost, GetUpdatePost, AddPost, \
+    UpdateDraft, UpdatePost, UpdateEditor
 
 urlpatterns = [
     url(r'^admin/', include([
@@ -11,6 +12,6 @@ urlpatterns = [
         url(r'^update/draft/(?P<pk>[0-9]+)$', UpdateDraft.as_view()),
         url(r'^update/post/(?P<pk>[0-9]+)$', UpdatePost.as_view()),
         url(r'^update/(?P<pk>[0-9]+)$', GetUpdatePost.as_view()),
-        url(r'^update/editor$', GetUpdatePost.as_view()),
+        url(r'^update/editor$', UpdateEditor.as_view()),
     ])),
 ]
