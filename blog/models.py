@@ -14,6 +14,12 @@ STATUS = {
 }
 
 
+# 复写TagField的sava方法，让它不做任何事
+class TagField_Mine(TagField):
+    def _save(self, **kwargs):
+        pass;
+
+
 class Editor(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
     avaliable = models.BooleanField(default=True)
@@ -44,7 +50,7 @@ class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField()
     catalogue = models.ForeignKey(Catalogue)
-    tag = TagField()
+    tag = TagField_Mine()
     view_count = models.IntegerField(editable=False, default=0)
     status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
     editor_choice = models.ForeignKey(Editor)
