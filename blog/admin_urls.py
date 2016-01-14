@@ -13,5 +13,7 @@ urlpatterns = [
         url(r'^update/post/(?P<pk>[0-9]+)$', UpdatePost.as_view()),
         url(r'^update/(?P<pk>[0-9]+)$', GetUpdatePost.as_view()),
         url(r'^update/editor$', UpdateEditor.as_view()),
+        url(r'^repository$', PostView.as_view(), name='index'),
+        url(r'^set$', PostView.as_view(), name='index'),
     ])),
 ]
