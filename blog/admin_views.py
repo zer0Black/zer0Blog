@@ -1,11 +1,11 @@
 # -*- coding:utf-8 -*-
+import datetime
 from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
-import json
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue, Tag, Editor
+from .models import Post, Catalogue, Editor
 
 
 class PostView(ListView):
@@ -50,7 +50,6 @@ class NewPost(CreateView):
     def get_context_data(self, **kwargs):
         context = super(NewPost, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
-        context['tag_list'] = Tag.objects.all()
         return context
 
 
@@ -62,25 +61,25 @@ class GetUpdatePost(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(GetUpdatePost, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
-        context['tag_html'] = self.handle_tag()
+        # context['tag_html'] = self.handle_tag()
         return context
 
-    def handle_tag(self):
-        post = self.model.objects.get(pk=self.kwargs.get("pk"))
-        html = ""
-        for tag in Tag.objects.all():
-            if post.tag.all():
-                flag = 0
-                for exist_tag in post.tag.all():
-                    if tag.name == exist_tag.name:
-                        flag = 1
-
-                if flag == 1:
-                    html += "<option selected value='" + tag.name + "'>" + tag.name + "</option>"
-                elif flag == 0:
-                    html += "<option value='" + tag.name + "'>" + tag.name + "</option>"
-
-        return html
+    # def handle_tag(self):
+    #     post = self.model.objects.get(pk=self.kwargs.get("pk"))
+    #     html = ""
+    #     for tag in Tag.objects.all():
+    #         if post.tag.all():
+    #             flag = 0
+    #             for exist_tag in post.tag.all():
+    #                 if tag.name == exist_tag.name:
+    #                     flag = 1
+    #
+    #             if flag == 1:
+    #                 html += "<option selected value='" + tag.name + "'>" + tag.name + "</option>"
+    #             elif flag == 0:
+    #                 html += "<option value='" + tag.name + "'>" + tag.name + "</option>"
+    #
+    #     return html
 
 
 class AddPost(View):
@@ -95,6 +94,7 @@ class AddPost(View):
         action = request.POST.get("action", "0")
 
         catalogue_foreignkey = Catalogue.objects.get(name=catalogue)
+        editor_choice_foreignkey = user.editor_choice
 
         post_obj = Post.objects.create(
             title=title,
@@ -102,12 +102,10 @@ class AddPost(View):
             content=content,
             catalogue=catalogue_foreignkey,
             status=action,
+            editor_choice=editor_choice_foreignkey,
         )
 
-        # 插入多对多关系的标签
-        for tag in tags:
-            tag_foreignkey = Tag.objects.get(name=tag)
-            post_obj.tag.add(tag_foreignkey)
+        post_obj.update_tags(tags)
 
         return HttpResponseRedirect('/admin/')
 
@@ -132,16 +130,10 @@ class UpdateDraft(View):
         post.content = content
         post.catalogue = catalogue_foreignkey
         post.status = action
-
-        # 删除之前的标签，插入新的
-        for tag in post.tag.all():
-            post.tag.remove(tag)
-
-        for tag in tags:
-            tag_foreignkey = Tag.objects.get(name=tag)
-            post.tag.add(tag_foreignkey)
-
+        post.modify_time = datetime.datetime.now()
         post.save()
+
+        post.update_tags(tags)
 
         return HttpResponseRedirect('/admin/')
 
@@ -166,16 +158,10 @@ class UpdatePost(View):
         post.content = content
         post.catalogue = catalogue_foreignkey
         post.status = action
-
-        # 删除之前的标签，插入新的
-        for tag in post.tag.all():
-            post.tag.remove(tag)
-
-        for tag in tags:
-            tag_foreignkey = Tag.objects.get(name=tag)
-            post.tag.add(tag_foreignkey)
-
+        post.modify_time = datetime.datetime.now()
         post.save()
+
+        post.update_tags(tags)
 
         return HttpResponseRedirect('/admin/')
 

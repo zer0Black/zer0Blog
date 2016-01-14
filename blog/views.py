@@ -128,3 +128,5 @@ class RepositoryDetailView(BaseMixin, DetailView):
         repositorys.view_count += 1
         repositorys.save()
         return super(RepositoryDetailView, self).get(request, *args, **kwargs)
+
+

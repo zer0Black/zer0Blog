@@ -2,8 +2,10 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
-
 from django.db import models
+from tagging.models import Tag
+from tagging.fields import TagField
+from tagging.registry import register
 
 STATUS = {
         0: u'草稿',
@@ -28,13 +30,6 @@ class User(AbstractUser):
         return self.name
 
 
-class Tag(models.Model):
-    name = models.CharField(max_length=20, primary_key=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Catalogue(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
 
@@ -45,17 +40,28 @@ class Catalogue(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=100)
     publish_time = models.DateTimeField(auto_now_add=True)  # 第一次保存时自动添加时间
-    modify_time = models.DateTimeField(auto_now=True)  # 每次保存自动更新时间
+    modify_time = models.DateTimeField(auto_now_add=True)  # 每次保存自动更新时间
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     content = models.TextField()
     catalogue = models.ForeignKey(Catalogue)
-    tag = models.ManyToManyField(Tag, blank=True, default="")  # 外键tag可为空，外键被删除时该值设定为默认值“”
+    tag = TagField()
     view_count = models.IntegerField(editable=False, default=0)
     status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
     editor_choice = models.ForeignKey(Editor)
 
     def __str__(self):
         return self.title
+
+    def get_tags(self):
+        return Tag.objects.get_for_object(self)
+
+    def update_tags(self, tag_name):
+        # 把list转为string
+        tag_str = "".join(tag_name)
+        Tag.objects.update_tags(self, tag_str)
+
+    def remove_tags(self):
+        Tag.objects.update_tags(self, None)
 
     class Meta:
         ordering = ['-modify_time']
@@ -100,3 +106,6 @@ class Repository(models.Model):
 
     class Meta:
         ordering = ['-publish_time']
+
+
+register(Post)

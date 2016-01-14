@@ -3,6 +3,7 @@
 {% block css %}
 
     <link href="/static/metronic/css/chosen.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/jquery.tagsinput.css" rel="stylesheet" type="text/css"/>
 
 {% endblock %}
 
@@ -10,6 +11,7 @@
     <script src="/static/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="/static/metronic/js/chosen.jquery.min.js" type="text/javascript"></script>
     <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery.tagsinput.min.js" type="text/javascript"></script>
     <script src="/static/js/post.js" type="text/javascript"></script>
     <script>
         tinymce.init({
@@ -75,13 +77,6 @@
                         <i class="icon-circle-arrow-left"></i>
 
                         <a href="/admin/">返回首页</a>
-
-                    </li>
-
-                    <li>
-                        <i class="icon-bookmark"></i>
-
-                        <a href="index.html">添加新目录</a>
 
                     </li>
 
@@ -196,24 +191,7 @@
 
                                 <div class="controls margin_left0">
 
-                                    <select name="tag" data-placeholder="请选择标签，可多选..." class="chosen span6"
-                                            multiple="multiple" tabindex="6">
-
-                                        {% if tag_list %}
-
-                                            {% for tag in tag_list %}
-                                                <option value="{{ tag.name }}">{{ tag.name }}</option>
-                                            {% endfor %}
-
-                                        {% else %}
-
-                                            {% autoescape off %}
-                                                {{ tag_html }}
-                                            {% endautoescape %}
-
-                                        {% endif %}
-
-                                    </select>
+                                   <input id="tags" name="tag" type="text" class="m-wra tags" value="{% for tag in post.get_tags %}{{ tag.name }},{% endfor %}" />
 
                                 </div>
 

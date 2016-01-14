@@ -12,13 +12,10 @@
             </div>
             <div>
                  {% for tag in repository.get_tags%}
-                    <a href="/tags/{{tag}}/">
-                        <span class="label label-blog-{{forloop.counter}} btn">{{tag}}</span>
+                    <a href="/tags/{{tag.name}}/">
+                        <span class="label label-blog-{{forloop.counter}} btn">{{tag.name}}</span>
                     </a>
                  {% endfor %}
-                <a href="/tags/1/">
-                    <span class="label label-blog-1 btn">多看</span>
-                </a>
             </div>
             <div class="post-info">
                 <span>

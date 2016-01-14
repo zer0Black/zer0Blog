@@ -17,9 +17,9 @@
                 {{post.author}}
             </span>
             <div class="post-tags">
-                {% for tag in post.tag.all%}
-                <a href="/tag/{{tag}}/" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
-                    <span class="label label-blog-{{forloop.counter}} btn">{{tag}}</span>
+                {% for tag in post.get_tags%}
+                <a href="/tag/{{tag.name}}/" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
+                    <span class="label label-blog-{{forloop.counter}} btn">{{tag.name}}</span>
                 </a>
                 {% endfor %}
                 <a class="visible-xs-inline-block">

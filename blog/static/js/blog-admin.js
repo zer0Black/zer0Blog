@@ -1,5 +1,9 @@
 $(function () {
 
+    $('#save_editor').click(function () {
+        $('#editor_form').submit();
+    });
+
     $("#editor_form").validate({
         ignore: "",
         rules: {
