@@ -42,7 +42,7 @@
             </div>
             <div>
                  {% for tag in post.get_tags %}
-                    <a href="/tags/{{tag.name}}/">
+                    <a href="/tags/{{tag.name}}">
                         <span class="label label-blog-{{forloop.counter}} btn">{{tag.name}}</span>
                     </a>
                  {% endfor %}

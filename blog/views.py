@@ -6,9 +6,9 @@ from django.contrib.auth import get_user_model
 from django.views.generic import View, DetailView, ListView
 from django.db.models import Count
 from zer0Blog.settings import PERNUM
+from tagging.models import TaggedItem
 
 from blog.pagination import paginator_tool
-
 from .models import Post, Carousel, Comment, Repository
 
 
@@ -130,3 +130,20 @@ class RepositoryDetailView(BaseMixin, DetailView):
         return super(RepositoryDetailView, self).get(request, *args, **kwargs)
 
 
+class TagListView(BaseMixin, ListView):
+    template_name = template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+
+    def get_queryset(self):
+        slug_key = self.kwargs.get("slug")
+        post_list = TaggedItem.objects.get_by_model(Post, slug_key)
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        page = self.kwargs.get('page') or self.request.GET.get('page') or 1
+        objects, page_range = paginator_tool(pages=page, queryset=self.get_queryset(), display_amount=PERNUM)
+        context = super(TagListView, self).get_context_data(**kwargs)
+        context['carousel_page_list'] = Carousel.objects.all()
+        context['page_range'] = page_range
+        context['objects'] = objects
+        return context

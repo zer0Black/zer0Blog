@@ -17,7 +17,7 @@ STATUS = {
 # 复写TagField的sava方法，让它不做任何事
 class TagField_Mine(TagField):
     def _save(self, **kwargs):
-        pass;
+        pass
 
 
 class Editor(models.Model):

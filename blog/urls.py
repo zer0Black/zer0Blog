@@ -1,7 +1,6 @@
 from django.conf.urls import url
 
-from blog.views import IndexView, PostView, CommentView, RepositoryView, RepositoryDetailView
-import blog.views
+from blog.views import IndexView, PostView, CommentView, RepositoryView, RepositoryDetailView, TagListView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view()),
@@ -9,4 +8,5 @@ urlpatterns = [
     url(r'^comment/(?P<pk>[0-9]+)$', CommentView.as_view()),
     url(r'^repository$', RepositoryView.as_view()),
     url(r'^repository/(?P<pk>[0-9]+)$', RepositoryDetailView.as_view()),
+    url(r'^tag/(?P<slug>[\w\u4e00-\u9fa5]+)$', TagListView.as_view())
 ]
