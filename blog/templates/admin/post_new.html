@@ -4,6 +4,7 @@
 
     <link href="/static/metronic/css/chosen.css" rel="stylesheet" type="text/css"/>
     <link href="/static/metronic/css/jquery.tagsinput.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/editor.md/css/editormd.css" rel="stylesheet" type="text/css"/>
 
 {% endblock %}
 
@@ -11,11 +12,14 @@
     <script src="/static/tinymce/js/tinymce/tinymce.min.js"></script>
     <script src="/static/metronic/js/chosen.jquery.min.js" type="text/javascript"></script>
     <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/editor.md/editormd.min.js" type="text/javascript"></script>
+
     <script src="/static/metronic/js/jquery.tagsinput.min.js" type="text/javascript"></script>
+
     <script src="/static/js/post.js" type="text/javascript"></script>
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: '#tinymceID',
             height: 500,
             plugins: [
                 'advlist autolink lists link image charmap print preview anchor',
@@ -47,6 +51,11 @@
                     {% endifequal %}
                 {% endifequal %}
             {% endif %}
+
+            var markDownEditor = editormd("MarkDownEditor", {
+                path : '/static/editor.md/lib/',
+                height: 500,
+            });
         });
 
     </script>
@@ -140,6 +149,12 @@
                                 <div class="controls margin_left0">
 
                                     <textarea name="content" id="tinymceID" class="span12 m-wrap" rows="3"></textarea>
+
+                                </div>
+
+                                <div class="controls margin_left0">
+
+                                   <div id="MarkDownEditor"></div>
 
                                 </div>
 
