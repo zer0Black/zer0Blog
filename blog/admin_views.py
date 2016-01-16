@@ -8,6 +8,11 @@ from blog.pagination import paginator_tool
 from .models import Post, Catalogue, Editor
 
 
+def logout(request):
+    from django.contrib.auth.views import logout
+    return logout(request, next_page='/')
+
+
 class PostView(ListView):
     template_name = 'admin/blog_admin.html'
     context_object_name = 'post_list'
@@ -63,23 +68,6 @@ class GetUpdatePost(UpdateView):
         context['catalogue_list'] = Catalogue.objects.all()
         # context['tag_html'] = self.handle_tag()
         return context
-
-    # def handle_tag(self):
-    #     post = self.model.objects.get(pk=self.kwargs.get("pk"))
-    #     html = ""
-    #     for tag in Tag.objects.all():
-    #         if post.tag.all():
-    #             flag = 0
-    #             for exist_tag in post.tag.all():
-    #                 if tag.name == exist_tag.name:
-    #                     flag = 1
-    #
-    #             if flag == 1:
-    #                 html += "<option selected value='" + tag.name + "'>" + tag.name + "</option>"
-    #             elif flag == 0:
-    #                 html += "<option value='" + tag.name + "'>" + tag.name + "</option>"
-    #
-    #     return html
 
 
 class AddPost(View):

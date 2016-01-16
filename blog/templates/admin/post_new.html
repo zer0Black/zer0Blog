@@ -86,8 +86,7 @@
                         onload: function () {
                             var content = heredoc(function () {/*
 {% autoescape off %}{{ post.content }}{% endautoescape %}
-                                 */
-                            });
+                                 */});
                             this.setMarkdown(content);
                         }
                     });
@@ -223,6 +222,13 @@
                                     {% endifequal %}
                                 {% else %}
                                     {% ifequal user.editor_choice.name 'MarkDown' %}
+                                         <div class="controls margin_left0">
+
+                                            <div id="MarkDownEditor">
+                                                <textarea name="content" id="markdownID"></textarea>
+                                            </div>
+
+                                        </div>
                                     {% endifequal %}
                                 {% endif %}
 

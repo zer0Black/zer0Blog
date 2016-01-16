@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blog.middleware.admin_middleware.AdminAuthenticationMiddleware',
 ]
 
 ROOT_URLCONF = 'zer0Blog.urls'
