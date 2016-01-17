@@ -1,7 +1,7 @@
 from django.conf.urls import url,include
 
-from blog.admin_views import PostView, DeletePost, NewPost, GetUpdatePost, AddPost, \
-    UpdateDraft, UpdatePost, UpdateEditor, logout
+from blog.admin_views import PostView, DeletePost, NewPost, UpdatePostIndexView, AddPost, \
+    UpdateDraft, UpdatePost, UpdateEditor, LogoutView
 
 urlpatterns = [
     url(r'^admin/', include([
@@ -11,10 +11,10 @@ urlpatterns = [
         url(r'^add$', AddPost.as_view()),
         url(r'^update/draft/(?P<pk>[0-9]+)$', UpdateDraft.as_view()),
         url(r'^update/post/(?P<pk>[0-9]+)$', UpdatePost.as_view()),
-        url(r'^update/(?P<pk>[0-9]+)$', GetUpdatePost.as_view()),
+        url(r'^update/(?P<pk>[0-9]+)$', UpdatePostIndexView.as_view()),
         url(r'^update/editor$', UpdateEditor.as_view()),
         url(r'^repository$', PostView.as_view(), name='index'),
         url(r'^set$', PostView.as_view(), name='index'),
-        url(r'^logout$', logout),
+        url(r'^logout$', LogoutView.as_view()),
     ])),
 ]

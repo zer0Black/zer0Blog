@@ -20,6 +20,10 @@ class TagField_Mine(TagField):
         pass
 
 
+class Role(models.Model):
+    name = models.CharField(max_length=20)
+
+
 class Editor(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
     avaliable = models.BooleanField(default=True)
@@ -31,6 +35,7 @@ class Editor(models.Model):
 class User(AbstractUser):
     name = models.CharField(max_length=12)
     editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
+    role = models.ManyToManyField(Role)
 
     def __str__(self):
         return self.name
@@ -87,7 +92,7 @@ class Comment(models.Model):
 
 class Carousel(models.Model):
     title = models.CharField(max_length=100)
-    img = models.CharField(max_length=300)
+    img = models.ImageField(upload_to="/carousel")
     post = models.ForeignKey(Post)
     create_time = models.DateTimeField(auto_now_add=True)
 

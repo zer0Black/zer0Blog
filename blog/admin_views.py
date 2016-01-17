@@ -1,16 +1,11 @@
 # -*- coding:utf-8 -*-
 import datetime
-from django.views.generic import View, DetailView, ListView, CreateView, UpdateView
+from django.views.generic import View, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue, Editor
-
-
-def logout(request):
-    from django.contrib.auth.views import logout
-    return logout(request, next_page='/')
+from .models import Post, Catalogue, Editor, Carousel
 
 
 class PostView(ListView):
@@ -58,13 +53,13 @@ class NewPost(CreateView):
         return context
 
 
-class GetUpdatePost(UpdateView):
+class UpdatePostIndexView(UpdateView):
     template_name = 'admin/post_new.html'
     model = Post
     fields = ['title']
 
     def get_context_data(self, **kwargs):
-        context = super(GetUpdatePost, self).get_context_data(**kwargs)
+        context = super(UpdatePostIndexView, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
         # context['tag_html'] = self.handle_tag()
         return context
@@ -168,3 +163,15 @@ class UpdateEditor(View):
         user.save()
 
         return HttpResponseRedirect('/admin/')
+
+
+class LogoutView(View):
+    def get(self, request, *args, **kwargs):
+        from django.contrib.auth.views import logout
+        return logout(request, next_page='/')
+
+
+class CarouselIndexView(CreateView):
+    template_name = 'admin/post_new.html'
+    model = Carousel
+    fields = ['title']

@@ -147,47 +147,15 @@
 
             </li>
 
-{#            <li class="active admin_start">#}
-{##}
-{#                <a href="javascript:;">#}
-{##}
-{#                    <i class="icon-briefcase"></i>#}
-{##}
-{#                    <span class="title">博客管理</span>#}
-{##}
-{#                    <span class="selected"></span>#}
-{##}
-{#                </a>#}
-{##}
-{#            </li>#}
-{##}
-{#            <li>#}
-{##}
-{#                <a href="">#}
-{##}
-{#                    <i class="icon-money"></i>#}
-{##}
-{#                    <span class="title">知识库管理</span>#}
-{##}
-{#                </a>#}
-{##}
-{#            </li>#}
-{##}
-{#            <li>#}
-{##}
-{#                <a href="">#}
-{##}
-{#                    <i class="icon-cogs"></i>#}
-{##}
-{#                    <span class="title">设置</span>#}
-{##}
-{#                </a>#}
-{##}
-{#            </li>#}
 
             {% nav /admin/ "博客管理" "icon-briefcase" %}
-            {% nav /admin/repository "知识库管理" "icon-money" %}
-            {% nav /admin/set "设置" "icon-cogs" %}
+            {% for role in user.role.all %}
+                {% ifequal role.name 'admin' %}
+                    {% nav /admin/repository "轮播管理" "icon-refresh" %}
+                    {% nav /admin/repository "知识库管理" "icon-money" %}
+                    {% nav /admin/set "设置" "icon-cogs" %}
+                {% endifequal %}
+            {% endfor %}
 
         </ul>
 
