@@ -171,7 +171,13 @@ class LogoutView(View):
         return logout(request, next_page='/')
 
 
-class CarouselIndexView(CreateView):
-    template_name = 'admin/post_new.html'
+class CarouselIndexView(ListView):
+    template_name = 'admin/carousel_admin.html'
+    context_object_name = 'carousel_list'
+    queryset = Carousel.objects.all()
+
+
+class CarouselEditView(CreateView):
+    template_name = 'admin/carousel_new.html'
     model = Carousel
     fields = ['title']

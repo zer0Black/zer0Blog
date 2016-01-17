@@ -151,7 +151,7 @@
             {% nav /admin/ "博客管理" "icon-briefcase" %}
             {% for role in user.role.all %}
                 {% ifequal role.name 'admin' %}
-                    {% nav /admin/repository "轮播管理" "icon-refresh" %}
+                    {% nav /admin/carousel "轮播管理" "icon-refresh" %}
                     {% nav /admin/repository "知识库管理" "icon-money" %}
                     {% nav /admin/set "设置" "icon-cogs" %}
                 {% endifequal %}

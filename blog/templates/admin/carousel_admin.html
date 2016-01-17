@@ -37,7 +37,7 @@
                     <li>
                         <i class="icon-edit"></i>
 
-                        <a href="new">添加轮播</a>
+                        <a href="update/carousel">添加轮播</a>
 
                     </li>
 
@@ -95,19 +95,19 @@
                             </thead>
 
                             <tbody>
-                            {% if objects.object_list %}
-                                {% for post in objects.object_list %}
+                            {% if carousel_list %}
+                                {% for carousel in carousel_list %}
                                     <tr>
 
-                                        <td></td>
+                                        <td>{{ carousel.title }}</td>
 
-                                        <td class="hidden-480">{{ post.comment_set.all | length }}</td>
+                                        <td class="hidden-480">{{ carousel.post.title }}</td>
 
-                                        <td>{{ post.view_count }}</td>
+                                        <td>{{ carousel.create_time }}</td>
 
-                                        <td><a href="/admin/update/{{ post.id }}">编辑</a></td>
+                                        <td><a href="/admin/update/{{ carousel.id }}">编辑</a></td>
 
-                                        <td><a href="/admin/delete/{{ post.id }}">删除</a></td>
+                                        <td><a href="/admin/delete/{{ carousel.id }}">删除</a></td>
 
                                     </tr>
 
