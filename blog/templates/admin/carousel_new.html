@@ -2,11 +2,13 @@
 
 {% block css %}
     <link href="/static/metronic/css/chosen.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css"/>
 {% endblock %}
 
 {% block js %}
     <script src="/static/metronic/js/chosen.jquery.min.js" type="text/javascript"></script>
     <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/js/carousel.js" type="text/javascript"></script>
 {% endblock %}
 
 {% block main %}
@@ -100,20 +102,20 @@
 
                                             {% for post in post_list %}
 
-{#                                                {% if post.catalogue %}#}
-{#                                                    {% ifequal catalogue.name post.catalogue.name %}#}
-{##}
-{#                                                        <option selected#}
-{#                                                                value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
-{##}
-{#                                                    {% else %}#}
-{##}
-{#                                                        <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
-{##}
-{#                                                    {% endifequal %}#}
-{#                                                {% else %}#}
-{#                                                    <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
-{#                                                {% endif %}#}
+                                                {% if post.catalogue %}
+                                                    {% ifequal catalogue.name post.catalogue.name %}
+
+                                                        <option selected
+                                                                value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+
+                                                    {% else %}
+
+                                                        <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+
+                                                    {% endifequal %}
+                                                {% else %}
+                                                    <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>
+                                                {% endif %}
 
                                                 <option value="{{ post.id }}">{{ post.title }}</option>
 
@@ -133,11 +135,16 @@
 
                                 <div class="controls  margin_left0">
                                     <input type="text" placeholder="请输入轮播展示图片链接或上传本地图片..." class="m-wrap large" style="width: 462px !important;">
-                                    <button type="button" id="add_post" class="btn blue">上传</button>
+                                    <span class="btn blue fileinput-button" style="float: none">
+									<i class="icon-plus icon-white"></i>
+									<span>本地文件</span>
+									<input id="carousel_image" type="file" name="files">
+
+									</span>
                                 </div>
-                                
-                                <div id="carousel_thumbnail" class="controls margin_left80" style="width: 476px;margin-top: 3px">
-                                   <img src="http://vmaig.qiniudn.com/img/carousel/linux-carousel.jpg">
+
+                                <div id="carousel_thumbnail_div" class="controls margin_left80" style="width: 476px;;margin-top: 3px;">
+                                    <img id="carousel_thumbnail" src="">
                                 </div>
 
                             </div>
