@@ -61,7 +61,6 @@ class UpdatePostIndexView(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(UpdatePostIndexView, self).get_context_data(**kwargs)
         context['catalogue_list'] = Catalogue.objects.all()
-        # context['tag_html'] = self.handle_tag()
         return context
 
 
@@ -181,3 +180,8 @@ class CarouselEditView(CreateView):
     template_name = 'admin/carousel_new.html'
     model = Carousel
     fields = ['title']
+
+    def get_context_data(self, **kwargs):
+        context = super(CarouselEditView, self).get_context_data(**kwargs)
+        context['post_list'] = Post.objects.all()
+        return context

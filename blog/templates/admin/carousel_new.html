@@ -1,6 +1,11 @@
 {% extends './admin/base.html' %}
 
+{% block css %}
+    <link href="/static/metronic/css/chosen.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
 {% block js %}
+    <script src="/static/metronic/js/chosen.jquery.min.js" type="text/javascript"></script>
     <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
 {% endblock %}
 
@@ -68,26 +73,79 @@
                         <form action="/admin/add" method="post" id="post_form" class="form-horizontal">
                             {% csrf_token %}
 
+                            <div class="control-group">
 
+                                <label class="control-label" style="text-align: left; width: 80px">轮播标题</label>
+
+                                <div class="controls  margin_left0">
+
+                                    <input type="text" placeholder="请输入轮播展示标题..." class="m-wrap large" style="width: 462px !important;">
+
+                                </div>
+
+                            </div>
+
+                            <div class="control-group">
+
+                                <label class="control-label" style="text-align: left; width: 80px">博客目录</label>
+
+                                <div class="controls margin_left0">
+
+                                    <select name="post" class="span6 chosen" data-placeholder="请选择轮播的博客..."
+                                            tabindex="1">
+
+                                        {% if post_list %}
+
+                                            <option value=""></option>
+
+                                            {% for post in post_list %}
+
+{#                                                {% if post.catalogue %}#}
+{#                                                    {% ifequal catalogue.name post.catalogue.name %}#}
+{##}
+{#                                                        <option selected#}
+{#                                                                value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
+{##}
+{#                                                    {% else %}#}
+{##}
+{#                                                        <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
+{##}
+{#                                                    {% endifequal %}#}
+{#                                                {% else %}#}
+{#                                                    <option value="{{ catalogue.name }}">{{ catalogue.name }}</option>#}
+{#                                                {% endif %}#}
+
+                                                <option value="{{ post.id }}">{{ post.title }}</option>
+
+                                            {% endfor %}
+
+                                        {% endif %}
+
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div class="control-group">
+
+                                <label class="control-label" style="text-align: left; width: 80px">轮播图片</label>
+
+                                <div class="controls  margin_left0">
+                                    <input type="text" placeholder="请输入轮播展示图片链接或上传本地图片..." class="m-wrap large" style="width: 462px !important;">
+                                    <button type="button" id="add_post" class="btn blue">上传</button>
+                                </div>
+                                
+                                <div id="carousel_thumbnail" class="controls margin_left80" style="width: 476px;margin-top: 3px">
+                                   <img src="http://vmaig.qiniudn.com/img/carousel/linux-carousel.jpg">
+                                </div>
+
+                            </div>
 
                             <div class="form-actions padding_left10">
 
-                                {% if not post %}
-                                    <button type="button" id="add_post" class="btn blue">发布</button>
-                                    <button type="button" id="draft_post" class="btn blue">存为草稿</button>
-                                    <button type="button" id="cancel" class="btn red">取消</button>
-                                {% else %}
-                                    {% ifequal post.status 0 %}
-                                        <button type="button" id="add_draft" class="btn blue">发布草稿</button>
-                                        <button type="button" id="update_draft" class="btn blue">保存草稿</button>
-                                        <button type="button" id="cancel" class="btn red">取消</button>
-                                    {% else %}
-                                        {% ifequal post.status 1 %}
-                                            <button type="button" id="update_post" class="btn blue">保存修改</button>
-                                            <button type="button" id="cancel" class="btn red">取消</button>
-                                        {% endifequal %}
-                                    {% endifequal %}
-                                {% endif %}
+                                <button type="button" id="add_post" class="btn blue">发布</button>
+                                <button type="button" id="cancel" class="btn red">取消</button>
 
                             </div>
 
