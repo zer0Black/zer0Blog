@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 import datetime
+import time
 import os
+import uuid
 from django.views.generic import View, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
 from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL
@@ -199,21 +201,24 @@ class AddCarousel(View):
         image_link = request.POST.get("image_link", "")
 
         if not image_link:
-            file_name = ""
+            filename = ""
             try:
                 file_img = request.FILES['files']
+                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name))-1]
+                filename = uuid.uuid1().__str__() + file_suffix
+
                 path = MEDIA_ROOT + "/carousel/"
                 if not os.path.exists(path):
                     os.makedirs(path)
 
-                file_name = path + file_img.name
+                file_name = path + filename
                 destination = open(file_name, "wb+")
                 for chunk in file_img.chunks():
                     destination.write(chunk)
                 destination.close()
             except Exception, e:
                 print e
-            file_img_url = MEDIA_URL + "carousel/" + file_img.name
+            file_img_url = MEDIA_URL + "carousel/" + filename
             Carousel.objects.create(
                 title=title,
                 post=post_foreignkey,
@@ -261,21 +266,23 @@ class updateCarousel(View):
         carousel = Carousel.objects.get(id=pkey)
 
         if not image_link:
-            file_name = ""
             try:
                 file_img = request.FILES['files']
+                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name))-1]
+                filename = uuid.uuid1().__str__() + file_suffix
+
                 path = MEDIA_ROOT + "/carousel/"
                 if not os.path.exists(path):
                     os.makedirs(path)
 
-                file_name = path + file_img.name
+                file_name = path + filename
                 destination = open(file_name, "wb+")
                 for chunk in file_img.chunks():
                     destination.write(chunk)
                 destination.close()
             except Exception, e:
                 print e
-            file_img_url = MEDIA_URL + "carousel/" + file_img.name
+            file_img_url = MEDIA_URL + "carousel/" + filename
 
             carousel.title = title
             carousel.post = post_foreignkey
