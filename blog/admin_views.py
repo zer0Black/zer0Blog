@@ -253,7 +253,7 @@ class CarouselUpdateView(UpdateView):
         return context
 
 
-class updateCarousel(View):
+class UpdateCarousel(View):
     def post(self, request, *args, **kwargs):
 
         # 将文件路径和其余信息存入数据库
