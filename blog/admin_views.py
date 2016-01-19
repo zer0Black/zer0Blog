@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 import datetime
+import os
 from django.views.generic import View, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
+from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
@@ -185,3 +187,104 @@ class CarouselEditView(CreateView):
         context = super(CarouselEditView, self).get_context_data(**kwargs)
         context['post_list'] = Post.objects.all()
         return context
+
+
+class AddCarousel(View):
+    def post(self, request, *args, **kwargs):
+
+        # 将文件路径和其余信息存入数据库
+        title = request.POST.get("title", "")
+        post = request.POST.get("post", "")
+        post_foreignkey = Post.objects.get(pk=post)
+        image_link = request.POST.get("image_link", "")
+
+        if not image_link:
+            file_name = ""
+            try:
+                file_img = request.FILES['files']
+                path = MEDIA_ROOT + "/carousel/"
+                if not os.path.exists(path):
+                    os.makedirs(path)
+
+                file_name = path + file_img.name
+                destination = open(file_name, "wb+")
+                for chunk in file_img.chunks():
+                    destination.write(chunk)
+                destination.close()
+            except Exception, e:
+                print e
+            file_img_url = MEDIA_URL + "carousel/" + file_img.name
+            Carousel.objects.create(
+                title=title,
+                post=post_foreignkey,
+                img=file_img_url,
+            )
+        else:
+            Carousel.objects.create(
+                title=title,
+                post=post_foreignkey,
+                img=image_link,
+            )
+        return HttpResponseRedirect('/admin/carousel')
+
+
+class DeleteCarousel(View):
+    def get(self, request, *args, **kwargs):
+        # 获取删除的博客ID
+        pkey = self.kwargs.get('pk')
+        carousel = Carousel.objects.get(id=pkey)
+        carousel.delete()
+        return HttpResponseRedirect('/admin/carousel')
+
+
+class CarouselUpdateView(UpdateView):
+    template_name = 'admin/carousel_update.html'
+    model = Carousel
+    fields = ['title']
+
+    def get_context_data(self, **kwargs):
+        context = super(CarouselUpdateView, self).get_context_data(**kwargs)
+        context['post_list'] = Post.objects.all()
+        return context
+
+
+class updateCarousel(View):
+    def post(self, request, *args, **kwargs):
+
+        # 将文件路径和其余信息存入数据库
+        title = request.POST.get("title", "")
+        post = request.POST.get("post", "")
+        post_foreignkey = Post.objects.get(pk=post)
+        image_link = request.POST.get("image_link", "")
+
+        pkey = self.kwargs.get('pk')
+        carousel = Carousel.objects.get(id=pkey)
+
+        if not image_link:
+            file_name = ""
+            try:
+                file_img = request.FILES['files']
+                path = MEDIA_ROOT + "/carousel/"
+                if not os.path.exists(path):
+                    os.makedirs(path)
+
+                file_name = path + file_img.name
+                destination = open(file_name, "wb+")
+                for chunk in file_img.chunks():
+                    destination.write(chunk)
+                destination.close()
+            except Exception, e:
+                print e
+            file_img_url = MEDIA_URL + "carousel/" + file_img.name
+
+            carousel.title = title
+            carousel.post = post_foreignkey
+            carousel.img = file_img_url
+            carousel.save()
+
+        else:
+            carousel.title = title
+            carousel.post = post_foreignkey
+            carousel.img = image_link
+            carousel.save()
+        return HttpResponseRedirect('/admin/carousel')

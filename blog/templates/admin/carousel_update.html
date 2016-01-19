@@ -72,15 +72,16 @@
 
                     <div class="portlet-body form">
 
-                        <form action="/admin/add/carousel" method="post" enctype="multipart/form-data" id="carousel_form" class="form-horizontal">
+                        <form action="/admin/update/carousel/id/{{ carousel.id }}" method="post" enctype="multipart/form-data" id="carousel_form" class="form-horizontal">
                             {% csrf_token %}
+
                             <div class="control-group">
 
                                 <label class="control-label" style="text-align: left; width: 80px">轮播标题</label>
 
                                 <div class="controls  margin_left0">
 
-                                    <input type="text" name="title" placeholder="请输入轮播展示标题..." class="m-wrap large" style="width: 462px !important;">
+                                    <input type="text" name="title" value="{{ carousel.title }}" placeholder="请输入轮播展示标题..." class="m-wrap large" style="width: 462px !important;">
 
                                 </div>
 
@@ -101,7 +102,19 @@
 
                                             {% for post in post_list %}
 
-                                                <option value="{{ post.id }}">{{ post.title }}</option>
+                                                {% if carousel.post %}
+                                                    {% ifequal post.title carousel.post.title %}
+
+                                                        <option selected value="{{ post.id }}">{{ post.title }}</option>
+
+                                                    {% else %}
+
+                                                        <option value="{{ post.id }}">{{ post.title }}</option>
+
+                                                    {% endifequal %}
+                                                {% else %}
+                                                    <option value="{{ post.id }}">{{ post.title }}</option>
+                                                {% endif %}
 
                                             {% endfor %}
 
@@ -118,7 +131,8 @@
                                 <label class="control-label" style="text-align: left; width: 80px">轮播图片</label>
 
                                 <div class="controls  margin_left0">
-                                    <input id="image_link" name="image_link" type="text" placeholder="请输入轮播展示图片链接或上传本地图片..." class="m-wrap large" style="width: 462px !important;">
+                                    <input id="image_link" name="image_link" type="text" value="{{ carousel.img }}" placeholder="请输入轮播展示图片链接或上传本地图片..." class="m-wrap large" style="width: 462px !important;">
+
                                     <span class="btn blue fileinput-button" style="float: none">
 									    <i class="icon-plus icon-white"></i>
 									    <span>本地文件</span>
@@ -127,14 +141,14 @@
                                 </div>
 
                                 <div id="carousel_thumbnail_div" class="controls margin_left80" style="width: 476px;margin-top: 3px;">
-                                    <img id="carousel_thumbnail" src="">
+                                    <img id="carousel_thumbnail" src="{{ carousel.img }}">
                                 </div>
 
                             </div>
 
                             <div class="form-actions padding_left10">
 
-                                <button type="button" id="add_carousel" class="btn blue">保存</button>
+                                <button type="button" id="update_carousel" class="btn blue">保存</button>
                                 <button type="button" id="cancel" class="btn red">取消</button>
 
                             </div>
