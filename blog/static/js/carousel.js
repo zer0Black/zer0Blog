@@ -8,7 +8,7 @@ $(function () {
         //加载完成后，绘制图片
         reader.onload = function (readerEvent) {
             $('#carousel_thumbnail').attr('src',readerEvent.target.result);
-            //上传图片，则把链接置为空
+            //上传图片，则把链接置为空，并禁止输入
             $('#image_link').val('');
             $('#image_link').attr('disabled', 'disabled');
         }
