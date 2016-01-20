@@ -1,95 +1,100 @@
 {% extends "./blog/base.html" %}
 
 {% block title %}
-博客
+    博客
 {% endblock %}
 
-{%block main%}
-<div class="row">
-    <div id="container-blog" class="col-md-8 col-lg-9">
-        <!-- 左栏内容 -->
-        <div>
-            <!-- 轮播 -->
-            {% if carousel_page_list %}
-                {% include "./blog/include/carousel.html" %}
-            {% endif %}
+{% block main %}
+    <div class="row">
+        <div id="container-blog" class="col-md-8 col-lg-9">
+            <!-- 左栏内容 -->
+            <div>
+                <!-- 轮播 -->
+                {% if carousel_page_list %}
+                    {% include "./blog/include/carousel.html" %}
+                {% endif %}
 
-            <!-- 首页文章列表 -->
-            {% if objects.object_list %}
-                {% for post in objects.object_list %}
-                    <div class="home-post well clearfix">
-    <div class="post-title underline clearfix">
-        <a href="/category/{{post.catalogue.name}}/">
-            <div class="pre-cat">
-                <div class="pre-catinner btn">
-                    {{post.catalogue.name}}
-                </div>
-                <div class="pre-catarrow">
-                </div>
-            </div>
-        </a>
-        <h1>
-            <a href="/post/{{post.id}}">{{post.title}}</a>
-        </h1>
-        <div class="post-info">
+                <!-- 首页文章列表 -->
+                {% if objects.object_list %}
+                    {% for post in objects.object_list %}
+                        <div class="home-post well clearfix">
+                            <div class="post-title underline clearfix">
+                                <a href="/category/{{ post.catalogue.name }}/">
+                                    <div class="pre-cat">
+                                        <div class="pre-catinner btn">
+                                            {{ post.catalogue.name }}
+                                        </div>
+                                        <div class="pre-catarrow">
+                                        </div>
+                                    </div>
+                                </a>
+
+                                <h1>
+                                    <a href="/post/{{ post.id }}">{{ post.title }}</a>
+                                </h1>
+
+                                <div class="post-info">
             <span>
                 <span class="glyphicon glyphicon-calendar"></span>
-                {{post.publish_time | date:"Y年m月d日 H:i" }}
+                {{ post.publish_time | date:"Y年m月d日 H:i" }}
             </span>
             <span>
                 <span class="glyphicon glyphicon-comment"></span>
-                {{post.comment_set.all | length}}
+                {{ post.comment_set.all | length }}
             </span>
             <span>
                 <span class="glyphicon glyphicon-eye-open"></span>
-                {{post.view_count}}
+                {{ post.view_count }}
             </span>
             <span>
                 <span class="glyphicon glyphicon-user"></span>
-                {{post.author}}
+                {{ post.author }}
             </span>
-            <div class="post-tags">
-                {% for tag in post.get_tags %}
-                <a href="/tag/{{tag.name}}" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
-                    <span class="label label-blog-{{forloop.counter}} btn">{{tag.name}}</span>
-                </a>
-                {% endfor %}
-                <a class="visible-xs-inline-block">
-                    <span class="label label-blog-2 btn ">...</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="post-content">
-        <div class="row">
-            <div class="col-sm-12">
-                <p>
-                {% autoescape off%}
-                {{post.content|slice:"200" | striptags }}
-                {% endautoescape %}
-                {% if post.content|length > 200 %}
-                    ...
+
+                                    <div class="post-tags">
+                                        {% for tag in post.get_tags %}
+                                            <a href="/tag/{{ tag.name }}"
+                                               class="{% if forloop.counter0 %}hidden-xs{% endif %} ">
+                                                <span class="label label-blog-{{ forloop.counter }} btn">{{ tag.name }}</span>
+                                            </a>
+                                        {% endfor %}
+                                        <a class="visible-xs-inline-block">
+                                            <span class="label label-blog-2 btn ">...</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="post-content">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p>
+                                            {% autoescape off %}
+                                                {{ post.content|slice:"200" | striptags }}
+                                            {% endautoescape %}
+                                            {% if post.content|length > 200 %}
+                                                ...
+                                            {% endif %}
+                                        </p>
+                                        <a type="button" class="btn btn-blog pull-right hidden-xs"
+                                           href="/post/{{ post.id }}">阅读全文</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 {% endif %}
-                </p>
-                <a type="button" class="btn btn-blog pull-right hidden-xs"  href="/post/{{post.id}}">阅读全文</a>
+
+                <!-- 分页 -->
+                {% if objects %}
+                    {% include "./blog/include/pagination.html" %}
+                {% endif %}
+
             </div>
         </div>
-    </div>
-</div>
-                {% endfor %}
-            {% endif %}
-
-            <!-- 分页 -->
-            {% if objects %}
-                {% include "./blog/include/pagination.html" %}
-            {% endif %}
-
+        <div class="marginTop10 col-md-4 col-lg-3 hidden-xs">
+            {% include "./blog/include/year_write_posts.html" %}
+            {% include "./blog/include/hot_posts.html" %}
+            {% include "./blog/include/friendly_link.html" %}
         </div>
     </div>
-    <div class="marginTop10 col-md-4 col-lg-3 hidden-xs">
-        {% include "./blog/include/year_write_posts.html" %}
-        {% include "./blog/include/hot_posts.html" %}
-        {% include "./blog/include/friendly_link.html" %}
-    </div>
-</div>
 {% endblock %}
