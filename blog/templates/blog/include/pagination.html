@@ -1,18 +1,4 @@
-{#<div style="text-align:center">#}
-{#<ul class="pagination">#}
-{#  <li><a href="#">&laquo;</a></li>#}
-{#  <li><a href="#">上一页</a></li>#}
-{#  <li class="active"><a href="#">1</a></li>#}
-{#  <li><a href="#">2</a></li>#}
-{#  <li><a href="#">3</a></li>#}
-{#  <li><a href="#">4</a></li>#}
-{#  <li><a href="#">5</a></li>#}
-{#  <li><a href="#">下一页</a></li>#}
-{#  <li><a href="#">&raquo;</a></li>#}
-{#</ul>#}
-{#</div>#}
-
-<div style="text-align:center">>
+<div style="text-align:center">
     <ul class="pagination">
         <li><a href="?page=1">&laquo;</a></li>
         {% if objects.has_previous %}
@@ -34,6 +20,6 @@
         {% else %}
         <li><a class="colorGray" aria-disabled="false">后一页</a></li>
         {% endif %}
-        <li><a href="?page={{ objects.paginator.num_pages }}">&raquo;</a></li>#
+        <li><a href="?page={{ objects.paginator.num_pages }}">&raquo;</a></li>
     </ul>
 </div>

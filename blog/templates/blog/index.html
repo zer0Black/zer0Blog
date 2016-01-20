@@ -17,7 +17,65 @@
             <!-- 首页文章列表 -->
             {% if objects.object_list %}
                 {% for post in objects.object_list %}
-                    {% include "./blog/include/post_list.html" %}
+                    <div class="home-post well clearfix">
+    <div class="post-title underline clearfix">
+        <a href="/category/{{post.catalogue.name}}/">
+            <div class="pre-cat">
+                <div class="pre-catinner btn">
+                    {{post.catalogue.name}}
+                </div>
+                <div class="pre-catarrow">
+                </div>
+            </div>
+        </a>
+        <h1>
+            <a href="/post/{{post.id}}">{{post.title}}</a>
+        </h1>
+        <div class="post-info">
+            <span>
+                <span class="glyphicon glyphicon-calendar"></span>
+                {{post.publish_time | date:"Y年m月d日 H:i" }}
+            </span>
+            <span>
+                <span class="glyphicon glyphicon-comment"></span>
+                {{post.comment_set.all | length}}
+            </span>
+            <span>
+                <span class="glyphicon glyphicon-eye-open"></span>
+                {{post.view_count}}
+            </span>
+            <span>
+                <span class="glyphicon glyphicon-user"></span>
+                {{post.author}}
+            </span>
+            <div class="post-tags">
+                {% for tag in post.get_tags %}
+                <a href="/tag/{{tag.name}}" class="{%if forloop.counter0%}hidden-xs{%endif%} ">
+                    <span class="label label-blog-{{forloop.counter}} btn">{{tag.name}}</span>
+                </a>
+                {% endfor %}
+                <a class="visible-xs-inline-block">
+                    <span class="label label-blog-2 btn ">...</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="post-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>
+                {% autoescape off%}
+                {{post.content|slice:"200" | striptags }}
+                {% endautoescape %}
+                {% if post.content|length > 200 %}
+                    ...
+                {% endif %}
+                </p>
+                <a type="button" class="btn btn-blog pull-right hidden-xs"  href="/post/{{post.id}}">阅读全文</a>
+            </div>
+        </div>
+    </div>
+</div>
                 {% endfor %}
             {% endif %}
 

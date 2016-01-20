@@ -19,7 +19,7 @@ class BaseMixin(object):
             context['hot_article_list'] = Post.objects.order_by("-view_count")[0:10]
             context['man_list'] = get_user_model().objects.annotate(Count("post"))
         except Exception as e:
-            pass
+            print e
 
         return context
 
@@ -36,6 +36,8 @@ class IndexView(BaseMixin, ListView):
         context['carousel_page_list'] = Carousel.objects.all()
         context['page_range'] = page_range
         context['objects'] = objects
+
+        print context['objects'].object_list
         return context
 
 
