@@ -6,6 +6,20 @@ a{
     color: #4C4C4C;
 }
 
+@media(min-height: 600px){
+.page-content {
+    margin-left: 225px;
+    margin-top: 0px;
+    min-height: 760px;
+}}
+
+@media(min-height: 800px){
+.page-content {
+    margin-left: 225px;
+    margin-top: 0px;
+    min-height: 890px;
+}}
+
 .padding_left10{
     padding-left: 10px !important;
 }
