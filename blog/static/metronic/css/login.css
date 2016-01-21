@@ -152,3 +152,7 @@ Login page
     font-size: 13px;
   }
 }
+
+.errornote{
+    color: red !important;
+}

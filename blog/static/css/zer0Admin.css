@@ -43,3 +43,8 @@ a{
 .top10{
     top: 10% !important;
 }
+
+.errorlist{
+    color: red;
+}
+

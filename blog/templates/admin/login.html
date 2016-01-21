@@ -42,7 +42,16 @@
 				<span>请输入用户名或密码</span>
 			</div>
 
+            {% if form.non_field_errors %}
+{% for error in form.non_field_errors %}
+<p class="errornote">
+    {{ error }}
+</p>
+{% endfor %}
+{% endif %}
+
 			<div class="control-group">
+                {{ form.username.errors }}
 				<!--ie8, ie9 does not support html5 placeholder, so we just show field title for that-->
 				<label class="control-label visible-ie8 visible-ie9">请输入用户名</label>
 				<div class="controls">
@@ -54,6 +63,7 @@
 			</div>
 
 			<div class="control-group">
+                {{ form.password.errors }}
 				<label class="control-label visible-ie8 visible-ie9">请输入密码</label>
 				<div class="controls">
 					<div class="input-icon left">
