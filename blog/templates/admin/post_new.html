@@ -83,6 +83,13 @@
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
+                        toolbarIcons : function(){
+                            return ["undo", "redo", "|",
+            "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+            "h1", "h2", "h3", "h4", "h5", "h6", "|",
+            "list-ul", "list-ol", "hr", "|",
+            "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+            "goto-line", "watch", "preview", "clear", "search"]},
                         onload: function () {
                             var content = heredoc(function () {/*
 {% autoescape off %}{{ post.content }}{% endautoescape %}
@@ -96,6 +103,14 @@
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
+                        emoji: true,
+                        toolbarIcons : function(){
+                            return ["undo", "redo", "|",
+            "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+            "h1", "h2", "h3", "h4", "h5", "h6", "|",
+            "list-ul", "list-ol", "hr", "|",
+            "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+            "goto-line", "watch", "preview", "clear", "search"]},
                     });
                 {% endifequal %}
             {% endif %}
