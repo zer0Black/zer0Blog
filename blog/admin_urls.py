@@ -2,7 +2,7 @@ from django.conf.urls import url,include
 
 from blog.admin_views import PostView, DeletePost, NewPost, UpdatePostIndexView, AddPost, \
     UpdateDraft, UpdatePost, UpdateEditor, LogoutView, CarouselIndexView, CarouselEditView, \
-    AddCarousel, DeleteCarousel, CarouselUpdateView, UpdateCarousel
+    AddCarousel, DeleteCarousel, CarouselUpdateView, UpdateCarousel, markdown_image_upload_handler
 
 urlpatterns = [
     url(r'^admin/', include([
@@ -13,6 +13,7 @@ urlpatterns = [
         url(r'^update/draft/(?P<pk>[0-9]+)$', UpdateDraft.as_view()),
         url(r'^update/post/(?P<pk>[0-9]+)$', UpdatePost.as_view()),
         url(r'^update/(?P<pk>[0-9]+)$', UpdatePostIndexView.as_view()),
+        url(r'^upload/post$', markdown_image_upload_handler),
         url(r'^update/editor$', UpdateEditor.as_view()),
         url(r'^carousel$', CarouselIndexView.as_view()),
         url(r'^update/carousel$', CarouselEditView.as_view()),

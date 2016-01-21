@@ -1,8 +1,9 @@
 # -*- coding:utf-8 -*-
 import datetime
-import time
+import json
 import os
 import uuid
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
 from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL
@@ -10,6 +11,39 @@ from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
 from .models import Post, Catalogue, Editor, Carousel
+
+
+@csrf_exempt
+def markdown_image_upload_handler(request):
+    # 要返回的数据字典，组装好后，序列化为json格式
+    if request.method == "POST":
+        result = {}
+        try:
+            file_img = request.FILES['editormd-image-file']
+            file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
+            filename = uuid.uuid1().__str__() + file_suffix
+
+            path = MEDIA_ROOT + "/post/"
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            file_name = path + filename
+            destination = open(file_name, "wb+")
+            for chunk in file_img.chunks():
+                destination.write(chunk)
+            destination.close()
+
+            file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "post/" + filename
+
+            result['success'] = 1
+            result['message'] = "上传成功"
+            result['url'] = file_img_url
+        except Exception, e:
+            result['success'] = 0
+            result['message'] = e
+            print e
+
+        return HttpResponse( json.dumps(result))
 
 
 class PostView(ListView):
@@ -204,7 +238,7 @@ class AddCarousel(View):
             filename = ""
             try:
                 file_img = request.FILES['files']
-                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name))-1]
+                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
                 filename = uuid.uuid1().__str__() + file_suffix
 
                 path = MEDIA_ROOT + "/carousel/"
@@ -218,7 +252,7 @@ class AddCarousel(View):
                 destination.close()
             except Exception, e:
                 print e
-            file_img_url = MEDIA_URL + "carousel/" + filename
+            file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "carousel/" + filename
             Carousel.objects.create(
                 title=title,
                 post=post_foreignkey,
@@ -268,7 +302,7 @@ class UpdateCarousel(View):
         if not image_link:
             try:
                 file_img = request.FILES['files']
-                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name))-1]
+                file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
                 filename = uuid.uuid1().__str__() + file_suffix
 
                 path = MEDIA_ROOT + "/carousel/"
@@ -282,7 +316,7 @@ class UpdateCarousel(View):
                 destination.close()
             except Exception, e:
                 print e
-            file_img_url = MEDIA_URL + "carousel/" + filename
+            file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "carousel/" + filename
 
             carousel.title = title
             carousel.post = post_foreignkey
@@ -295,3 +329,6 @@ class UpdateCarousel(View):
             carousel.img = image_link
             carousel.save()
         return HttpResponseRedirect('/admin/carousel')
+
+
+
