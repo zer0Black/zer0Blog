@@ -37,7 +37,6 @@ class IndexView(BaseMixin, ListView):
         context['page_range'] = page_range
         context['objects'] = objects
 
-        print context['objects'].object_list
         return context
 
 
