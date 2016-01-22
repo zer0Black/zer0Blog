@@ -4,9 +4,10 @@ import json
 import os
 import uuid
 from django.views.decorators.csrf import csrf_exempt
+from django.template.response import TemplateResponse
 from django.views.generic import View, ListView, CreateView, UpdateView
 from django.http import HttpResponse, HttpResponseRedirect
-from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL
+from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL, image_type
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
@@ -23,6 +24,49 @@ def markdown_image_upload_handler(request):
             file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
             filename = uuid.uuid1().__str__() + file_suffix
 
+            # 检查图片格式
+            if file_suffix not in image_type:
+                result['success'] = 0
+                result['message'] = "上传失败，图片格式不正确"
+            else:
+                path = MEDIA_ROOT + "/post/"
+                if not os.path.exists(path):
+                    os.makedirs(path)
+
+                file_name = path + filename
+                destination = open(file_name, "wb+")
+                for chunk in file_img.chunks():
+                    destination.write(chunk)
+                destination.close()
+
+                file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "post/" + filename
+
+                result['success'] = 1
+                result['message'] = "上传成功"
+                result['url'] = file_img_url
+
+        except Exception, e:
+            result['success'] = 0
+            result['message'] = e
+            print e
+
+        return HttpResponse(json.dumps(result))
+
+
+@csrf_exempt
+def tinymce_image_upload_handler(request):
+    # 要返回的数据字典，组装好后，序列化为json格式
+    if request.method == "POST":
+        try:
+            file_img = request.FILES['tinymce-image-file']
+            file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
+            # 检查图片格式
+            if file_suffix not in image_type:
+                return HttpResponse("请上传正确格式的图片文件")
+            filename = uuid.uuid1().__str__() + file_suffix
+
+            editor = request.POST.get("editor", "")
+
             path = MEDIA_ROOT + "/post/"
             if not os.path.exists(path):
                 os.makedirs(path)
@@ -35,15 +79,20 @@ def markdown_image_upload_handler(request):
 
             file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "post/" + filename
 
-            result['success'] = 1
-            result['message'] = "上传成功"
-            result['url'] = file_img_url
+            context = {
+                'result': "file_uploaded",
+                'resultcode': "ok",
+                'file_name': file_img_url
+            }
+
         except Exception, e:
-            result['success'] = 0
-            result['message'] = e
+            context = {
+                'result': e,
+                'resultcode': "failed",
+            }
             print e
 
-        return HttpResponse( json.dumps(result))
+        return TemplateResponse(request, "admin/plugin/ajax_upload_result.html", context)
 
 
 class PostView(ListView):
@@ -329,6 +378,3 @@ class UpdateCarousel(View):
             carousel.img = image_link
             carousel.save()
         return HttpResponseRedirect('/admin/carousel')
-
-
-
