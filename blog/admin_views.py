@@ -11,7 +11,7 @@ from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL, image_type
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue, Editor, Carousel
+from .models import Post, Catalogue, Editor, Carousel, User
 
 
 @csrf_exempt
@@ -378,3 +378,47 @@ class UpdateCarousel(View):
             carousel.img = image_link
             carousel.save()
         return HttpResponseRedirect('/admin/carousel')
+
+
+class UserSetView(ListView):
+    template_name = 'admin/userset_admin.html'
+    context_object_name = 'user_list'
+
+    def get_queryset(self):
+        user_list = User.objects.all()
+        return user_list
+
+    def get_context_data(self, **kwargs):
+        context = super(UserSetView, self).get_context_data(**kwargs)
+        page = self.kwargs.get('page') or self.request.GET.get('page') or 1
+        objects, page_range = paginator_tool(pages=page, queryset=self.object_list, display_amount=PERNUM)
+        context['page_range'] = page_range
+        context['objects'] = objects
+        return context
+
+
+class NewUserView(CreateView):
+    template_name = 'admin/userset_new.html'
+    model = User
+    fields = ['username']
+
+
+class AddUser(View):
+    def post(self, request):
+        username = request.POST.get("username", "")
+        password = request.POST.get("password", "")
+        name = request.POST.get("name", "")
+        email = request.POST.getlist("email", "")
+
+        user_obj = User.objects.create_user(
+            username="".join(username),
+            password="".join(password),
+            email="".join(email),
+        )
+
+        user_obj.name = name
+        user_obj.is_superuser = 0
+
+        user_obj.save()
+
+        return HttpResponseRedirect('/admin/userset')

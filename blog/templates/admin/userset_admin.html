@@ -1,0 +1,165 @@
+{% extends './admin/base.html' %}
+
+{% block js %}
+    <script src="/static/metronic/js/jquery.validate.min.js" type="text/javascript"></script>
+    <script src="/static/metronic/js/jquery.cookie.min.js" type="text/javascript"></script>
+    <script src="/static/js/blog-admin.js" type="text/javascript"></script>
+{% endblock %}
+
+{% block css %}
+    <link href="/static/metronic/css/DT_bootstrap.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/metronic/css/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block main %}
+
+    <!-- BEGIN PAGE CONTAINER-->
+
+    <div class="container-fluid">
+
+        <!-- BEGIN PAGE HEADER-->
+
+        <div class="row-fluid">
+
+            <div class="span12">
+
+                <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+
+                <h3 class="page-title">
+
+                    账户设置
+                    <small>中心</small>
+
+                </h3>
+
+                <ul class="breadcrumb">
+
+                    <li>
+                        <i class="icon-edit"></i>
+
+                        <a href="/admin/new/user">添加用户</a>
+
+                    </li>
+
+                </ul>
+
+                <!-- END PAGE TITLE & BREADCRUMB-->
+
+            </div>
+
+        </div>
+
+        <!-- END PAGE HEADER-->
+
+        <div class="row-fluid">
+
+            <div class="span12">
+
+                <!-- BEGIN SAMPLE TABLE PORTLET-->
+
+                <div class="portlet box red">
+
+                    <div class="portlet-title">
+
+                        <div class="caption"><i class="icon-flag"></i>用户列表</div>
+
+                        <div class="tools">
+
+                            <a href="javascript:;" class="collapse"></a>
+
+                            <a href="javascript:;" class="remove"></a>
+
+                        </div>
+
+                    </div>
+
+                    <div class="portlet-body">
+
+                        <table class="table table-striped table-hover">
+
+                            <thead>
+
+                            <tr>
+
+                                <th>用户名</th>
+
+                                <th>姓名</th>
+
+                                <th>邮箱</th>
+
+                                <th>上次登录时间</th>
+
+                                <th>所选编辑器</th>
+
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+                            {% if objects.object_list %}
+                                {% for user in objects.object_list %}
+                                    <tr>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.name }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.last_login }}</td>
+                                        <td>{{ user.editor_choice.name }}</td>
+                                    </tr>
+
+                                {% endfor %}
+                            {% endif %}
+
+                            </tbody>
+
+                        </table>
+
+                        {% include './admin/include/pagination.html' %}
+
+                    </div>
+
+                </div>
+
+                <!-- END SAMPLE TABLE PORTLET-->
+
+            </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{#    <div class="modal hide fade" id="selectEditor" tabindex="-1" role="dialog">#}
+{#        <div class="modal-dialog">#}
+{#            <div class="modal-content">#}
+{#                <div class="modal-header">#}
+{#                    <h3>选择编辑器</h3>#}
+{#                </div>#}
+{#                <div class="modal-body">#}
+{#                    <form id="editor_form" action="/admin/update/editor" class="form-horizontal" method="post">#}
+{#                        {% csrf_token %}#}
+{#                        <div class="control-group">#}
+{#                            <label class="control-label">编辑器</label>#}
+{##}
+{#                            <div class="controls">#}
+{#                                {% for editor in editor_list %}#}
+{#                                    <label class="radio">#}
+{#                                        <div class="radio">#}
+{#                                            <span><input type="radio" name="editor" value="{{ editor.name }}"></span>#}
+{#                                        </div>#}
+{#                                        {{ editor.name }}#}
+{#                                    </label>#}
+{#                                {% endfor %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </form>#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <button type="button" data-dismiss="modal" class="btn">关闭</button>#}
+{#                    <button type="button" id="save_editor" class="btn blue">保存</button>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+{% endblock %}
