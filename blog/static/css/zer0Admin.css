@@ -54,3 +54,7 @@ input[type="number"]{
     margin-bottom: 0px;
 }
 
+.error{
+    color: red;
+}
+
