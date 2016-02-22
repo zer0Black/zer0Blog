@@ -26,9 +26,9 @@
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
                         'searchreplace visualblocks code ',
-                        'insertdatetime media table contextmenu paste code codesample'
+                        'insertdatetime media table contextmenu paste code codesample jbimages'
                     ],
-                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code codesample',
+                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages code codesample',
                     content_css: [
                         '/static/tinymce/js/tinymce/codepen.min.css',
                         '/static/tinymce/js/tinymce/prism.css',
@@ -41,7 +41,7 @@
                     {% endif %}
                 });
             {% endifequal %}
-            {% else  %}
+        {% else  %}
             {% ifequal user.editor_choice.name 'tinyMCE' %}
                 tinymce.init({
                     selector: '#tinymceID',
@@ -49,9 +49,9 @@
                     plugins: [
                         'advlist autolink lists link image charmap print preview anchor',
                         'searchreplace visualblocks code ',
-                        'insertdatetime media table contextmenu paste code codesample'
+                        'insertdatetime media table contextmenu paste code codesample jbimages'
                     ],
-                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image code codesample',
+                    toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image jbimages code codesample',
                     content_css: [
                         '/static/tinymce/js/tinymce/codepen.min.css',
                         '/static/tinymce/js/tinymce/prism.css',
@@ -83,10 +83,25 @@
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
+                        emoji: true,
+                        imageUpload: true,
+                        imageFormats: ["jpg", "jpeg", "png", "bmp"],
+                        imageUploadURL: "/admin/upload/markdown/post",
+                        toolbarIcons: function () {
+                            return ["undo", "redo", "|",
+                                "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                                "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                                "list-ul", "list-ol", "hr", "|",
+                                "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+                                "goto-line", "watch", "preview", "clear", "search"]
+                        },
                         onload: function () {
                             var content = heredoc(function () {/*
-{% autoescape off %}{{ post.content }}{% endautoescape %}
-                                 */});
+                                {% autoescape off %}
+{{ post.content }}
+                                {% endautoescape %}
+                                 */
+                            });
                             this.setMarkdown(content);
                         }
                     });
@@ -96,6 +111,18 @@
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
+                        imageUpload: true,
+                        imageFormats: ["jpg", "jpeg", "png", "bmp"],
+                        imageUploadURL: "/admin/upload/markdown/post",
+                        emoji: true,
+                        toolbarIcons: function () {
+                            return ["undo", "redo", "|",
+                                "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                                "h1", "h2", "h3", "h4", "h5", "h6", "|",
+                                "list-ul", "list-ol", "hr", "|",
+                                "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "|",
+                                "goto-line", "watch", "preview", "clear", "search"]
+                        },
                     });
                 {% endifequal %}
             {% endif %}
@@ -213,7 +240,7 @@
                                     {% endifequal %}
                                 {% else %}
                                     {% ifequal user.editor_choice.name 'MarkDown' %}
-                                         <div class="controls margin_left0">
+                                        <div class="controls margin_left0">
 
                                             <div id="MarkDownEditor">
                                                 <textarea name="content" id="markdownID"></textarea>

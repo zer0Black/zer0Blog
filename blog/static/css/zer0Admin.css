@@ -43,3 +43,18 @@ a{
 .top10{
     top: 10% !important;
 }
+
+.errorlist{
+    color: red;
+}
+
+input[type="text"],
+input[type="number"]{
+    height: 34px;
+    margin-bottom: 0px;
+}
+
+.error{
+    color: red;
+}
+

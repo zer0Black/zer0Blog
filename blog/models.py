@@ -20,10 +20,6 @@ class TagField_Mine(TagField):
         pass
 
 
-class Role(models.Model):
-    name = models.CharField(max_length=20)
-
-
 class Editor(models.Model):
     name = models.CharField(max_length=20, primary_key=True)
     avaliable = models.BooleanField(default=True)
@@ -35,7 +31,6 @@ class Editor(models.Model):
 class User(AbstractUser):
     name = models.CharField(max_length=12)
     editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
-    role = models.ManyToManyField(Role)
 
     def __str__(self):
         return self.name

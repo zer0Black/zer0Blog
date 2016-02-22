@@ -16,7 +16,7 @@ class BaseMixin(object):
     def get_context_data(self, **kwargs):
         context = super(BaseMixin, self).get_context_data(**kwargs)
         try:
-            context['hot_article_list'] = Post.objects.order_by("-view_count")[0:10]
+            context['hot_article_list'] = Post.objects.filter(status=1).order_by("-view_count")[0:10]
             context['man_list'] = get_user_model().objects.annotate(Count("post"))
         except Exception as e:
             print e

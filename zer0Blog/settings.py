@@ -82,8 +82,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'zer0Blog',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '10.0.3.12',
+        'PASSWORD': 'lxtalx',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
@@ -125,3 +125,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'upload')
 MEDIA_URL = '/upload/'
 
 STATIC_URL = '/static/'
+
+# accept image type
+image_type = ['.jpeg', '.jpg', '.png', '.bmp']
