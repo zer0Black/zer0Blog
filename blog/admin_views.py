@@ -418,6 +418,7 @@ class AddUser(View):
 
         user_obj.name = name
         user_obj.is_superuser = 0
+        user_obj.is_staff = 1
 
         user_obj.save()
 
