@@ -94,9 +94,11 @@ class CommentView(View):
         # 返回当前评论
         html = "<li>\
                     <div class=\"blog-comment-content\">\
-                        <a><h4>"+comment.author.username+"</h4></a>"\
-                        + u"<p>" + comment.content + "</p>"+\
-                        "<p>" + comment.publish_Time.strftime("%Y年%m月%d日 %R")+"</p>\
+                        <div>\
+                            <h4 style=\"color: #428bca;\">"+comment.author.name+"</h4>\
+                            <p style=\"font-size: 10px\">" + comment.publish_Time.strftime("%Y年%m月%d日 %H:%M")+"</p>\
+                        </div>\
+                        <p style=\"color: #232323;font-size: 14px\">" + comment.content + "</p>\
                     </div>\
                 </li>"
 

@@ -37,7 +37,7 @@
                         $(".blog-comment ul").prepend(data);
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
-                        alert(XMLHttpRequest.responseText);
+                        console.log(XMLHttpRequest.responseText);
                     }
 
                 });
@@ -118,11 +118,11 @@
                     {% for comment in comment_list %}
                         <li>
                             <div class="blog-comment-content">
-                                <a><h4>{{ comment.author.username }}</h4></a>
-
-                                <p>{{ comment.content }}</p>
-
-                                <p>{{ comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
+                                <div>
+                                    <h4 style="color: #428bca;">{{ comment.author.name }}</h4>
+                                    <p style="font-size: 10px">{{ comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
+                                </div>
+                                <p style="color: #232323;font-size: 14px">{{ comment.content }}</p>
                             </div>
                         </li>
                     {% endfor %}

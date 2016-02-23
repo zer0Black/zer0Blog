@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
-from blog.views import IndexView, PostView, CommentView, RepositoryView, RepositoryDetailView, TagListView, CategoryListView
+from blog.views import IndexView, PostView, CommentView, RepositoryView, RepositoryDetailView, TagListView, \
+                         CategoryListView
 
 urlpatterns = [
     url(r'^$', IndexView.as_view()),
