@@ -31,6 +31,7 @@ class Editor(models.Model):
 class User(AbstractUser):
     name = models.CharField(max_length=12)
     editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
+    avatar_path = models.ImageField(upload_to="/avatar", default="/static/image/avatar_default.jpg")
 
     def __str__(self):
         return self.name

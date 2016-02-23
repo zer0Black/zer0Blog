@@ -41,6 +41,12 @@
         jQuery(document).ready(function () {
             App.init(); // initlayout and core plugins
             Index.init();
+
+            $("#user_upload_avatar").on('change', function () {
+                $("#avatar_img").attr('src', '/static/image/tiny-white.gif');
+                $("#user_upload_avatar_form").submit();
+            });
+
         });
 
     </script>
@@ -90,9 +96,9 @@
                 <li class="dropdown user">
 
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-
-                        <img alt="" src="/static/metronic/image/avatar1_small.jpg"/>
-
+                        <div class="avatar">
+                            <img alt="" id="avatar_img" src="{{ user.avatar_path }}"/>
+                        </div>
                         <span class="username">{{ user.name }}</span>
 
                         <i class="icon-angle-down"></i>
@@ -100,15 +106,19 @@
                     </a>
 
                     <ul class="dropdown-menu">
-
-                        <li><a href="extra_profile.html"><i class="icon-user"></i>个人中心</a></li>
-
-                        <li><a href="logout"><i class="icon-key"></i>退出</a></li>
-
+                        <li>
+                            <a href="javascript:void(0)"><i class="icon-camera-retro"></i>
+                                <form action="/admin/set/upload/avatar" enctype="multipart/form-data" id="user_upload_avatar_form" method="post">
+                                    {% csrf_token %}
+                                    <input class="hidden-field" type="file" name="avatar" id="user_upload_avatar">
+                                </form>更改头像
+                            </a>
+                        </li>
+                        <li><a href="/admin/password_change/"><i class="icon-edit"></i> 修改密码</a></li>
+                        <li><a href="logout"><i class="icon-key"></i> 退出</a></li>
                     </ul>
 
                 </li>
-
                 <!-- END USER LOGIN DROPDOWN -->
 
             </ul>

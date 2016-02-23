@@ -55,7 +55,6 @@ def markdown_image_upload_handler(request):
 
 @csrf_exempt
 def tinymce_image_upload_handler(request):
-    # 要返回的数据字典，组装好后，序列化为json格式
     if request.method == "POST":
         try:
             file_img = request.FILES['tinymce-image-file']
@@ -93,6 +92,37 @@ def tinymce_image_upload_handler(request):
             print e
 
         return TemplateResponse(request, "admin/plugin/ajax_upload_result.html", context)
+
+
+def avatar_image_upload_handler(request):
+    if request.method == "POST":
+        try:
+            file_img = request.FILES['avatar']
+            file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
+            # 检查图片格式
+            if file_suffix not in image_type:
+                return HttpResponse("请上传正确格式的图片文件")
+            filename = uuid.uuid1().__str__() + file_suffix
+
+            path = MEDIA_ROOT + "/avatar/"
+            if not os.path.exists(path):
+                os.makedirs(path)
+
+            file_name = path + filename
+            destination = open(file_name, "wb+")
+            for chunk in file_img.chunks():
+                destination.write(chunk)
+            destination.close()
+
+            file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "avatar/" + filename
+            user = request.user
+            user.avatar_path = file_img_url
+            user.save()
+
+        except Exception, e:
+            print e
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', "/"))
 
 
 class PostView(ListView):
