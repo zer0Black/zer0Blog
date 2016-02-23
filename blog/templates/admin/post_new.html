@@ -36,7 +36,7 @@
                     language: 'zh_CN',
                     {% if post.content %}
                         init_instance_callback: function (editor) {
-                            editor.setContent('{% spaceless %}{% autoescape off %}{{ post.content }}{% endautoescape %}{% endspaceless %}');
+                            editor.setContent('{% spaceless %}{% autoescape off %}{{ post.content|addslashes|linebreaksbr }}{% endautoescape %}{% endspaceless %}');
                         },
                     {% endif %}
                 });
