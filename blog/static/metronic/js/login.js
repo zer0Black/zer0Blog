@@ -49,6 +49,13 @@ var Login = function () {
 
 	        });
 
+			$('.login-form input').keypress(function (e) {
+	            if (e.which == 13) {
+	                $('.login-form').submit();
+	                return false;
+	            }
+	        });
+
 	        $('.forget-form').validate({
 	            errorElement: 'label', //default input error message container
 	            errorClass: 'help-inline', // default input error message class
@@ -92,9 +99,7 @@ var Login = function () {
 
 	        $('.forget-form input').keypress(function (e) {
 	            if (e.which == 13) {
-	                if ($('.forget-form').validate().form()) {
-	                    window.location.href = "index.html";
-	                }
+	                $('.forget-form').validate().form();
 	                return false;
 	            }
 	        });
