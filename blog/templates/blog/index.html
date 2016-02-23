@@ -19,7 +19,7 @@
                     {% for post in objects.object_list %}
                         <div class="home-post well clearfix">
                             <div class="post-title underline clearfix">
-                                <a href="/category/{{ post.catalogue.name }}/">
+                                <a href="/category/{{ post.catalogue.name }}">
                                     <div class="pre-cat">
                                         <div class="pre-catinner btn">
                                             {{ post.catalogue.name }}
@@ -48,10 +48,11 @@
             </span>
             <span>
                 <span class="glyphicon glyphicon-user"></span>
-                {{ post.author }}
+                {{ post.author.name }}
             </span>
 
                                     <div class="post-tags">
+
                                         {% for tag in post.get_tags %}
                                             <a href="/tag/{{ tag.name }}"
                                                class="{% if forloop.counter0 %}hidden-xs{% endif %} ">
@@ -69,7 +70,7 @@
                                     <div class="col-sm-12">
                                         <p>
                                             {% autoescape off %}
-                                                {{ post.content|slice:"200" | striptags }}
+                                            {{ post.content|striptags|slice:"200"}}
                                             {% endautoescape %}
                                             {% if post.content|length > 200 %}
                                                 ...

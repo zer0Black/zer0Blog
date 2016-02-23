@@ -8,7 +8,7 @@ from zer0Blog.settings import PERNUM
 from tagging.models import TaggedItem
 
 from blog.pagination import paginator_tool
-from .models import Post, Carousel, Comment, Repository
+from .models import Post, Carousel, Comment, Repository, Catalogue
 
 
 class BaseMixin(object):
@@ -143,6 +143,26 @@ class TagListView(BaseMixin, ListView):
         page = self.kwargs.get('page') or self.request.GET.get('page') or 1
         objects, page_range = paginator_tool(pages=page, queryset=self.get_queryset(), display_amount=PERNUM)
         context = super(TagListView, self).get_context_data(**kwargs)
+        context['carousel_page_list'] = Carousel.objects.all()
+        context['page_range'] = page_range
+        context['objects'] = objects
+        return context
+
+
+class CategoryListView(BaseMixin, ListView):
+    template_name = template_name = 'blog/index.html'
+    context_object_name = 'post_list'
+
+    def get_queryset(self):
+        slug_key = self.kwargs.get("slug")
+        catalogue_key = Catalogue.objects.get(pk=slug_key)
+        post_list = Post.objects.filter(catalogue_id=catalogue_key)
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        page = self.kwargs.get('page') or self.request.GET.get('page') or 1
+        objects, page_range = paginator_tool(pages=page, queryset=self.get_queryset(), display_amount=PERNUM)
+        context = super(CategoryListView, self).get_context_data(**kwargs)
         context['carousel_page_list'] = Carousel.objects.all()
         context['page_range'] = page_range
         context['objects'] = objects
