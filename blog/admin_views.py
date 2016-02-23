@@ -12,6 +12,8 @@ from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL, image_type
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
 from .models import Post, Catalogue, Editor, Carousel, User
+from thumbnail import ThumbnailTool
+from PIL import Image
 
 
 @csrf_exempt
@@ -33,11 +35,14 @@ def markdown_image_upload_handler(request):
                 if not os.path.exists(path):
                     os.makedirs(path)
 
+                # 图片宽大于1600的时候，将其压缩一半,825px刚好适合13吋pc的大小
+                img = Image.open(file_img)
+                width, height = img.size
+                if width > 1650:
+                    img = ThumbnailTool.constrain_thumbnail(img, times=width/824.0)
+
                 file_name = path + filename
-                destination = open(file_name, "wb+")
-                for chunk in file_img.chunks():
-                    destination.write(chunk)
-                destination.close()
+                img.save(file_name)
 
                 file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "post/" + filename
 
@@ -64,17 +69,18 @@ def tinymce_image_upload_handler(request):
                 return HttpResponse("请上传正确格式的图片文件")
             filename = uuid.uuid1().__str__() + file_suffix
 
-            editor = request.POST.get("editor", "")
+            # 图片宽大于1500的时候，将其压缩一半，825px刚好适合13吋pc的大小
+            img = Image.open(file_img)
+            width, height = img.size
+            if width > 1650:
+                img = ThumbnailTool.constrain_thumbnail(img, times=width/824.0)
 
             path = MEDIA_ROOT + "/post/"
             if not os.path.exists(path):
                 os.makedirs(path)
 
             file_name = path + filename
-            destination = open(file_name, "wb+")
-            for chunk in file_img.chunks():
-                destination.write(chunk)
-            destination.close()
+            img.save(file_name)
 
             file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "post/" + filename
 
@@ -104,15 +110,16 @@ def avatar_image_upload_handler(request):
                 return HttpResponse("请上传正确格式的图片文件")
             filename = uuid.uuid1().__str__() + file_suffix
 
+            # 把头像压缩成90大小
+            img = Image.open(file_img)
+            img = ThumbnailTool.constrain_len_thumbnail(img, 90)
+
             path = MEDIA_ROOT + "/avatar/"
             if not os.path.exists(path):
                 os.makedirs(path)
 
             file_name = path + filename
-            destination = open(file_name, "wb+")
-            for chunk in file_img.chunks():
-                destination.write(chunk)
-            destination.close()
+            img.save(file_name)
 
             file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "avatar/" + filename
             user = request.user
@@ -320,15 +327,16 @@ class AddCarousel(View):
                 file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
                 filename = uuid.uuid1().__str__() + file_suffix
 
+                # 把过大的图像压缩成合适的轮播图大小
+                img = Image.open(file_img)
+                img = ThumbnailTool.constrain_len_thumbnail(img, 865)
+
                 path = MEDIA_ROOT + "/carousel/"
                 if not os.path.exists(path):
                     os.makedirs(path)
 
                 file_name = path + filename
-                destination = open(file_name, "wb+")
-                for chunk in file_img.chunks():
-                    destination.write(chunk)
-                destination.close()
+                img.save(file_name)
             except Exception, e:
                 print e
             file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "carousel/" + filename
@@ -384,15 +392,16 @@ class UpdateCarousel(View):
                 file_suffix = os.path.splitext(file_img.name)[len(os.path.splitext(file_img.name)) - 1]
                 filename = uuid.uuid1().__str__() + file_suffix
 
+                # 把过大的图像压缩成合适的轮播图大小
+                img = Image.open(file_img)
+                img = ThumbnailTool.constrain_len_thumbnail(img, 865)
+
                 path = MEDIA_ROOT + "/carousel/"
                 if not os.path.exists(path):
                     os.makedirs(path)
 
                 file_name = path + filename
-                destination = open(file_name, "wb+")
-                for chunk in file_img.chunks():
-                    destination.write(chunk)
-                destination.close()
+                img.save(file_name)
             except Exception, e:
                 print e
             file_img_url = "http://" + request.META['HTTP_HOST'] + MEDIA_URL + "carousel/" + filename
