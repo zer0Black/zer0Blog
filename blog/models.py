@@ -81,6 +81,8 @@ class Comment(models.Model):
     ip_address = models.GenericIPAddressField()
     content = models.CharField(max_length=200)
     isDelete = models.BooleanField(default=False)
+    root_id = models.IntegerField(default=0)  # 评论的最上层评论，若该评论处于最上层，则为0，
+    parent_id = models.IntegerField(default=0)  # 评论的父评论，若无父评论，则为0
 
     def __str__(self):
         return self.content
