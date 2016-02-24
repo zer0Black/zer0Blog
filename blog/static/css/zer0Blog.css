@@ -265,7 +265,7 @@ p {
 
 .blog-comment ul li {
     list-style-type: none;
-    border-top: 1px dotted #ddd;
+    border-top: 1px solid #ddd;
     padding: 10px;
 }
 
@@ -301,4 +301,25 @@ p {
     margin-right: 10px;
     line-height: 1%;
     float: left;
+}
+
+.reply{
+    color: #337ab7;
+}
+
+.child-comment-list {
+    padding-bottom: 30px;
+    margin-top: 10px;
+    border-top: 1px dashed #d9d9d9;
+}
+
+.child-comment-list .child-comment {
+    padding: 15px 0 15px 10px;
+    border-bottom: 1px dashed #d9d9d9;
+    border-left: 3px solid #d9d9d9;
+    font-size: 12px;
+}
+
+.child-comment-list p a {
+    color: #4094c7;
 }

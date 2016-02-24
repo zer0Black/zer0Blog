@@ -121,9 +121,34 @@
                                 <div class="avatar_top">
                                     <div class="avatar"><img src="{{ user.avatar_path }}"></div>
                                     <h4 style="color: #428bca;margin-bottom: 0px">{{ comment.author.name }}</h4>
+
                                     <p style="font-size: 10px;margin-top: 2px">{{ comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
                                 </div>
                                 <p style="color: #232323;font-size: 14px">{{ comment.content }}</p>
+
+                                <div class="comment-footer clearfix text-right">
+                                    <a class="reply" data-id="{{ comment.author.id }}"
+                                       data-nickname="{{ user.author.name }}"
+                                       href="javascript:void(0)">回复</a>
+                                </div>
+                                <div class="child-comment-list ">
+                                    <div class="child-comment" data-id="1526183">
+                                        <p>
+                                            <a class="blue-link" href="#">颜兴林</a>：
+                                            <a href="#" class="maleskine-author" target="_blank"
+                                               data-user-slug="afb3aff4b2cb" data-original-title="" title="">@希拉李</a>
+                                            如今的环境和食品都很不安全，会产生很多隐疾，一开始无病无痛，真正被发现时就晚了。作为子女，还是要多多关心父母的身体，有细微的不良反应都要引起重视，不要像我一样，空留余恨。祝您父母安康。
+                                        </p>
+
+                                        <div class="child-comment-footer text-right clearfix">
+                                            <a data-id="1524513" data-nickname="颜兴林" class="reply"
+                                               href="javascript:void(0)">回复</a>
+                                            <span class="reply-time pull-left">
+                                                2016年02月24日 09:07
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     {% endfor %}

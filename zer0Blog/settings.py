@@ -85,8 +85,8 @@ DATABASES = {
         # 'PASSWORD': 'lxtalx',
         # 'HOST': '10.0.3.13',
         'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '10.0.3.12',
+        'PASSWORD': 'lxtalx',
+        'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
