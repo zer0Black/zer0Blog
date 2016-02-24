@@ -80,10 +80,6 @@
                 {% endifequal %}
             {% endif %}
 
-            function heredoc(fn) {
-                return fn.toString().split('\n').slice(1, -1).join('\n') + '\n';
-            }
-
             {% if post %}
                 {% ifequal post.editor_choice.name 'MarkDown' %}
                     var markDownEditor = editormd("MarkDownEditor", {
@@ -102,12 +98,7 @@
                                 "goto-line", "watch", "preview", "clear", "search"]
                         },
                         onload: function () {
-                            var content = heredoc(function () {/*
-                                {% autoescape off %}
-{{ post.content }}
-                                {% endautoescape %}
-                                 */
-                            });
+                            var content = $("#markdownID").val();
                             this.setMarkdown(content);
                         }
                     });
@@ -241,7 +232,7 @@
                                         <div class="controls margin_left0">
 
                                             <div id="MarkDownEditor">
-                                                <textarea name="content" id="markdownID"></textarea>
+                                                <textarea name="content" id="markdownID">{{ post.content }}</textarea>
                                             </div>
 
                                         </div>
