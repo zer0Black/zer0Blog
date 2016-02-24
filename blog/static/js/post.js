@@ -5,6 +5,7 @@ $(function () {
         //修改隐藏域，设定参数为发布，0为草稿，1为发布
         $("#post_action_flag").val("1");
         tinymce.triggerSave();
+        removeExtForm();
         $("#post_form").submit();
     });
 
@@ -13,6 +14,7 @@ $(function () {
         //修改隐藏域，设定参数为发布，0为草稿，1为发布
         $("#post_action_flag").val("0");
         tinymce.triggerSave();
+        removeExtForm();
         $("#post_form").submit();
     });
 
@@ -20,6 +22,7 @@ $(function () {
     $("#add_draft").click(function () {
         $("#post_action_flag").val("1");
         tinymce.triggerSave();
+        removeExtForm();
         $("#post_form").submit();
     });
 
@@ -27,12 +30,14 @@ $(function () {
     $("#update_draft").click(function () {
         $("#post_action_flag").val("0");
         tinymce.triggerSave();
+        removeExtForm();
         $("#post_form").submit();
     });
 
     //保存修改
     $("#update_post").click(function () {
         tinymce.triggerSave();
+        removeExtForm();
         $("#post_form").submit();
     });
 
@@ -43,6 +48,10 @@ $(function () {
             return false;
         }
     });
+
+    function removeExtForm(){
+        $("#post_form").find("form").remove();
+    }
 
     $("#post_form").validate({
         ignore: "",
