@@ -11,7 +11,7 @@
         <ul id="year-write-posts" class="list-group collapse in">
             {% for man in man_list%}
                 <li class="list-group-item">
-                <span class="hotest-post-title">{{man.username}}</span>
+                <a href="/author/{{ man.id }}"><span class="hotest-post-title">{{man.name}}</span></a>
                 <span class="badge">{{man.post__count}}</span>
                 </li>
             {% endfor %}
