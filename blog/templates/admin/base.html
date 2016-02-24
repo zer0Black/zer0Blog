@@ -106,12 +106,12 @@
                     </a>
 
                     <ul class="dropdown-menu">
-                        <li><a href="/"><i class="icon-edit"></i> 返回首页</a></li>
+                        <li><a href="/"><i class="icon-edit"></i> 返回主页</a></li>
                         <li>
                             <a href="javascript:void(0)"><i class="icon-camera-retro"></i>
                                 <form action="/admin/set/upload/avatar" enctype="multipart/form-data" id="user_upload_avatar_form" method="post">
                                     {% csrf_token %}
-                                    <input class="hidden-field" type="file" name="avatar" id="user_upload_avatar">
+                                    <input  accept="image/*" class="hidden-field" type="file" name="avatar" id="user_upload_avatar">
                                 </form>更改头像
                             </a>
                         </li>

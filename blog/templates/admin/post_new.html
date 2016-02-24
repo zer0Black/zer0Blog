@@ -34,9 +34,13 @@
                         '/static/tinymce/js/tinymce/prism.css',
                     ],
                     language: 'zh_CN',
+                    relative_urls: false,
+                    remove_script_host: false,
                     {% if post.content %}
                         init_instance_callback: function (editor) {
-                            editor.setContent('{% spaceless %}{% autoescape off %}{{ post.content|addslashes|linebreaksbr }}{% endautoescape %}{% endspaceless %}');
+                            var content = document.getElementById('tinymceID').value;
+                            editor.setContent(content);
+                            document.getElementById('tinymceID').value="";
                         },
                     {% endif %}
                 });
@@ -57,6 +61,8 @@
                         '/static/tinymce/js/tinymce/prism.css',
                     ],
                     language: 'zh_CN',
+                    relative_urls: false,
+                    remove_script_host: false
                 });
             {% endifequal %}
         {% endif %}
@@ -213,7 +219,9 @@
                                         <div class="controls margin_left0">
 
                                             <textarea name="content" id="tinymceID" class="span12 m-wrap"
-                                                      rows="3"></textarea>
+                                                      rows="3">
+                                                {% spaceless %}{% autoescape off %}{{ post.content }}{% endautoescape %}{% endspaceless %}
+                                            </textarea>
 
                                         </div>
                                     {% endifequal %}

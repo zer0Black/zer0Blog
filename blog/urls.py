@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^repository$', RepositoryView.as_view()),
     url(r'^repository/(?P<pk>[0-9]+)$', RepositoryDetailView.as_view()),
     url(r'^tag/(?P<slug>[\w\u4e00-\u9fa5]+)$', TagListView.as_view()),
+    url(r'^category/(?P<slug>[\w\u4e00-\u9fa5]+)$', CategoryListView.as_view()),
     url(r'^author/(?P<pk>[0-9]+)$', AuthorPostListView.as_view())
 ]
