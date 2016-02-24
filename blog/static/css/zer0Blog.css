@@ -275,8 +275,8 @@ p {
 }
 
 .avatar {
-    width: 29px;
-    height: 29px;
+    width: 40px;
+    height: 40px;
     display: inline-block;
     border-radius: 50% !important;
 }
@@ -293,3 +293,12 @@ p {
 .navbar-nav>li>a {
     padding-bottom: 10px;
 }}
+
+.avatar_top .avatar{
+    width: 38px;
+    height: 38px;
+    display: inline-block;
+    margin-right: 10px;
+    line-height: 1%;
+    float: left;
+}
