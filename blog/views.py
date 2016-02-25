@@ -59,7 +59,7 @@ class PostView(BaseMixin, DetailView):
         context = super(PostView, self).get_context_data(**kwargs)
         pkey = self.kwargs.get("pk")
 
-        comment_queryset = self.queryset.get(pk=pkey).comment_set.filter(isDelete=0).order_by('-publish_Time')
+        comment_queryset = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
         comment_dict = self.handle_comment(comment_queryset)
         context['comment_list'] = comment_dict
         return context
@@ -141,11 +141,16 @@ class CommentDeleteView(View):
 
         pkey = self.kwargs.get("pk", "")
         comment = Comment.objects.get(pk=pkey)
-        comment.isDelete = True
-        comment.save()
+
+        # 如果root_id为0，代表为父评论，获取父评论的所有子评论
+        if comment.root_id == 0:
+            children_comment_set = Comment.objects.filter(root_id=comment.id)
+            children_comment_set.delete()
 
         # 返回当前评论
         result = {'comment_id': comment.id}
+        comment.delete()
+
         return HttpResponse(json.dumps(result))
 
 
