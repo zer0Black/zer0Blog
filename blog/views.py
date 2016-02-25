@@ -57,7 +57,27 @@ class PostView(BaseMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
         pkey = self.kwargs.get("pk")
-        context['comment_list'] = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
+
+        comment_queryset = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
+        comment_dict = {}
+        root_list = []
+        child_list = []
+        every_child_list = []
+        # 将有根节点的评论和无根节点的评论分开
+        for comment in comment_queryset:
+            if comment.root_id == 0:
+                root_list.append(comment)
+            else:
+                child_list.append(comment)
+        # 将根评论作为键，子评论列表作为值，组合成dict
+        for root_comment in root_list:
+            for child_comment in child_list:
+                if child_comment.root_id == root_comment.id:
+                    every_child_list.append(child_comment)
+                    every_child_list.reverse()
+            comment_dict[root_comment] = every_child_list
+            every_child_list = []
+        context['comment_list'] = comment_dict
         return context
 
 

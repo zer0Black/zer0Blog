@@ -115,42 +115,55 @@
                     </form>
                 </div>
                 <ul>
-                    {% for comment in comment_list %}
+                    {% for root_comment, child_comment_list in comment_list.items %}
+
                         <li>
                             <div class="blog-comment-content">
-                                <div class="avatar_top">
-                                    <div class="avatar"><img src="{{ user.avatar_path }}"></div>
-                                    <h4 style="color: #428bca;margin-bottom: 0px">{{ comment.author.name }}</h4>
+                                <div class="root-comment">
+                                    <div class="avatar_top">
+                                        <div class="avatar"><img src="{{ user.avatar_path }}"></div>
+                                        <h4 style="color: #428bca;margin-bottom: 0px">{{ root_comment.author.name }}</h4>
 
-                                    <p style="font-size: 10px;margin-top: 2px">{{ comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
-                                </div>
-                                <p style="color: #232323;font-size: 14px">{{ comment.content }}</p>
+                                        <p style="font-size: 10px;margin-top: 2px">{{ root_comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
+                                    </div>
+                                    <p style="color: #232323;font-size: 14px">{{ root_comment.content }}</p>
 
-                                <div class="comment-footer clearfix text-right">
-                                    <a class="reply" data-id="{{ comment.author.id }}"
-                                       data-nickname="{{ user.author.name }}"
-                                       href="javascript:void(0)">回复</a>
+                                    <div class="comment-footer clearfix text-right">
+                                        {% ifequal root_comment.author.id user.id  %}
+                                            <a class="delete" data-id="{{ root_comment.id }}" data-nickname="{{ root_comment.author.name }}" href="javascript:void(0)">删除</a>
+                                        {% endifequal %}
+                                        <a class="reply" data-id="{{ root_comment.id }}"
+                                           data-nickname="{{ root_comment.author.name }}"
+                                           href="javascript:void(0)">回复</a>
+                                    </div>
                                 </div>
+                                {% if child_comment_list %}
                                 <div class="child-comment-list ">
-                                    <div class="child-comment" data-id="1526183">
+                                    {% for child_comment in child_comment_list  %}
+                                    <div class="child-comment" data-id="{{ child_comment.id }}">
                                         <p>
-                                            <a class="blue-link" href="#">颜兴林</a>：
-                                            <a href="#" class="maleskine-author" target="_blank"
-                                               data-user-slug="afb3aff4b2cb" data-original-title="" title="">@希拉李</a>
-                                            如今的环境和食品都很不安全，会产生很多隐疾，一开始无病无痛，真正被发现时就晚了。作为子女，还是要多多关心父母的身体，有细微的不良反应都要引起重视，不要像我一样，空留余恨。祝您父母安康。
+                                            <a class="blue-link" href="#">{{ child_comment.author.name }}</a>：
+                                            <a href="#" class="maleskine-author" target="_blank">@希拉李</a>
+                                               {{ child_comment.content }}
                                         </p>
 
                                         <div class="child-comment-footer text-right clearfix">
-                                            <a data-id="1524513" data-nickname="颜兴林" class="reply"
+                                            {% ifequal child_comment.author.id user.id  %}
+                                                <a data-id="{{ child_comment.id }}" data-nickname="{{ child_comment.author.name }}" class="delete" href="javascript:void(0)">删除</a>
+                                            {% endifequal %}
+                                            <a data-id="{{ child_comment.id }}" data-nickname="{{ child_comment.author.name }}" class="reply"
                                                href="javascript:void(0)">回复</a>
                                             <span class="reply-time pull-left">
-                                                2016年02月24日 09:07
+                                                {{ child_comment.publish_Time | date:"Y年m月d日 H:i" }}
                                             </span>
                                         </div>
                                     </div>
+                                    {% endfor %}
                                 </div>
+                                {% endif %}
                             </div>
                         </li>
+
                     {% endfor %}
                 </ul>
             </div>

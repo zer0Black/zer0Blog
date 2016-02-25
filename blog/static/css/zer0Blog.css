@@ -303,7 +303,7 @@ p {
     float: left;
 }
 
-.reply{
+.reply, .delete{
     color: #337ab7;
 }
 
