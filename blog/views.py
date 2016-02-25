@@ -1,4 +1,5 @@
 # -*- coding:utf-8 -*-
+import json
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
@@ -58,13 +59,18 @@ class PostView(BaseMixin, DetailView):
         context = super(PostView, self).get_context_data(**kwargs)
         pkey = self.kwargs.get("pk")
 
-        comment_queryset = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
+        comment_queryset = self.queryset.get(pk=pkey).comment_set.filter(isDelete=0).order_by('-publish_Time')
+        comment_dict = self.handle_comment(comment_queryset)
+        context['comment_list'] = comment_dict
+        return context
+
+    def handle_comment(self, queryset):
         comment_dict = {}
         root_list = []
         child_list = []
         every_child_list = []
         # 将有根节点的评论和无根节点的评论分开
-        for comment in comment_queryset:
+        for comment in queryset:
             if comment.root_id == 0:
                 root_list.append(comment)
             else:
@@ -77,8 +83,7 @@ class PostView(BaseMixin, DetailView):
                     every_child_list.reverse()
             comment_dict[root_comment] = every_child_list
             every_child_list = []
-        context['comment_list'] = comment_dict
-        return context
+        return comment_dict
 
 
 class CommentView(View):
@@ -124,6 +129,24 @@ class CommentView(View):
                 </li>"
 
         return HttpResponse(html)
+
+
+class CommentDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        # 获取当前用户
+        user = self.request.user
+        # 判断当前用户是否是活动的用户
+        if not user.is_authenticated():
+            return HttpResponse(u"请登陆！", status=403)
+
+        pkey = self.kwargs.get("pk", "")
+        comment = Comment.objects.get(pk=pkey)
+        comment.isDelete = True
+        comment.save()
+
+        # 返回当前评论
+        result = {'comment_id': comment.id}
+        return HttpResponse(json.dumps(result))
 
 
 class RepositoryView(BaseMixin, ListView):
