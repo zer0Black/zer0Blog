@@ -13,6 +13,11 @@ STATUS = {
         2: u'删除',
 }
 
+EDITOR = [
+    u'tinyMCE',
+    u'MarkDown',
+]
+
 
 # 复写TagField的sava方法，让它不做任何事
 class TagField_Mine(TagField):
@@ -20,17 +25,18 @@ class TagField_Mine(TagField):
         pass
 
 
-class Editor(models.Model):
-    name = models.CharField(max_length=20, primary_key=True)
-    avaliable = models.BooleanField(default=True)
-
-    def __str__(self):
-        return self.name
+# class Editor(models.Model):
+#     name = models.CharField(max_length=20, primary_key=True)
+#     avaliable = models.BooleanField(default=True)
+#
+#     def __str__(self):
+#         return self.name
 
 
 class User(AbstractUser):
     name = models.CharField(max_length=12)
-    editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
+    # editor_choice = models.ForeignKey(Editor, null=True, blank=True, default="tinyMCE")
+    editor_choice = models.CharField(max_length=20, default='tinyMCE')
     avatar_path = models.ImageField(upload_to="/avatar", default="/static/image/avatar_default.jpg")
 
     def __str__(self):
@@ -54,7 +60,8 @@ class Post(models.Model):
     tag = TagField_Mine()
     view_count = models.IntegerField(editable=False, default=0)
     status = models.SmallIntegerField(default=0, choices=STATUS.items())  # 0为草稿，1为发布，2为删除
-    editor_choice = models.ForeignKey(Editor)
+    # editor_choice = models.ForeignKey(Editor)
+    editor_choice = models.CharField(max_length=20)
 
     def __str__(self):
         return self.title

@@ -11,7 +11,7 @@ from zer0Blog.settings import MEDIA_ROOT, MEDIA_URL, image_type
 
 from zer0Blog.settings import PERNUM
 from blog.pagination import paginator_tool
-from .models import Post, Catalogue, Editor, Carousel, User
+from .models import Post, Catalogue, Carousel, User, EDITOR
 from thumbnail import ThumbnailTool
 from PIL import Image
 
@@ -147,7 +147,7 @@ class PostView(ListView):
         objects, page_range = paginator_tool(pages=page, queryset=self.object_list, display_amount=PERNUM)
         context['page_range'] = page_range
         context['objects'] = objects
-        context['editor_list'] = Editor.objects.all()
+        context['editor_list'] = EDITOR
         return context
 
 
@@ -200,7 +200,7 @@ class AddPost(View):
         action = request.POST.get("action", "0")
 
         catalogue_foreignkey = Catalogue.objects.get(name=catalogue)
-        editor_choice_foreignkey = user.editor_choice
+        editor_choice = user.editor_choice
 
         post_obj = Post.objects.create(
             title=title,
@@ -208,7 +208,7 @@ class AddPost(View):
             content=content,
             catalogue=catalogue_foreignkey,
             status=action,
-            editor_choice=editor_choice_foreignkey,
+            editor_choice=editor_choice,
         )
 
         post_obj.update_tags(tags)
@@ -281,8 +281,7 @@ class UpdateEditor(View):
             return HttpResponse(u"请登陆！", status=403)
         # 获取编辑器
         editor = request.POST.get("editor", "")
-        editor_foreignkey = Editor.objects.get(name=editor)
-        user.editor_choice = editor_foreignkey
+        user.editor_choice = editor
         user.save()
 
         return HttpResponseRedirect('/admin/')

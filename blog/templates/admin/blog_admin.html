@@ -45,7 +45,7 @@
 
                         <i class="icon-screenshot"></i>
 
-                        <a data-toggle="modal" data-target="#selectEditor">选择编辑器(当前:{{ user.editor_choice.name }})</a>
+                        <a data-toggle="modal" data-target="#selectEditor">选择编辑器(当前:{{ user.editor_choice }})</a>
 
                     </li>
 
@@ -168,9 +168,9 @@
                                 {% for editor in editor_list %}
                                     <label class="radio">
                                         <div class="radio">
-                                            <span><input type="radio" name="editor" value="{{ editor.name }}"></span>
+                                            <span><input type="radio" name="editor" value="{{ editor }}"></span>
                                         </div>
-                                        {{ editor.name }}
+                                        {{ editor }}
                                     </label>
                                 {% endfor %}
                             </div>

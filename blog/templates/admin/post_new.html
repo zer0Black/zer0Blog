@@ -19,7 +19,7 @@
     <script src="/static/js/post.js" type="text/javascript"></script>
     <script>
         {% if post %}
-            {% ifequal post.editor_choice.name 'tinyMCE' %}
+            {% ifequal post.editor_choice 'tinyMCE' %}
                 tinymce.init({
                     selector: '#tinymceID',
                     height: 500,
@@ -46,7 +46,7 @@
                 });
             {% endifequal %}
         {% else  %}
-            {% ifequal user.editor_choice.name 'tinyMCE' %}
+            {% ifequal user.editor_choice 'tinyMCE' %}
                 tinymce.init({
                     selector: '#tinymceID',
                     height: 500,
@@ -81,7 +81,7 @@
             {% endif %}
 
             {% if post %}
-                {% ifequal post.editor_choice.name 'MarkDown' %}
+                {% ifequal post.editor_choice 'MarkDown' %}
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
@@ -104,7 +104,7 @@
                     });
                 {% endifequal %}
             {% else %}
-                {% ifequal user.editor_choice.name 'MarkDown' %}
+                {% ifequal user.editor_choice 'MarkDown' %}
                     var markDownEditor = editormd("MarkDownEditor", {
                         path: '/static/editor.md/lib/',
                         height: 500,
@@ -206,7 +206,7 @@
 
                             <div class="control-group">
                                 {% if post %}
-                                    {% ifequal post.editor_choice.name 'tinyMCE' %}
+                                    {% ifequal post.editor_choice 'tinyMCE' %}
                                         <div class="controls margin_left0">
 
                                             <textarea name="content" id="tinymceID" class="span12 m-wrap"
@@ -217,7 +217,7 @@
                                         </div>
                                     {% endifequal %}
                                 {% else %}
-                                    {% ifequal user.editor_choice.name 'tinyMCE' %}
+                                    {% ifequal user.editor_choice 'tinyMCE' %}
                                         <div class="controls margin_left0">
 
                                             <textarea name="content" id="tinymceID" class="span12 m-wrap"
@@ -228,7 +228,7 @@
                                 {% endif %}
 
                                 {% if post %}
-                                    {% ifequal post.editor_choice.name 'MarkDown' %}
+                                    {% ifequal post.editor_choice 'MarkDown' %}
                                         <div class="controls margin_left0">
 
                                             <div id="MarkDownEditor">
@@ -238,7 +238,7 @@
                                         </div>
                                     {% endifequal %}
                                 {% else %}
-                                    {% ifequal user.editor_choice.name 'MarkDown' %}
+                                    {% ifequal user.editor_choice 'MarkDown' %}
                                         <div class="controls margin_left0">
 
                                             <div id="MarkDownEditor">
