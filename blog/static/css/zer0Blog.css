@@ -357,7 +357,7 @@ p {
 }
 
 .blog-comment .warning {
-    top: 1px;
+    top: 3px;
     font-size: 12px;
     position: relative;
     margin-left: 11px;
@@ -365,4 +365,10 @@ p {
 
 .blog-comment .warning i {
     margin-right: 5px;
+}
+
+.emoji-div {
+    margin-left: 11px;
+    position: relative;
+    display: inline-block;
 }

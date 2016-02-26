@@ -112,11 +112,9 @@ class CommentView(View):
             ip = request.META['REMOTE_ADDR']
 
         # 处理comment中的@事件
-        pattern = re.compile('@\S+ ')
-        result = pattern.findall(comment)
-        for string in result:
-            handler_str = '<a href="/author/">' + string + '</a>'
-            comment = re.sub(string, handler_str, comment)
+        comment = self.handle_at_str(comment)
+
+        # comment = self.handle_emoji_str(comment)
 
         pkey = self.kwargs.get("pk", "")
         post_foreignkey = Post.objects.get(pk=pkey)
@@ -141,6 +139,28 @@ class CommentView(View):
                        'comment_content': comment.content}
 
         return HttpResponse(json.dumps(result_dict))
+
+    def handle_at_str(self, str):
+        pattern = re.compile('@\S+ ')
+        result = pattern.findall(str)
+        for string in result:
+            handler_str = '<a href="/author/">' + string + '</a>'
+            str = re.sub(string, handler_str, str)
+        return str
+
+    # def handle_emoji_str(self, str):
+    #     keys = ':(\+1|-1|airplane|alarm_clock|alien|angel|angry|anguished|art|astonished|basketball|beers|bicyclist|birthday|blush|broken_heart|cat|chicken|clap|confounded|confused|cow|cry|disappointed|dizzy_face|dog|expressionless|fearful|flushed|frowning|full_moon_with_face|ghost|grimacing|grin|grinning|heart_eyes|high_brightness|hushed|innocent|joy|kissing_heart|laughing|mask|neutral_face|new_moon_with_face|pencil2|persevere|person_frowning|person_with_blond_hair|relaxed|relieved|satisfied|scream|sleeping|smile|smirk|sob|stuck_out_tongue_winking_eye|sunglasses|sweat|tired_face|triumph|tulip|u7981|unamused|unlock|v|weary|wink|worried|yum|zzz):'
+    #     pattern = re.compile(keys)
+    #     result = pattern.findall(str)
+    #     for string in result:
+    #         key = string
+    #         # key = result[1:-1]
+    #         url = '/static/jquery-emojiarea/packs/basic/emojis'
+    #         extension = '.png'
+    #         src = url + '/' + key + extension
+    #         handler_str = '<img class="emoji" width="20" height="20" align="absmiddle" src="' + src + '"/>'
+    #         str = re.sub(':'+string+':', handler_str, str)
+    #     return str
 
 
 class CommentDeleteView(View):

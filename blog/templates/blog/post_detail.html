@@ -4,6 +4,8 @@
 {% ifequal post.editor_choice 'MarkDown' %}
     {% block css %}
         <link href="/static/editor.md/css/editormd.preview.min.css" rel="stylesheet" type="text/css"/>
+
+        <link href="/static/jquery-emojiarea/jquery.emojiarea.css" rel="stylesheet" type="text/css"/>
     {% endblock %}
 {% endifequal %}
 
@@ -18,6 +20,9 @@
         <script src="/static/editor.md/lib/flowchart.min.js" type="text/javascript"></script>
         <script src="/static/editor.md/lib/jquery.flowchart.min.js" type="text/javascript"></script>
     {% endifequal %}
+{#    <script src="/static/jquery-emojiarea/jquery.emojiarea.js" type="text/javascript"></script>#}
+{#    <script src="/static/jquery-emojiarea/packs/basic/emojis.js"></script>#}
+
     <script src="/static/js/post-detail.js" type="text/javascript"></script>
 
     <script type="text/javascript">
@@ -32,6 +37,11 @@
                     sequenceDiagram: true,
                 });
             {% endifequal %}
+
+{#            $('textarea').emojiarea({#}
+{#                wysiwyg: false,#}
+{#                button: '.emoji-button',#}
+{#            });#}
 
         })
     </script>
@@ -91,6 +101,7 @@
                             <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
                             <div>
                                 <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                <div class="emoji-div"><a href="javascript:void(0)" class="emoji-button"><img class="emoji" width="20" height="20" src="/static/jquery-emojiarea/packs/basic/emojis/blush.png"></a></div>
                                 <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
                             </div>
                         </div>
@@ -106,7 +117,7 @@
                                         <h4 style="color: #428bca;margin-bottom: 0px">{{ root_comment.author.name }}</h4>
                                         <p style="font-size: 10px;margin-top: 2px">{{ root_comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
                                     </div>
-                                    <p style="color: #232323;font-size: 14px">{{ root_comment.content }}</p>
+                                    <p style="color: #232323;font-size: 14px">{% autoescape off %}{{ root_comment.content }}{% endautoescape %}</p>
 
                                     <div class="comment-footer clearfix text-right">
                                         {% ifequal root_comment.author.id user.id  %}
@@ -145,6 +156,7 @@
                                             <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment"></textarea>
                                             <div>
                                                 <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                                <div class="emoji-div"><a href="javascript:void(0)" class="emoji-button"><img class="emoji" width="20" height="20" src="/static/jquery-emojiarea/packs/basic/emojis/blush.png"></a></div>
                                                 <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
                                             </div>
                                         </div>
@@ -160,6 +172,7 @@
                                                 <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment"></textarea>
                                                 <div>
                                                     <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                                    <div class="emoji-div"><a href="javascript:void(0)" class="emoji-button"><img class="emoji" width="20" height="20" src="/static/jquery-emojiarea/packs/basic/emojis/blush.png"></a></div>
                                                     <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
                                                 </div>
                                             </div>

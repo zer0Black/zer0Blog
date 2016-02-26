@@ -25,23 +25,23 @@ $(function () {
             success: function (data, textStatus) {
                 $("#comment_content").val("");
 
-                var comment_html = '<li id="comment-'+ data.comment_id + '">';
+                var comment_html = '<li id="comment-' + data.comment_id + '">';
                 comment_html += '<div class="blog-comment-content"><div class="root-comment">';
                 comment_html += '<div class="avatar_top">';
-                comment_html += '<div class="avatar"><img src="'+ data.user_avatar +'"></div>';
-                comment_html += '<h4 style="color: #428bca;margin-bottom: 0px">'+ data.comment_author +'</h4>';
-                comment_html += '<p style="font-size: 10px;margin-top: 2px">'+ data.comment_publish_time +'</p>';
+                comment_html += '<div class="avatar"><img src="' + data.user_avatar + '"></div>';
+                comment_html += '<h4 style="color: #428bca;margin-bottom: 0px">' + data.comment_author + '</h4>';
+                comment_html += '<p style="font-size: 10px;margin-top: 2px">' + data.comment_publish_time + '</p>';
                 comment_html += '</div>';
-                comment_html += '<p style="color: #232323;font-size: 14px">'+ data.comment_content +'</p>';
+                comment_html += '<p style="color: #232323;font-size: 14px">' + data.comment_content + '</p>';
                 comment_html += '<div class="comment-footer clearfix text-right">';
-                 if (data.user_id == data.author_id) {
+                if (data.user_id == data.author_id) {
                     comment_html += '<a data-id="' + data.comment_id + '" class="delete" href="javascript:void(0)">删除</a> ';
                 }
-                comment_html += '<a class="reply" data-id="'+data.comment_id+'" data-nickname="'+ data.comment_author +'" href="javascript:void(0)">回复</a>';
+                comment_html += '<a class="reply" data-id="' + data.comment_id + '" data-nickname="' + data.comment_author + '" href="javascript:void(0)">回复</a>';
                 comment_html += '</div></div>';
                 comment_html += '<div class="child-comment-list hide">';
-                comment_html += '<form action="/comment/add/'+ data.post_id +'" class="child-comment-form" method="post" role="form" style="display: none">';
-                comment_html += '<input type="hidden" name="csrfmiddlewaretoken" value="'+ data.csrf_token +'">';
+                comment_html += '<form action="/comment/add/' + data.post_id + '" class="child-comment-form" method="post" role="form" style="display: none">';
+                comment_html += '<input type="hidden" name="csrfmiddlewaretoken" value="' + data.csrf_token + '">';
                 comment_html += '<input type="hidden" name="root_id" value=""><input type="hidden" name="parent_id" value="">';
                 comment_html += '<div class="child-comment-text">';
                 comment_html += '<textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>';
@@ -56,17 +56,17 @@ $(function () {
                 var ul_element = $(event.target).parents('.blog-comment').find('ul');
                 ul_element.append(comment_html);
                 var new_comment_element = ul_element.find('.root-comment').last();
-                new_comment_element.on('click', '.delete', function (event){
+                new_comment_element.on('click', '.delete', function (event) {
                     deleteEvent(event);
                 });
-                new_comment_element.on('click', '.reply', function (event){
+                new_comment_element.on('click', '.reply', function (event) {
                     replyEvent(event);
                 });
-                new_comment_element.parent('.blog-comment-content').on('submit', '.child-comment-form', function (event){
+                new_comment_element.parent('.blog-comment-content').on('submit', '.child-comment-form', function (event) {
                     return child_commment_form_submit(event);
                 });
 
-                $("html,body").animate({scrollTop:new_comment_element.offset().top},500);
+                $("html,body").animate({scrollTop: new_comment_element.offset().top}, 500);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert(XMLHttpRequest.responseText);
@@ -160,7 +160,7 @@ $(function () {
         return child_commment_form_submit(event)
     });
 
-    function child_commment_form_submit(event){
+    function child_commment_form_submit(event) {
         var current_tag = $(event.target)
         var url = current_tag.attr('action');
         var comment_content = current_tag.find('textarea').val();
@@ -204,7 +204,7 @@ $(function () {
                     var last_comment_element = current_tag.parent('.child-comment-list').find('.child-comment').last();
                     last_comment_element.after(comment_html);
                 } else {
-                   current_tag.parent('.child-comment-list').prepend(comment_html);
+                    current_tag.parent('.child-comment-list').prepend(comment_html);
                 }
 
                 var new_comment_element = current_tag.parent('.child-comment-list').find('.child-comment').last();
