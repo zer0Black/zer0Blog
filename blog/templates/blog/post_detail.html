@@ -88,9 +88,13 @@
                 <div class="blog-comment-edit clearfix">
                     <form action="/comment/add/{{ post.id }}" id="blog-comment-form" method="post" role="form">
                         {% csrf_token %}
-                        <textarea maxlength="200" id="comment" name="comment" class="form-control" rows="4"
-                                  placeholder="请输入评论 限200字!"></textarea>
-                        <button type="submit" class="btn btn-blog pull-right">提交</button>
+                        <div class="comment-text">
+                            <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
+                            <div>
+                                <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 <ul>
@@ -116,20 +120,18 @@
                                     </div>
                                 </div>
                                 {% if child_comment_list %}
-                                <div class="child-comment-list ">
+                                <div class="child-comment-list">
                                     {% for child_comment in child_comment_list  %}
                                     <div class="child-comment" id="comment-{{ child_comment.id }}">
                                         <p>
-                                            <a class="blue-link" href="#">{{ child_comment.author.name }}</a>：
-                                            <a href="#" class="maleskine-author" target="_blank">@希拉李</a>
-                                               {{ child_comment.content }}
+                                            <a class="blue-link" href="#">{{ child_comment.author.name }}</a>：{% autoescape off %}{{ child_comment.content }}{% endautoescape %}
                                         </p>
 
                                         <div class="child-comment-footer text-right clearfix">
                                             {% ifequal child_comment.author.id user.id  %}
                                                 <a data-id="{{ child_comment.id }}" class="delete" href="javascript:void(0)">删除</a>
                                             {% endifequal %}
-                                            <a data-id="{{ child_comment.id }}" data-nickname="{{ child_comment.author.name }}" class="reply"
+                                            <a data-parent-id="{{ child_comment.id }}" data-root-id="{{ root_comment.id }}" data-nickname="{{ child_comment.author.name }}" class="child_reply"
                                                href="javascript:void(0)">回复</a>
                                             <span class="reply-time pull-left">
                                                 {{ child_comment.publish_Time | date:"Y年m月d日 H:i" }}
@@ -137,11 +139,37 @@
                                         </div>
                                     </div>
                                     {% endfor %}
+                                    <form action="/comment/add/{{ post.id }}" class="child-comment-form" method="post" role="form" style="display: none">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="root_id" value="">
+                                        <input type="hidden" name="parent_id" value="">
+                                        <div class="child-comment-text">
+                                            <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
+                                            <div>
+                                                <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                                <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
+                                {% else %}
+                                    <div class="child-comment-list hide">
+                                        <form action="/comment/add/{{ post.id }}" class="child-comment-form" method="post" role="form" style="display: none">
+                                        {% csrf_token %}
+                                            <input type="hidden" name="root_id" value="">
+                                             <input type="hidden" name="parent_id" value="">
+                                            <div class="child-comment-text">
+                                                <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
+                                                <div>
+                                                    <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
+                                                    <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 {% endif %}
                             </div>
                         </li>
-
                     {% endfor %}
                 </ul>
             </div>

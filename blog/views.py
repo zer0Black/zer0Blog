@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import json
+import re
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
@@ -92,6 +93,9 @@ class CommentView(View):
         user = self.request.user
         # 获取评论
         comment = self.request.POST.get("comment", "")
+        root_id = self.request.POST.get("root_id", 0)
+        parent_id = self.request.POST.get("parent_id", 0)
+
         # 判断当前用户是否是活动的用户
         if not user.is_authenticated():
             return HttpResponse(u"请登陆！", status=403)
@@ -106,6 +110,13 @@ class CommentView(View):
         else:
             ip = request.META['REMOTE_ADDR']
 
+        # 处理comment中的@事件
+        pattern = re.compile('@\S+ ')
+        result = pattern.findall(comment)
+        for string in result:
+            handler_str = '<a href="/author/">' + string + '</a>'
+            comment = re.sub(string, handler_str, comment)
+
         pkey = self.kwargs.get("pk", "")
         post_foreignkey = Post.objects.get(pk=pkey)
 
@@ -114,21 +125,19 @@ class CommentView(View):
             author=user,
             content=comment,
             ip_address=ip,
+            root_id=root_id,
+            parent_id=parent_id,
         )
 
-        # 返回当前评论
-        html = "<li>\
-                    <div class=\"blog-comment-content\">\
-                        <div class=\"avatar_top\">\
-                            <div class=\"avatar\"><img src=\'" + unicode(user.avatar_path) + "\'></div>\
-                            <h4 style=\"color: #428bca;;margin-bottom: 0px\">"+comment.author.name+"</h4>\
-                            <p style=\"font-size: 10px;margin-top: 2px\">" + comment.publish_Time.strftime("%Y年%m月%d日 %H:%M")+"</p>\
-                        </div>\
-                        <p style=\"color: #232323;font-size: 14px\">" + comment.content + "</p>\
-                    </div>\
-                </li>"
+        result_dict = {'user_avatar': unicode(user.avatar_path),
+                       'user_id': user.id,
+                       'author_id': comment.author.id,
+                       'comment_id': comment.id,
+                       'comment_author': comment.author.name,
+                       'comment_publish_time': comment.publish_Time.strftime("%Y年%m月%d日 %H:%M"),
+                       'comment_content': comment.content}
 
-        return HttpResponse(html)
+        return HttpResponse(json.dumps(result_dict))
 
 
 class CommentDeleteView(View):
