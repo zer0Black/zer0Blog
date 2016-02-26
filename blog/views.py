@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import re
+from collections import OrderedDict
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
 
@@ -60,13 +61,13 @@ class PostView(BaseMixin, DetailView):
         context = super(PostView, self).get_context_data(**kwargs)
         pkey = self.kwargs.get("pk")
 
-        comment_queryset = self.queryset.get(pk=pkey).comment_set.all().order_by('-publish_Time')
+        comment_queryset = self.queryset.get(pk=pkey).comment_set.all().order_by('publish_Time')
         comment_dict = self.handle_comment(comment_queryset)
         context['comment_list'] = comment_dict
         return context
 
     def handle_comment(self, queryset):
-        comment_dict = {}
+        comment_dict = OrderedDict()
         root_list = []
         child_list = []
         every_child_list = []
@@ -81,7 +82,7 @@ class PostView(BaseMixin, DetailView):
             for child_comment in child_list:
                 if child_comment.root_id == root_comment.id:
                     every_child_list.append(child_comment)
-                    every_child_list.reverse()
+                    # every_child_list.reverse()
             comment_dict[root_comment] = every_child_list
             every_child_list = []
         return comment_dict
@@ -129,7 +130,9 @@ class CommentView(View):
             parent_id=parent_id,
         )
 
-        result_dict = {'user_avatar': unicode(user.avatar_path),
+        result_dict = {'post_id': post_foreignkey.id,
+                       'csrf_token': request.COOKIES["csrftoken"],
+                       'user_avatar': unicode(user.avatar_path),
                        'user_id': user.id,
                        'author_id': comment.author.id,
                        'comment_id': comment.id,

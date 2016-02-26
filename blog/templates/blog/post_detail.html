@@ -105,7 +105,6 @@
                                     <div class="avatar_top">
                                         <div class="avatar"><img src="{{ user.avatar_path }}"></div>
                                         <h4 style="color: #428bca;margin-bottom: 0px">{{ root_comment.author.name }}</h4>
-
                                         <p style="font-size: 10px;margin-top: 2px">{{ root_comment.publish_Time | date:"Y年m月d日 H:i" }}</p>
                                     </div>
                                     <p style="color: #232323;font-size: 14px">{{ root_comment.content }}</p>
@@ -144,7 +143,7 @@
                                         <input type="hidden" name="root_id" value="">
                                         <input type="hidden" name="parent_id" value="">
                                         <div class="child-comment-text">
-                                            <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
+                                            <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment"></textarea>
                                             <div>
                                                 <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
                                                 <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
@@ -157,9 +156,9 @@
                                         <form action="/comment/add/{{ post.id }}" class="child-comment-form" method="post" role="form" style="display: none">
                                         {% csrf_token %}
                                             <input type="hidden" name="root_id" value="">
-                                             <input type="hidden" name="parent_id" value="">
+                                            <input type="hidden" name="parent_id" value="">
                                             <div class="child-comment-text">
-                                                <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment" id="comment_content"></textarea>
+                                                <textarea maxlength="200" placeholder="写下你的评论，限200字!" name="comment"></textarea>
                                                 <div>
                                                     <input type="submit" name="commit" value="发 表" class="btn btn-info" data-disable-with="提交中...">
                                                     <span class="warning" style="display: none"><i class="glyphicon glyphicon-info-sign"></i><span class="warning-text"></span></span>
