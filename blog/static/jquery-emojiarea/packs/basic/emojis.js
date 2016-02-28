@@ -1,6 +1,6 @@
 $.emojiarea.path = '/static/jquery-emojiarea/packs/basic/emojis';
 $.emojiarea.icons = {
-    ':+1:': '+1.png',
+    ':add1:': 'add1.png',
     ':-1:': '-1.png',
     ':airplane:': 'airplane.png',
     ':alarm_clock:': 'alarm_clock.png',
