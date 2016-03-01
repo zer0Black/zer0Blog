@@ -308,7 +308,7 @@ class CarouselEditView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CarouselEditView, self).get_context_data(**kwargs)
-        context['post_list'] = Post.objects.all()
+        context['post_list'] = Post.objects.filter(status=1)
         return context
 
 
