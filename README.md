@@ -35,6 +35,7 @@
 #####将实现：
 * 博客编写时，本地自动保存
 * 用户动态跟踪，展示用户使用博客的时间线
+* 文件上传管理
 
 ## <a name="3">如何使用</a>
 
@@ -50,9 +51,9 @@ MySQL-python（还有一个数据库驱动，我使用的是MySQL，你也可以
         'default': {
             'ENGINE': 'django.db.backends.mysql',
             'NAME': 'zer0Blog',
-            'USER': 'lxtalx',
-            'PASSWORD': 'lxtalx',
-            'HOST': '10.0.3.13',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': '127.0.0.1',
             'PORT': '3306'
         }
     }
