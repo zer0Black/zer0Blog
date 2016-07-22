@@ -12,7 +12,7 @@
             {% for man in man_list%}
                 <li class="list-group-item">
                 <a href="/author/{{ man.id }}"><span class="hotest-post-title">{{man.name}}</span></a>
-                <span class="badge">{{man.post__count}}</span>
+                <span class="badge">{{man.counts}}</span>
                 </li>
             {% endfor %}
             </li>

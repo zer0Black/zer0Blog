@@ -95,7 +95,7 @@ $(function () {
                 success: function (data) {
                     var delete_comment_id = 'comment-' + data.comment_id;
                     var delete_element = $('#' + delete_comment_id);
-                    var parent_div = delete_element.parent();
+                    var parent_div = delete_element.parent('.child-comment-list');
                     delete_element.remove();
                     /*
                      * 查看父节点是否为Div，若为Div，则证明删除元素为楼中楼评论，
@@ -103,9 +103,9 @@ $(function () {
                      * 可直接删除父Div
                      */
                     if (parent_div.is('div')) {
-                        var has_children = parent_div.has('div').length > 0;
+                        var has_children = parent_div.find('div').length > 2;
                         if (!has_children) {
-                            parent_div.addClass('hidden')
+                            parent_div.addClass('hide')
                         }
                     }
                 },

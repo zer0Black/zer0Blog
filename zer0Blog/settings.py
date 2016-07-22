@@ -73,29 +73,22 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'zer0Blog.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'zer0Blog',
-        # 'USER': 'lxtalx',
-        # 'PASSWORD': 'lxtalx',
-        # 'HOST': '10.0.3.13',
+        'USER': 'lxtalx',
+        'PASSWORD': 'lxtalx',
+        'HOST': '10.0.3.13',
         # 'USER': 'root',
         # 'PASSWORD': 'root',
         # 'HOST': '10.0.3.12',
-        'USER': 'root',
-        'PASSWORD': 'lxtalx',
-        'HOST': '127.0.0.1',
+        # 'USER': 'root',
+        # 'PASSWORD': 'lxtalx',
+        # 'HOST': '127.0.0.1',
         'PORT': '3306'
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {

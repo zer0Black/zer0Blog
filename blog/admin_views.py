@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from __future__ import division
+
 import datetime
 import json
 import os
@@ -35,10 +37,10 @@ def markdown_image_upload_handler(request):
                 if not os.path.exists(path):
                     os.makedirs(path)
 
-                # 图片宽大于1600的时候，将其压缩一半,825px刚好适合13吋pc的大小
+                # 图片宽大于825的时候，将其压缩到824px，刚好适合13吋pc的大小
                 img = Image.open(file_img)
                 width, height = img.size
-                if width > 1650:
+                if width > 824:
                     img = ThumbnailTool.constrain_thumbnail(img, times=width/824.0)
 
                 file_name = path + filename
@@ -69,10 +71,10 @@ def tinymce_image_upload_handler(request):
                 return HttpResponse("请上传正确格式的图片文件")
             filename = uuid.uuid1().__str__() + file_suffix
 
-            # 图片宽大于1500的时候，将其压缩一半，825px刚好适合13吋pc的大小
+            # 图片宽大于824的时候，将其压缩到824px，刚好适合13吋pc的大小
             img = Image.open(file_img)
             width, height = img.size
-            if width > 1650:
+            if width > 824:
                 img = ThumbnailTool.constrain_thumbnail(img, times=width/824.0)
 
             path = MEDIA_ROOT + "/post/"
@@ -306,7 +308,7 @@ class CarouselEditView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CarouselEditView, self).get_context_data(**kwargs)
-        context['post_list'] = Post.objects.all()
+        context['post_list'] = Post.objects.filter(status=1)
         return context
 
 

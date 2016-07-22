@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import json
 import re
+from django.db.models import Q
 from collections import OrderedDict
 from django.http import HttpResponse
 from django.contrib.auth import get_user_model
@@ -21,7 +22,7 @@ class BaseMixin(object):
         try:
             context['hot_article_list'] = Post.objects.filter(status=1).order_by("-view_count")[0:10]
             # context['man_list'] = get_user_model().objects.annotate(Count("post"))
-            context['man_list'] = get_user_model().objects.annotate(Count("post"))
+            context['man_list'] = get_user_model().objects.raw('select *, COUNT(post.id) as counts from blog_user as user LEFT JOIN blog_post post ON post.status=1 and post.author_id=user.id GROUP BY user.id');
         except Exception as e:
             print e
 
@@ -145,12 +146,12 @@ class CommentView(View):
         pattern = re.compile('@\S+ ')
         result = pattern.findall(str)
         for string in result:
-            handler_str = '<a href="/author/">' + string + '</a>'
+            handler_str = '<a>' + string + '</a>'
             str = re.sub(string, handler_str, str)
         return str
 
     def handle_emoji_str(self, str):
-        keys = ':(\+1|-1|airplane|alarm_clock|alien|angel|angry|anguished|art|astonished|basketball|beers|bicyclist|birthday|blush|broken_heart|cat|chicken|clap|confounded|confused|cow|cry|disappointed|dizzy_face|dog|expressionless|fearful|flushed|frowning|full_moon_with_face|ghost|grimacing|grin|grinning|heart_eyes|high_brightness|hushed|innocent|joy|kissing_heart|laughing|mask|neutral_face|new_moon_with_face|pencil2|persevere|person_frowning|person_with_blond_hair|relaxed|relieved|satisfied|scream|sleeping|smile|smirk|sob|stuck_out_tongue_winking_eye|sunglasses|sweat|tired_face|triumph|tulip|u7981|unamused|unlock|v|weary|wink|worried|yum|zzz):'
+        keys = ':(add1|-1|airplane|alarm_clock|alien|angel|angry|anguished|art|astonished|basketball|beers|bicyclist|birthday|blush|broken_heart|cat|chicken|clap|confounded|confused|cow|cry|disappointed|dizzy_face|dog|expressionless|fearful|flushed|frowning|full_moon_with_face|ghost|grimacing|grin|grinning|heart_eyes|high_brightness|hushed|innocent|joy|kissing_heart|laughing|mask|neutral_face|new_moon_with_face|pencil2|persevere|person_frowning|person_with_blond_hair|relaxed|relieved|satisfied|scream|sleeping|smile|smirk|sob|stuck_out_tongue_winking_eye|sunglasses|sweat|tired_face|triumph|tulip|u7981|unamused|unlock|v|weary|wink|worried|yum|zzz):'
         pattern = re.compile(keys)
         result = pattern.findall(str)
         for string in result:
@@ -261,7 +262,7 @@ class AuthorPostListView(BaseMixin, ListView):
     def get_queryset(self):
         pkey = self.kwargs.get("pk")
         user = User.objects.get(pk=pkey)
-        post_list = Post.objects.filter(author_id=user)
+        post_list = Post.objects.filter(author_id=user).filter(status=1)
         return post_list
 
     def get_context_data(self, **kwargs):
