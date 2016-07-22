@@ -173,7 +173,7 @@ class CommentDeleteView(View):
             return HttpResponse(u"请登陆！", status=403)
 
         pkey = self.kwargs.get("pk", "")
-        comment = Comment.objects.get(pk=pkey)
+        comment = Comment.objects.filter(author_id=user.id).get(pk=pkey)
 
         # 如果root_id为0，代表为父评论，获取父评论的所有子评论
         if comment.root_id == 0:
